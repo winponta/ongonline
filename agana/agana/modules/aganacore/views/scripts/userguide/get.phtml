@@ -1,0 +1,53 @@
+<?php
+$editUrl = $this->url(array(
+    'module' => 'aganacore',
+    'controller' => 'userguide',
+    'action' => 'update',
+    'page' => $this->page['name']
+        ), null, true);
+
+$createUrl = $this->url(array(
+    'module' => 'aganacore',
+    'controller' => 'userguide',
+    'action' => 'create',
+        ), null, true);
+?>
+
+<div class="container-fluid guide">
+    <h6 class="row-fluid"><translate>System Help</translate> :: <?php echo $this->page['name']; ?></h6>
+
+    <div class="row-fluid">
+        <h2 class="row-fluid"><?php echo $this->page['title']; ?></h2>
+        <?php if ($this->isEditAllowed) { ?>
+            <ul class="nav nav-pills">
+                <li>
+                    <a id="ug-edit" class="system-help" rel="colorbox-system-help" href='<?php echo $editUrl; ?>'><i class="icon-edit"></i> <translate>Edit this page</translate></a>
+                </li>
+                <li class="dropdown span3">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-plus-sign"></i> 
+                        <translate>Create new page</translate>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <form style="padding-left: 1em;" class="form-inline" action="<?php echo $createUrl;?>">
+                                <label><translate>New page name (module.part.part)</translate></label>
+                                <input type="text" name="page" pĺaceholder="<translate>New page name (module.part.part)</translate>">
+                                <button type="submit" class="btn btn-info">Go</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        <?php } ?>
+    </div>
+    <div class="row-fluid">
+        <hr />
+
+        <div class="span11">
+            <?php echo $this->page['content']; ?>
+        </div>
+    </div>
+
+</div>

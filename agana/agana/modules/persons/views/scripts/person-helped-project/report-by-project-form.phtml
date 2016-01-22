@@ -1,0 +1,30 @@
+<?php
+$title = $this->translate("Report") . ': ' . $this->translate("Persons helped by project");
+$this->title = $title;
+$this->headTitle($title);
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+$form->setAttrib('class', $form->getAttrib('class'). ' serialize');
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-file-alt"></i> <?php echo $this->title; ?></h3>
+    </div>
+
+    <div class="window-content">
+        <?= $form->render() ?>
+
+        <div class="row-fluid text-center">
+            <p><small class="text-warning"><translate>Generate report at</translate></small></p>
+            <a href="#" report-format="html" class="btn btn-primary open-report-colorbox">
+                <i class="icon-desktop"></i> <translate>Screen</translate>
+            </a>
+            <a href="#" report-format="pdf" class="btn btn-danger open-report-colorbox">
+                <i class="icon-book"></i> PDF
+            </a>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<?php
+$this->headTitle('Login');
+
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+
+$errorsMessages = $form->getMessages();
+?>
+<div id="login-container" class="row-fluid">
+    <div id="login-inner-container" class="offset* offset3 span6 well">
+        <div class="row-fluid">
+            <div class="span6">
+                <img src="<?php echo $this->baseUrl() . $this->path_img; ?>/logo.png">
+            </div>
+            <div class="pull-right">
+                <a class="pull-right" rel="colorbox" href="<?php echo $this->userguide()->getUrl('user.auth.login'); ?>">
+                    <i class="icon-question-sign"></i> Help
+                </a>
+                <br/>
+                <small class="muted">
+                    <translate>last update</translate>: <?=Agana_Version::getAppDeployDate()?>
+                </small>
+                <br/>
+                <small class="muted pull-right">
+                    <translate>V.</translate>: <?=Agana_Version::getAppVersion()?>
+                </small>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <form class="well span12" method="POST" action="<?php echo $form->getAction(); ?>">
+                <fieldset>
+                    <legend><translate>User authentication</translate></legend>
+                    <div class="control-group">
+                        <!--<label class="control-label" for="name"><translate>User name</translate></label>-->
+                        <div class="controls">
+                            <input type="text" name="name" id="name" class="span12"
+                                   value="<?php echo $form->getElement('name')->getValue(); ?>"
+                                   placeholder="<translate>User name</translate>">
+                                   <?php echo $this->showFormElementMessages($form, 'name'); ?>                    
+                        </div>
+    <!--                        <span class="help-block">
+                        <?php echo $form->getElement('name')->getAttrib('title'); ?>
+                        </span>-->
+                    </div>
+
+                    <!--<label><translate>Password</translate></label>-->
+                    <input class="error span12" type="password" name="pwd" id="pwd"
+                           placeholder="<translate>Password</translate>">
+                           <?php echo $this->showFormElementMessages($form, 'pwd'); ?>
+                </fieldset>
+                <button type="submit" class="btn btn-primary pull-right">
+                    <translate>Login</translate>
+                </button>
+            </form>
+        </div>
+        <div class="pull-right">
+            <a rel="tooltip" 
+               title="<translate>Forgot your password? You can ask for reset it.</translate>"
+               href="<?php
+               echo
+               $this->url(
+                       array('module' => 'user', 'controller' => 'reset-password',
+                   'action' => 'index'), null, true);
+               ?>">
+                <translate>I forgot my password</translate>
+                <i class="icon-refresh"></i>
+            </a> 
+        </div>    
+    </div>
+</div>
+</div>
+<!--<img src="<?php echo $this->baseUrl() . $this->path_img; ?>/login-elements.png"
+     style="width:15%; position: fixed; right: 10%; bottom: 30px">-->
+
+<script>
+    var h = $('.navbar .navbar-fixed-top').height();
+    h = $('body').height() - h;
+//    $('body').css({
+//        'background-image': 'url(<?php echo $this->baseUrl() . $this->path_img; ?>/bg.png)'
+//    });
+
+    $('#name').focus();
+//    
+//    $('#login-container').css({
+//       'background-color':'#eee'
+//    });
+//
+    $('#login-inner-container').css({
+        'position': 'fixed',
+        'margin-top': '5%'
+    });
+</script>

@@ -1,0 +1,133 @@
+<?php
+$title = 'Atendimentos';
+$this->title = $title;
+$this->headTitle($this->title);
+
+$urlNewActivity = $this->url(
+        array('module' => 'assistance', 'controller' => 'activity',
+    'action' => 'create'), null, true);
+
+$urlNewEventActivity = $this->url(
+        array('module' => 'assistance', 'controller' => 'event-activity',
+    'action' => 'create'), null, true);
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span6"><i class="icon-food"></i> Atendimentos</h3>
+        <ul class="nav nav-pills hidden-print pull-right">
+            <li>
+                <a class="btn btn-navbar" load-in="content-container" href="<?= $urlNewActivity ?>">
+                    <i class="icon-plus-sign"></i> 
+                    <i class="icon-food"></i> 
+                    Novo atendimento individual
+                </a>
+            </li>
+            <li>
+                <a class="btn btn-navbar" load-in="content-container" href="<?= $urlNewEventActivity ?>">
+                    <i class="icon-plus-sign"></i> 
+                    <i class="icon-group"></i> 
+                    Novo evento de atendimento
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="window-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Assistido</th>
+                    <th>Tipo de Tarefa</th>
+                    <th>Projeto</th>
+                    <th>Evento</th>
+                    <th></th>
+                    <th class="hidden-print"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->activities as $act) {
+                    $edit = $this->url(
+                            array('module' => 'assistance', 'controller' => 'activity',
+                        'action' => 'update', 'id' => $act->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'assistance', 'controller' => 'activity',
+                        'action' => 'delete', 'id' => $act->id), null, true);
+
+                    $urlGetPersonHelped = $this->url(
+                            array('module' => 'persons', 'controller' => 'person',
+                        'action' => 'getgm', 'id' => $act->person_helped_id), null, true);
+                
+                    $urlGetEvent = $this->url(
+                            array('module' => 'assistance', 'controller' => 'event',
+                        'action' => 'list-activities', 'id' => $act->event_id), null, true);
+                    ?>
+                    <tr>
+                        <td>
+                            <?php
+                                $iconInfoColor = '';
+                                $maisInfo = 'ID: ' . $act->id;
+                                if ($act->getDescription()) {
+                                    $maisInfo .= '<br/>'
+                                            . 'Descrição: '
+                                            . nl2br($act->getDescription());
+                                    $iconInfoColor .= 'success';
+                                } 
+                            ?>
+                            <span class="cursor-default text-<?= $iconInfoColor ?>" 
+                                  rel="popover" 
+                                  data-content="<?= $maisInfo ?>"
+                                  data-placement="right"
+                                  data-trigger="hover"
+                                  data-html="true">
+                                <i class="icon-info-sign"></i>                            
+                            </span>
+                        </td>
+                        <td>
+                            <?= $this->date($act->assistance_date, Zend_Date::DATE_SHORT); ?>
+                        </td>
+                        <td><?= substr($act->assistance_time, 0, 5); ?></td>
+                        <td>
+                            <a href="<?= $urlGetPersonHelped ?>" load-in="content-container">
+                                <?= $act->getPerson_helped()->getName(); ?>
+                            </a>
+                        </td>
+                        <td>
+                            <?php
+                            $taskName = '';
+                            if (intval($act->getTask_type()->getParent_id()) > 0) {
+                                $parentName = $act->getTask_type()->getParent()->getName();
+                                $taskName .= $parentName . ' :: ';
+                            }
+                            $taskName .= $act->getTask_type()->getName();
+                            echo $taskName;
+                            ?>
+                        </td>
+                        <td><?= $act->getProject()->getName(); ?></td>
+                        <td class='align_center hidden-print'>
+                            <a href="<?= $urlGetEvent ?>" load-in="content-container">
+                                <?= $act->event_id ?>
+                            </a>
+                            
+                            <!--
+                            <a class="btn btn-mini btn-info" href="<?php echo ''//$edit;    ?>" load-in="content-container">
+                                <i class="icon-edit"></i> <translate>Edit</translate>
+                            </a>
+
+                            <a class="btn btn-mini btn-danger" href="<?php echo ''; //$delete;    ?>" load-in="content-container">
+                                <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                            </a>
+                            -->
+                        </td>
+                        <td>
+                            <?= $this->identifiedByWidget($act->getId_by_finger_key()) ?>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>

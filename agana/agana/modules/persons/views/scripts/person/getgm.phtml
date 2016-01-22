@@ -1,0 +1,205 @@
+<?php
+$title = $this->translate("Person - personal data");
+$this->title = $title;
+$this->headTitle($this->translate("Person - personal data"));
+
+$pic = $this->personPicture()->getSourceUrl($this->person, 'medium');
+?>
+
+<div id="gm-container">
+    <div class="navbar hidden-print" id="navbar-person-gm" data-spy="affix" data-offset-top="15">
+        <div class="navbar-inner">
+            <img class="pull-left nav-image" src="<?php echo $pic; ?>" id="navUserImage" 
+                 rel="popover" data-html="true"
+                 data-content="<img src='<?php echo $pic; ?>' />"
+                 data-placement="bottomLeft" data-trigger="hover" />
+
+            <ul id="gm-navigation-container" class="nav nav-pills">
+                <?php
+                $first = true;
+                $firstUrl = '';
+                $items = array();
+
+                /**
+                 * For each module with dependency in array
+                 */
+                $allModules = Persons_Domain_Person::getDepencyDomain();
+                foreach ($allModules as $module) {
+                    /**
+                     * get class and method to call to verifie person record reference
+                     */
+                    $domain = new $module['domain']['class'];
+                    $method = (isset($module['domain']['method'])) ? $module['domain']['method'] : 'getById';
+
+                    /**
+                     * if there is at least a record  for this module
+                     * builds the get navigation menu entry
+                     */
+                    if (isset($module['menu']['allways-show']) && isset($module['menu']['allways-show'])) {
+                        $hasReference = true;
+                    } else {
+                        $hasReference = $domain->$method($this->person->id);
+                    }
+                    if ($hasReference) {
+                        $uri = (isset($module['menu']['uri'])) ? $module['menu']['uri'] : '';
+
+                        if (trim($uri) == '') {
+                            $url = Zend_Controller_Action_HelperBroker::getStaticHelper('url');
+
+                            /**
+                             * Build uri passing person id as parameter
+                             */
+                            $uriArray = array(
+                                'module' => $module['menu']['module'],
+                                'controller' => $module['menu']['controller'],
+                                'action' => $module['menu']['action'],
+                                'person' => $this->person->id,
+                            );
+
+                            /**
+                             * Bundle other params to uri if exist
+                             */
+                            if (isset($module['menu']['params'])) {
+                                foreach ($module['menu']['params'] as $key => $value) {
+                                    $uriArray[$key] = $value;
+                                }
+                            }
+
+                            $uri = $url->url(
+                                    $uriArray, isset($module['menu']['route']) ? $module['menu']['route'] : 'default', true
+                            );
+                        }
+
+                        /**
+                         * build the html element of menu
+                         */
+                        $li = '<li ';
+                        $li .= ($first) ? 'class="active"' : '';
+                        $li .= '>';
+                        $li .= '<a href="';
+                        $li .= $uri;
+                        $li .= '"';
+                        $li .= ' title="' . $this->translate($module['menu']['title']) . '"';
+                        $li .= ' load-in="gm-content-container"';
+                        $li .= '>';
+                        $li .= '<i class="' . $module['menu']['icon'] . '"></i> ';
+                        $li .= $this->translate($module['menu']['label']);
+                        $li .= '</a>';
+                        $li .= '</li>';
+
+                        if (isset($module['menu']['order'])) {
+                            $items[$module['menu']['order']] = $li;
+                        } else {
+                            $items[] = $li;
+                        }
+
+                        if ($first) {
+                            $firstUrl = $uri;
+                        }
+                        $first = false;
+                    }
+
+                    /**
+                     * builds the new menu
+                     * the default decision to build it is to not have none record reference
+                     * or based on hide_after param
+                     */
+                    if (isset($module['menu']['new'])) {
+                        $showNew = !$hasReference;
+                        if (isset($module['menu']['new']['hide_after'])) {
+                            $showNew = $showNew || ($module['menu']['new']['hide_after'] == 'none');
+                        }
+
+                        if ($showNew) {
+                            $uri = (isset($module['menu']['new']['uri'])) ? $module['menu']['new']['uri'] : '';
+
+                            if (trim($uri) == '') {
+                                $url = Zend_Controller_Action_HelperBroker::getStaticHelper('url');
+                                $uri = $url->url(array(
+                                    'module' => $module['menu']['new']['module'],
+                                    'controller' => $module['menu']['new']['controller'],
+                                    'action' => $module['menu']['new']['action'],
+                                    'person' => $this->person->id,
+                                        ), isset($module['menu']['new']['route']) ? $module['menu']['new']['route'] : 'default', true
+                                );
+                            }
+
+                            $li = '<li ';
+                            $li .= ($first) ? 'class="active"' : '';
+                            $li .= '>';
+                            $li .= '<a href="';
+                            $li .= $uri;
+                            $li .= '"';
+                            $li .= ' title="' . $this->translate($module['menu']['new']['title']) . '"';
+                            $li .= ' load-in="content-container"';
+                            $li .= ' load-in-force="true"';
+                            $li .= '>';
+                            $li .= '<i class="' . $module['menu']['icon'] . '"></i> ';
+                            $li .= $this->translate($module['menu']['label']);
+                            $li .= '</a>';
+                            $li .= '</li>';
+
+                            if (isset($module['menu']['order'])) {
+                                $itemsNew[$module['menu']['order']] = $li;
+                            } else {
+                                $itemsNew[] = $li;
+                            }
+                        }
+                    }
+                }
+
+                // Print the HTML for existent items related to person
+                foreach ($items as $item) {
+                    echo $item;
+                }
+                ?>
+
+
+            <?php
+            // Print the HTML for buttons items related to add new person dependencies
+            if (isset($itemsNew) && count($itemsNew)) {
+                ?>
+                    <li class="dropdown">
+                        <a href="#"
+                           class="dropdown-toggle"
+                           data-toggle="dropdown">
+                            <i class="icon-plus-sign"></i> 
+                            <translate>Add new</translate>
+                            <i class="icon-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php
+                            foreach ($itemsNew as $itemN) {
+                                echo $itemN;
+                            }
+                            ?>
+                        </ul>
+                    </li>
+                    <li class="divider-vertical"></li>
+                <?php
+            }
+            ?>
+
+                            </ul>
+
+            <span class="pull-right"><h6><translate>Person details</translate></h6></span>
+
+
+        </div>
+    </div>
+    <div id="gm-content-container">
+        <script type="text/javasript">
+            //app.gm.injectLoadPageEvent('gm-content-container');
+            app.gm.setContentContainer('gm-content-container');
+            //app.injectLoadPageEvent();
+            app.gm.loadPage('<?php echo $firstUrl; ?>');
+        </script>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#gm-navigation-container li').click(function() {
+        $('#gm-navigation-container li.active').removeClass('active');
+        $(this).addClass('active');
+    });
+</script>

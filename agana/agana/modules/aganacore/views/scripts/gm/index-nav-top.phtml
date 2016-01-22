@@ -1,0 +1,85 @@
+<?php
+//$this->title = "Janela Principal";
+?>
+
+<div id="gm-container">
+    <div class="navbar hidden-print">
+        <div class="navbar-inner">
+            <ul id="gm-navigation-container" class="nav ">
+                <?php
+                $first = true;
+                $firstUrl = '';
+                $items = array();
+                foreach ($this->gm->getGroup()->modulesToArray() as $module) {
+                    $navaux = $module->getNavigation();
+                    if (!isset($navaux[0])) {
+                        $navaux = array($navaux);
+                    }
+
+                    //Build the items
+                    foreach ($navaux as $nav) {
+                        $uri = (isset($nav['uri'])) ? $nav['uri'] : '';
+
+                        if (trim($uri) == '') {
+                            $url = Zend_Controller_Action_HelperBroker::getStaticHelper('url');
+                            $uri = $url->url(array(
+                                'module' => $nav['module'],
+                                'controller' => $nav['controller'],
+                                'action' => $nav['action'],
+                                    ), $nav['route']
+                            );
+                        }
+
+                        $li = '<li ';
+                        $li .= ($first) ? 'class="active"' : '';
+                        $li .= '>';
+                        $li .= '<a href="';
+                        $li .= $uri;
+                        $li .= '"';
+                        $li .= ' title="' . $this->translate($nav['title']) . '"';
+                        $li .= ' load-in="gm-content-container"';
+                        $li .= '>';
+                        $li .= '<i class="' . $nav['icon'] . '"></i> ';
+                        $li .= $this->translate($nav['label']);
+                        $li .= '</a>';
+                        $li .= '</li>';
+
+                        if (isset($nav['order'])) {
+                            $items[$nav['order']] = $li;
+                        } else {
+                            $items[] = $li;
+                        }
+
+                        if ($first) {
+                            $firstUrl = $uri;
+                        }
+                        $first = false;
+                    }
+                }
+
+                // Print the HTML
+                foreach ($items as $item) {
+                    echo $item;
+                }
+                ?>
+
+            </ul>
+            <span class="pull-right"><h6><translate><?php echo $this->gm->getGroup()->getLabel(); ?></translate></h6></span>
+        </div>
+    </div>
+    <div id="gm-content-container">
+        <script type="text/javasript">
+            //app.gm.injectLoadPageEvent('gm-content-container');
+            app.gm.setContentContainer('gm-content-container');
+            //app.injectLoadPageEvent();
+            app.gm.loadPage('<?php echo $firstUrl; ?>');
+        </script>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#gm-navigation-container li').click(function(){
+        $('#gm-navigation-container li.active').removeClass('active');
+        $(this).addClass('active');
+    });
+</script>

@@ -1,0 +1,40 @@
+<?php
+$span = 'span12';
+
+if ($this->isEditAllowed) {
+    $span = 'span10';
+}
+
+$createUrl = $this->url(array(
+    'module' => 'aganacore',
+    'controller' => 'userguide',
+    'action' => 'create',
+    'page' => $this->page['name'],
+), null, true);
+?>
+
+<div class="container">
+    <div class="row">
+        <hr />
+        <h2 class="span12"><?php echo $this->page; ?></h2>
+        <h3 class="<?php echo $span; ?>"><translate>Page not found</translate></h3>
+
+        <?php if ($this->isEditAllowed) { ?>
+            <ul class="nav nav-pills">
+                <li>
+                    <a id="ug-create" href='<?php echo $createUrl; ?>'><i class="icon-plus-sign"></i> <translate>Create page</translate></a>
+                </li>
+            </ul>
+        <?php } ?>
+    </div>
+    <div class="row">
+        <hr />
+
+        <div class="span12">
+            <p>The page <?php echo $this->page['name']; ?> do not exists. </p>
+            <?php if ($this->isEditAllowed) { ?>
+                <p>You may create it by clicking "Create page" link that appears on top of this page.</p>
+            <?php } ?>
+        </div>
+    </div>
+</div>

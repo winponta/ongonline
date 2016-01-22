@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="yes"?>
+<page>
+                    <updated>21/09/2012 12:09</updated><title>Pessoa - tela de detalhes de cadastro</title><content>&lt;h3&gt;Vis&#xE3;o geral&lt;/h3&gt;&#xD;
+&lt;p&gt;A tela de detalhes mostra todos os dados de cadastro geral de uma pessoa. Tamb&#xE9;m lista alguns dados do usu&#xE1;rio associado. Para saber mais sobre os dados de cadastro geral de pessoas, visite a p&#xE1;gina de ajuda: &lt;a href="http://"&gt;Cadastro de Pessoas - dados gerais&lt;/a&gt;&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;&lt;strong&gt;Importante:&lt;/strong&gt; para saber mais sobre a rela&#xE7;&#xE3;o de usu&#xE1;rios e cadastro de pessoas, visite a p&#xE1;gina de ajuda: &lt;a href="http://"&gt;Usu&#xE1;rios - introdu&#xE7;&#xE3;o&lt;/a&gt;&lt;/p&gt;&#xD;
+&#xD;
+&lt;h4&gt;A&#xE7;&#xF5;es da tela&lt;/h4&gt;&#xD;
+&lt;p&gt;As a&#xE7;&#xF5;es poss&#xED;veis de serem realizadas na tela de detalhes est&#xE3;o relacionadas &#xE0; edi&#xE7;&#xE3;o dos dados gerais de cadastro de pessoa, altera&#xE7;&#xE3;o da imagem/foto, altera&#xE7;&#xF5;es relacionadas ao usu&#xE1;rio da pessoa.&lt;/p&gt;&#xD;
+&#xD;
+&lt;h5&gt;Altera&#xE7;&#xF5;es relacionadas ao usu&#xE1;rio&lt;/h5&gt;&#xD;
+&lt;p&gt;Se uma pessoa est&#xE1; relacionada a um usu&#xE1;rio, &#xE9; poss&#xED;vel solicitar a tela de edi&#xE7;&#xE3;o destes dados, usando o menu &lt;em&gt;Editar usu&#xE1;rio&lt;/em&gt;.&lt;/p&gt;&#xD;
+&lt;p&gt;Para as pessoas que n&#xE3;o t&#xEA;m um usu&#xE1;rio associado, &#xE9; apresentada a possibilidade de cria&#xE7;&#xE3;o de um novo usu&#xE1;rio para ela. Ao clicar no menu &lt;em&gt;Criar novo usu&#xE1;rio&lt;/em&gt;, um usu&#xE1;rio &#xE9; criado com o primeiro nome da pessoa + seu id (c&#xF3;digo) e senha igual, tamb&#xE9;m o mesmo email da pessoa. Em seguida o sistema &#xE9; direcionado para a tela de edi&#xE7;&#xE3;o de dados de usu&#xE1;rio para que seja poss&#xED;vel realizar os ajustes desejados.&lt;/p&gt;</content></page>

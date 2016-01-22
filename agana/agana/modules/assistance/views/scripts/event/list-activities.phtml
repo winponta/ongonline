@@ -1,0 +1,141 @@
+<?php
+$title = 'Evento de Assistência';
+$this->title = $title;
+$this->headTitle($this->title);
+
+$urlNewEventActivity = $this->url(
+        array('module' => 'assistance', 'controller' => 'event',
+    'action' => 'create-activity', 'id'=> $this->event->getId()), null, true);
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span8">
+            <i class="icon-food"></i>
+            <i class="icon-group"></i>
+            Evento
+        </h3>
+        <a class="btn span3 hidden-print" load-in="content-container" href="<?= $urlNewEventActivity ?>">
+            <i class="icon-plus-sign"></i> 
+            <i class="icon-group"></i> 
+            Lançar atividades
+        </a>        
+    </div>
+    <div class="window-content">
+        <div class="row">
+            <h6 class="span2">
+                Data
+            </h6>
+            <span class="alert alert-info span1">
+                <?= $this->date($this->event->getEvent_date(), Zend_Date::DATE_MEDIUM); ?>
+            </span>            
+            <h6 class="span2 offset1">
+                id
+            </h6>
+            <span class="alert alert-info span1">
+                <?= $this->event->getId(); ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <h6 class="span2">
+                Projeto
+            </h6>
+            <span class="alert alert-info span9">
+                <?= $this->event->getProject()->getName(); ?>
+            </span>            
+        </div>
+
+        <div class="row">
+            <h6 class="span2">
+                Tarefa
+            </h6>
+            <span class="alert alert-info span9">
+                <?php
+                $taskName = '';
+                if (intval($this->event->getTask_type()->getParent_id()) > 0) {
+                    $parentName = $this->event->getTask_type()->getParent()->getName();
+                    $taskName .= $parentName . ' :: ';
+                }
+                $taskName .= $this->event->getTask_type()->getName();
+                echo $taskName;
+                ?>
+            </span>            
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Assistido</th>
+                    <th></th>
+                    <th></th>
+                    <th class="hidden-print"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->activities as $act) {
+                    $act = new Assistance_Model_Activity($act);
+                    $edit = $this->url(
+                            array('module' => 'assistance', 'controller' => 'activity',
+                        'action' => 'update', 'id' => $act->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'assistance', 'controller' => 'activity',
+                        'action' => 'delete', 'id' => $act->id), null, true);
+
+                    $urlGetPersonHelped = $this->url(
+                            array('module' => 'persons', 'controller' => 'person',
+                        'action' => 'getgm', 'id' => $act->person_helped_id), null, true);
+                    ?>
+                    <tr>
+                        <td><?= substr($act->assistance_time, 0, 5); ?></td>
+                        <td>
+                            <a href="<?= $urlGetPersonHelped ?>" load-in="content-container">
+                                <?= $act->getPerson_helped()->getName(); ?>
+                            </a>
+                        </td>
+                        <td>
+                            <?php
+                            $taskName = '';
+                            if (intval($act->getTask_type()->getParent_id()) > 0) {
+                                $parentName = $act->getTask_type()->getParent()->getName();
+                                $taskName .= $parentName . ' :: ';
+                            }
+                            $taskName .= $act->getTask_type()->getName();
+                            echo $taskName;
+                            ?>
+                        </td>
+                        <td><?= $act->getProject()->getName(); ?></td>
+                        <td class='align_center hidden-print'>
+                            <!--
+                            <a class="btn btn-mini btn-info" href="<?php echo ''//$edit;     ?>" load-in="content-container">
+                                <i class="icon-edit"></i> <translate>Edit</translate>
+                            </a>
+
+                            <a class="btn btn-mini btn-danger" href="<?php echo ''; //$delete;     ?>" load-in="content-container">
+                                <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                            </a>
+                            -->
+                        </td>
+                        <td>
+                            <?php
+                            if ($act->getDescription()) {
+                                ?>
+                                <span class="badge badge-info" rel="popover" 
+                                      data-content="<?= nl2br($act->getDescription()) ?>"
+                                      data-placement="left"
+                                      data-html="true">
+                                    Descrição                            
+                                </span>
+    <?php } ?>
+                        </td>
+                        <td>
+    <?= $this->identifiedByWidget($act->getId_by_finger_key()) ?>
+                        </td>
+                    </tr>
+<?php } ?>
+            </tbody>
+        </table>
+    </div>

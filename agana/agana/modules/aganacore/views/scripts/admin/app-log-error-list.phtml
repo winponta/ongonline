@@ -1,0 +1,52 @@
+<h2>App Log Error List</h2>
+
+<table class="table table-striped table-hover">
+    <tbody>
+        <tr>
+            <th>Date</th>
+            <th>Level</th>
+            <th>Message</th>
+            <th>Exception</th>
+            <th>Request Parameters</th>
+            <th></th>
+        </tr>
+        <?php
+            $q = count($this->logErrors);
+            for ($index = 0; $index < $q; $index++) {
+                $error = $this->logErrors[$index];
+                
+                echo '<tr>';
+                
+                echo '<td>';
+                echo $error['timestamp'];
+                echo '</td>';
+                
+                echo '<td>';
+                echo $error['priorityName'];
+                echo '</td>';
+                
+                echo '<td>';
+                echo $error['message'];
+                echo '</td>';
+                
+                echo '<td>';
+                echo nl2br($error['exception']);
+                echo '</td>';
+                
+                echo '<td>';
+                echo nl2br($error['dump']);
+                echo '</td>';
+                
+                echo '<td>';
+                echo '<a href="'. 
+                        $this->url(array('action'=>'app-log-error-delete', 'id' => $index)) .
+                        '" class="btn btn-danger">'.
+                        '<i class="icon-remove">Delete</i>'.
+                        '</a>';
+                echo '</td>';
+                
+                echo '</tr>';
+            }        
+        ?>
+    </tbody>
+</table>

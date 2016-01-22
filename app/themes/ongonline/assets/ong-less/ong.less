@@ -1,0 +1,52 @@
+// Ong Online
+// ---------
+
+//@import "../bootstrap-less/bootstrap.less";
+@import "../bootstrap-less/mixins.less";
+
+// Parent container
+.profile .picture {
+    float:right;
+}
+
+
+.navbar .nav > li > ul > li > a:hover {
+    background-color: #333;
+}
+
+
+#gm-container .navbar {
+    margin-bottom: 2px;
+}
+
+#gm-container .navbar-inner {
+    background-color: #bebebe;
+    
+    .gradientBar(#fff, #ddd);
+}
+
+#gm-container .navbar span h6 {
+    color: #666;
+    padding-top: 10px;
+}
+
+#content-container .navbar .nav > li > a {
+    color: #333;
+    padding-bottom: 0.6em;
+}
+
+#content-container .navbar .nav > li > a:hover {
+    color: #222;
+    background-color: #999;
+    .gradientBar(#fff, #ddd);
+    .box-shadow(0 0 9px lighten(#666, 20%));
+}
+
+#content-container .navbar .nav > li.active > a {
+    height: 1.5em;
+        
+    color: #666;
+
+    .gradientBar(#fff, #ddd);
+    .box-shadow(inset -1px 0 9px lighten(#666, 20%));
+}

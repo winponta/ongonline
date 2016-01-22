@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Person-helped-by-project" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" uuid="3404ffe7-cc88-4ffe-9416-3b130d0f92a0">
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="OngOnline Localhost"/>
+	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+	<style name="Style1"/>
+	<style name="Zebra" mode="Opaque" backcolor="#BFBFBF"/>
+	<parameter name="SYSTEM_NAME" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[Nome do sistema]]></parameterDescription>
+		<defaultValueExpression><![CDATA["Winponta Software"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SYSTEM_URL" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[Endereço web do projeto]]></parameterDescription>
+		<defaultValueExpression><![CDATA["http://www.winponta.com.br"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="REPORT_NAME" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[Nome do relatório]]></parameterDescription>
+		<defaultValueExpression><![CDATA["Relatório"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="APP_ACCOUNT_NAME" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Dono dos dados"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM  "v_person_helped_by_project"]]>
+	</queryString>
+	<field name="project_name" class="java.lang.String"/>
+	<field name="date_in" class="java.sql.Date">
+		<fieldDescription><![CDATA[Date that the person got in the project]]></fieldDescription>
+	</field>
+	<field name="date_out" class="java.sql.Date">
+		<fieldDescription><![CDATA[Date the person got out]]></fieldDescription>
+	</field>
+	<field name="person_name" class="java.lang.String"/>
+	<sortField name="project_name"/>
+	<sortField name="person_name"/>
+	<group name="Projetos" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{project_name}]]></groupExpression>
+		<groupHeader>
+			<band height="35">
+				<textField isStretchWithOverflow="true">
+					<reportElement mode="Opaque" x="80" y="5" width="474" height="30" backcolor="#BFBFBF" uuid="064c12cf-4fe5-427e-bb8a-cd8f39941021"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{project_name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="5" width="80" height="30" backcolor="#BFBFBF" uuid="72542bd7-0c60-4e29-9896-be19ddbc6dda"/>
+					<box padding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Projeto:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<textField>
+					<reportElement x="0" y="5" width="540" height="15" uuid="fcb209f3-7e0f-4c64-93ed-41793c946838"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom" markup="html">
+						<font size="10" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Assistidos alocados ao projeto: <b><em>" + 
+IF($F{person_name}.equals(null), 0, $V{Projetos_COUNT})
+ + "</em></b>"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-10" y="0" width="575" height="65" uuid="658596ee-cb0e-41cd-a742-592b3d7d8e10"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="5" width="553" height="20" uuid="df710d08-97d1-4f56-bde3-620213642d44"/>
+				<textElement textAlignment="Left">
+					<font fontName="Serif" size="14" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[UPPER($P{REPORT_NAME})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="28" width="450" height="14" uuid="1ffafb60-b98d-4e09-bc50-8dd11b83b9ba"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="Serif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[UPPER($P{APP_ACCOUNT_NAME})]]></textFieldExpression>
+			</textField>
+			<textField pattern="[ dd/MM/Y - HH:mm ]">
+				<reportElement x="365" y="28" width="188" height="14" uuid="5c49491f-a11f-423b-b43d-de16154fee04">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[NOW()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} != 1]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="554" height="20" uuid="52e726bd-45b5-43e2-b242-6538c1b425b9"/>
+				<textElement textAlignment="Left">
+					<font fontName="Serif" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[UPPER($P{REPORT_NAME})]]></textFieldExpression>
+			</textField>
+			<textField pattern="[ dd/MM/Y - HH:mm ]">
+				<reportElement x="460" y="20" width="93" height="14" uuid="e855dda9-6285-490e-a66a-6192f6da5bf6">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<patternExpression><![CDATA[NOW()]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="473" y="3" width="80" height="14" uuid="aa032c80-6d42-4870-9bae-d53eff2576c2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["p. " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="450" height="14" uuid="af7c6232-eb97-46fc-8769-9bbddbbbcd75"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="Serif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[UPPER($P{APP_ACCOUNT_NAME})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<rectangle>
+				<reportElement x="-10" y="0" width="575" height="35" backcolor="#4D4D4D" uuid="1eab4bec-9e9d-4150-8a5e-c0b4cea235f6"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="10" width="405" height="15" forecolor="#FFFFFF" uuid="ae4109b0-f043-414c-9ae1-50d069f17908"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pessoa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="485" y="10" width="69" height="15" forecolor="#FFFFFF" uuid="38a75021-1bc4-43e5-a917-fcc0fd6a17d8"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saída]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="409" y="10" width="74" height="15" forecolor="#FFFFFF" uuid="130bdc4f-2907-4499-a426-30c8511d88af"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entrada]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="cm"/>
+			<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+			<printWhenExpression><![CDATA[$F{person_name} != null]]></printWhenExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="380" height="15" uuid="178c5369-9135-48d4-8582-38dd011e7d42"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{person_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="411" y="1" width="70" height="13" uuid="2a43fc37-f8e9-4086-ae19-ff07ac3a32ec"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{date_in}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="484" y="1" width="70" height="13" uuid="eb985b2f-2904-44b9-966e-0cbb4d68fa65"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{date_out}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<printWhenExpression><![CDATA[1 == 0]]></printWhenExpression>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="19" splitType="Stretch">
+			<line>
+				<reportElement mode="Transparent" x="-20" y="0" width="595" height="1" forecolor="#4D4D4D" uuid="be79b9a9-3b48-4716-aabb-7b0c4d6e5c82">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#4D4D4D"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="5" width="134" height="14" forecolor="#4D4D4D" uuid="f4eb1a14-2133-49c5-a433-6c77b1a8d6a9">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{SYSTEM_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="6" width="213" height="13" forecolor="#4D4D4D" uuid="b1a56674-cb0a-4dcc-b538-55ca8b8b0b06"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{SYSTEM_URL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="45" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,41 @@
+<?php
+$title = $this->translate('Docs');
+$this->title = $title;
+$this->headTitle($title);
+
+?>
+
+<h4 class="caption-bottom-dotted"><?= $title ?></h4>
+
+<table class="mpdf">
+    <tr>
+        <td>
+            <table class="mpdf pad-right-1em pad-bottom-05em">
+                <tr>
+                    <td><h6><translate>Identity card</translate></h6></td>
+                    <td><?=$this->docs->identitycard; ?></td>
+                    <td><h6><translate>Individual tax number</translate></h6></td>
+                    <td><?=$this->docs->individualdoctaxnumber; ?> </td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Birth certificate</translate></h6></td>
+                    <td><?=$this->docs->birthcertificate; ?> </td>
+                    <td><h6><translate>Professional card</translate></h6></td>
+                    <td><?=$this->docs->professionalcard; ?></td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Drivers license</translate></h6></td>
+                    <td><?=$this->docs->driverslicense; ?></td>
+                    <td><h6><translate>Voter registration</translate></h6></td>
+                    <td><?=$this->docs->voterregistration; ?></td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Military registration</translate></h6></td>
+                    <td><?=$this->docs->militaryregistration; ?></td>
+                    <td><h6><translate>Health system card</translate></h6></td>
+                    <td><?=$this->docs->healthsystemcard; ?></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

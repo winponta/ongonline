@@ -1,0 +1,3 @@
+"c:\Program Files\Java\jdk1.7.0_55\bin\jarsigner" -keystore winponta_key -storepass ag25ana27 -keypass kpi135 -signedjar "D:\Workspaces\FingerkeyApplet\dist\FingerkeyAppletSigned.jar" "D:\Workspaces\FingerkeyApplet\dist\FingerkeyApplet.jar" signfiles
+
+"c:\Program Files\Java\jdk1.7.0_55\bin\keytool" -genkey -alias signFiles -keystore winponta_key -keypass kpi135 -dname "cn=Winponta Software" -storepass ag25ana27

@@ -1,0 +1,53 @@
+<?php
+$title = $this->translate("Person helped") . ' - ' . $this->translate("Relate project");
+$this->title = $title;
+$this->headTitle($title);
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-folder-close"></i> <?= $this->title; ?></h3>
+    </div>
+    <?php echo $this->form->render(); ?>
+
+    <h6 class="text-info span4">
+        <translate>Related projects</translate>
+    </h6>
+    <div class="row">
+        <table class="span12 table table-bordered">                
+            <?php 
+            $relProjects = $this->helped->getProjects(); 
+            if (!$relProjects) { 
+            ?>
+                <tr><td>
+                        <h6 class="text-warning"><translate>No one found</translate></h6>
+                    </td></tr>
+            <?php } else { ?>
+                <thead>
+                    <tr>
+                        <th><translate>Project</translate></th>
+                        <th><translate>Date in</translate></th>
+                        <th><translate>Date out</translate></th>
+                    </tr>
+                </thead>
+                <?php foreach ($relProjects as $prj) { ?>
+                    <tr>
+                        <td>
+                            <?= $prj->getProject()->getName(); ?> 
+                        </td>
+                        <td>
+                            <?= $this->date($prj->getDate_in(), Zend_Date::DATE_FULL); ?> 
+                        </td>
+                        <td>
+                            <?= $this->date($prj->getDate_out(), Zend_Date::DATE_FULL); ?> 
+                        </td>
+                    </tr>
+                <?php } ?>
+            <?php } ?>
+        </table>
+    </div>
+
+</div>

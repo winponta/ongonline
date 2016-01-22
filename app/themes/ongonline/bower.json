@@ -1,0 +1,25 @@
+{
+  "name": "OngOnline",
+  "version": "0.5.0",
+  "authors": [
+    "Ademir Mazer Jr <ademir.mazer.jr@gmail.com>"
+  ],
+  "description": "Sistema de Gestão Humanitária",
+  "license": "Proprietary",
+  "homepage": "http://www.ongonline.com.br",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.11.1",
+    "colorbox": "~1.5.9",
+    "angular": "~1.2.18",
+    "angular-route": "~1.2.18",
+    "angular-sanitize": "~1.2.18",
+    "angular-resource": "~1.2.18"
+  }
+}

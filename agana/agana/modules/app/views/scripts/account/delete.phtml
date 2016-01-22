@@ -1,0 +1,13 @@
+<?php
+$title = $this->translate("App Account");
+$this->title = $title . ' - ' . $this->translate("Delete");
+$this->headTitle($this->translate("App Account"));
+?>
+
+<div class="container well">
+    <?php echo $this->form->setAction($this->url()); ?>
+    <p class="alert alert-block">
+        <i class="icon-info-sign"></i> <translate>Your are about to delete a record. If you confirm, all it´s data and the related data will be deleted. If any record related to this user should not be deleted from here, you will receive a warning and this action will be canceled.</translate>
+    </p>
+
+</div>

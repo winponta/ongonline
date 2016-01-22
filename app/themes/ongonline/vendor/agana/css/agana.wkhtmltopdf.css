@@ -1,0 +1,53 @@
+@media print {
+    body {
+        margin: 1cm;
+    }
+}
+
+root { 
+    display: block;
+}
+
+table.wkhtmltopdf {
+    width: 100%;
+}
+
+.pad-1em td {
+    padding: 1em;
+}
+
+.pad-left-1em td {
+    padding-left: 1em;
+} 
+
+.pad-right-1em td {
+    padding-right: 1em;
+} 
+
+.pad-bottom-05em td {
+    padding-bottom: 0.5em;
+}
+
+.pad-bottom-1em td {
+    padding-bottom: 1em;
+}
+
+table td.width70 {
+    width: 70%;
+}
+
+.caption-bottom-dotted {
+    border-bottom: 1px dotted #333;
+}
+
+.caption-bottom-dashed {
+    border-bottom: 1px #333 dashed;
+}
+
+.report-main-header {
+    border-bottom: 1px dotted #999; 
+    font-family: sans-serif; 
+    font-size: 7pt;
+    vertical-align: top;
+    color: #999;
+}

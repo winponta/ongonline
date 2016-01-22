@@ -1,0 +1,71 @@
+<?php
+$title = 'Projetos relacionados';
+$this->title = $title;
+$this->headTitle($title);
+?>
+
+<div class="window">
+    <div class="window-header">
+        <div class="row">
+            <h3 class="span3">
+                <i class="icon-heart"></i> 
+                <?= $this->title; ?>
+            </h3>
+        </div>
+    </div>
+    <div class="window-content">
+        <table class="span12 table table-bordered">                
+            <thead>
+                <tr>
+                    <th><translate>Status</translate></th>
+                    <th><translate>Name</translate></th>
+                    <th><translate>Date in</translate></th>
+                    <th><translate>Date out</translate></th>
+                </tr>
+            </thead>
+            <?php foreach ($this->projects as $prj) { ?>
+                <tr>
+                    <td>
+                        <?= $this->projectStatus()->html($prj->getProject()->getStatus()); ?>
+                    </td>
+                    <td>
+                        <?php
+                        $showProjectUrl = $this->url(array(
+                            'module' => 'project',
+                            'controller' => 'admin',
+                            'action' => 'get',
+                            'id' => $prj->project_id,
+                        ));
+
+                        $saveDateOutUrl = $this->url(array(
+                            'module' => 'persons',
+                            'controller' => 'person-helped-project',
+                            'action' => 'update-date-out',
+                            'project_id' => $prj->getProject_id(),
+                            'person_id' => $prj->getPerson_id(),
+                            'date_in' => $prj->getDate_in(),
+                        ));
+                        ?>
+                        <a href="<?= $showProjectUrl; ?>" load-in="content-container">
+                            <strong><?= $prj->getProject()->getName(); ?> </strong>
+                        </a>
+                    </td>
+                    <td>
+                        <?= $this->date($prj->getDate_in(), Zend_Date::DATE_FULL); ?>
+                    </td>
+                    <td>
+                        <a href="#" rel="x-editable" 
+                           data-name="date_out" data-type="date"
+                           data-url="<?= $saveDateOutUrl; ?>"
+                           data-pk="{project_id:<?= $prj->project_id ?>, person_id:<?= $prj->person_id ?>}"
+                           data-value="<?= $prj->getDate_out() ?>">
+                               <?php
+                               echo $this->date($prj->getDate_out(), Zend_Date::DATE_FULL);
+                               ?>
+                        </a>
+                    </td>
+                </tr>
+            <?php } ?>
+        </table>
+    </div>
+</div>

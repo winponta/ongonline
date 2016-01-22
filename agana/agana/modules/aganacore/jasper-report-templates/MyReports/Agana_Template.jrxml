@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Agana_Template" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3404ffe7-cc88-4ffe-9416-3b130d0f92a0">
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
+	<parameter name="SYSTEM_NAME" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[Nome do sistema]]></parameterDescription>
+		<defaultValueExpression><![CDATA["Winponta Software"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SYSTEM_URL" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[Endereço web do projeto]]></parameterDescription>
+		<defaultValueExpression><![CDATA["http://www.winponta.com.br"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="REPORT_NAME" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[Nome do relatório]]></parameterDescription>
+		<defaultValueExpression><![CDATA["Relatório"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="APP_ACCOUNT_NAME" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Dono dos dados"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<group name="Group1">
+		<groupHeader>
+			<band height="50">
+				<staticText>
+					<reportElement x="0" y="15" width="100" height="20" uuid="d6f9d999-7601-40f9-aeb4-fa78e1131e50"/>
+					<text><![CDATA[Group Header]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="69" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="554" height="20" uuid="df710d08-97d1-4f56-bde3-620213642d44"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[UPPER($P{REPORT_NAME})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="450" height="14" uuid="1ffafb60-b98d-4e09-bc50-8dd11b83b9ba"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="Serif" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[UPPER($P{APP_ACCOUNT_NAME})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement mode="Transparent" x="-20" y="67" width="595" height="2" forecolor="#4D4D4D" uuid="678c024d-885c-4a43-938d-b339cffc6b98">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					<property name="local_mesure_unitx" value="cm"/>
+					<property name="local_mesure_unity" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.y" value="cm"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid" lineColor="#4D4D4D"/>
+				</graphicElement>
+			</line>
+			<textField pattern="[ dd/MM/Y - HH:mm ]">
+				<reportElement x="460" y="40" width="93" height="14" uuid="5c49491f-a11f-423b-b43d-de16154fee04">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="47" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} != 1]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="554" height="20" uuid="52e726bd-45b5-43e2-b242-6538c1b425b9"/>
+				<textElement textAlignment="Left">
+					<font fontName="Serif" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[UPPER($P{REPORT_NAME})]]></textFieldExpression>
+			</textField>
+			<textField pattern="[ dd/MM/Y - HH:mm ]">
+				<reportElement x="460" y="20" width="93" height="14" uuid="e855dda9-6285-490e-a66a-6192f6da5bf6">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement mode="Transparent" x="-20" y="41" width="595" height="2" forecolor="#4D4D4D" uuid="4a2b7e14-45b4-4f22-8467-7f1a9db62245">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					<property name="local_mesure_unitx" value="cm"/>
+					<property name="local_mesure_unity" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.y" value="cm"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid" lineColor="#4D4D4D"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="473" y="3" width="80" height="14" uuid="aa032c80-6d42-4870-9bae-d53eff2576c2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag. " + $V{PAGE_NUMBER} + " / " + $V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="450" height="14" uuid="af7c6232-eb97-46fc-8769-9bbddbbbcd75"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="Serif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[UPPER($P{APP_ACCOUNT_NAME})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement mode="Transparent" x="-20" y="0" width="595" height="1" forecolor="#4D4D4D" uuid="be79b9a9-3b48-4716-aabb-7b0c4d6e5c82">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#4D4D4D"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="5" width="134" height="14" forecolor="#4D4D4D" uuid="f4eb1a14-2133-49c5-a433-6c77b1a8d6a9">
+					<property name="local_mesure_unitheight" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{SYSTEM_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="6" width="213" height="13" forecolor="#4D4D4D" uuid="b1a56674-cb0a-4dcc-b538-55ca8b8b0b06"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{SYSTEM_URL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

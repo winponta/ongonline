@@ -1,0 +1,42 @@
+<?php
+$title = 'Evendo de Atendimento de assistência';
+$this->title = $title . ' - ' . $this->translate("Add new");
+$this->headTitle($title);
+$this->form->setAction($this->url());
+$form = $this->form;
+
+?>
+
+<div class="window" ng-controller="AssistanceController" id="windowCreateActivityAssistance">
+    <div class="window-header">
+        <h3><i class="icon-group"></i> <?php echo $this->title; ?></h3>
+    </div>
+    <form id="person" 
+          class=" form-horizontal well" 
+          action="<?= $this->form->getAction() ?>" 
+          load-in="content-container" 
+          method="post" 
+          enctype="application/x-www-form-urlencoded" 
+          name="eventoatividade_assistencia">
+
+        <div class="row">
+            <span class="span12">
+                <?= $form->getElement('event_date')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span12">
+                <?= $form->getElement('project_id')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span12">
+                <?= $form->getElement('task_type_id')->render() ?>
+            </span>
+        </div>
+
+        <?= $form->getDisplayGroup('actions-end')->render() ?>
+    </form>
+</div>

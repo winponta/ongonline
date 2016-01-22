@@ -1,0 +1,42 @@
+<?php
+$title = $this->translate("Persons");
+$this->title = $title;
+
+foreach ($this->persons as $rec) {
+    $acc = new Persons_Model_Person($rec);
+    $acc = $rec;
+
+    $edit = $this->url(
+            array('module' => 'persons', 'controller' => 'person',
+        'action' => 'getgm', 'id' => $acc->id), null, true);
+    ?>
+    <div class="container-fluid well well-small">
+        <div class="row-fluid">
+            <div class="span10">
+                <a href="#" rel="popover" data-content='<?php echo $this->personDetailsBox()->getBox($acc); ?>'>
+                    <i class="icon-info-sign"></i>
+                </a>
+                &nbsp;
+                
+                <a load-in="content-container" href="<?php echo $edit; ?>" 
+                   load-in="content-container">
+                    <?php echo $acc->name; ?>
+                </a>
+                <br/>
+                <?php
+                echo $acc->email; 
+                ?>
+                <br/>
+                <?php
+                echo $acc->phone;
+                echo (trim($acc->getMobilephone())) ?
+                        ((trim($acc->getPhone())) ? ' || ' : '') . $acc->getMobilephone() : '';
+                ?>
+            </div>
+            <div class="2">
+                <?php echo $this->personPicture()->getTag($acc, 'tiny', array('style' => 'width:40px')); ?>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+

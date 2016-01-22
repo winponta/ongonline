@@ -1,0 +1,74 @@
+<?php
+$this->title = $this->translate("Headquarters/Head Office");
+$this->headTitle($this->translate("Headquarters/Head Office"));
+
+$editurl = $this->url(array('module' => 'busunit', 'controller' => 'headquarters',
+    'action' => 'update', 'id' => $this->headquarters->id), null, true);
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span3"><i class="icon-briefcase"></i> <?php echo $this->title; ?></h3>
+
+        <ul class="nav nav-pills">
+            <li>
+                <a href="<?php echo $editurl; ?>" load-in="content-container">
+                    <i class="icon-edit"></i> 
+                    <translate>Edit</translate>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="window-content">
+        <div class="vcard offset1 details-bordered">
+            <div class="row">
+                <h6 class="span2"><translate>Name</translate></h6> 
+                <span class="fn id span10"><?php echo $this->headquarters->name; ?></span>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Trade name</translate></h6> 
+                <span class="fn id span10"><?php echo $this->headquarters->tradename; ?></span>
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>Doc tax number</translate></h6> 
+                <span class="fn id span10"><?php echo $this->headquarters->doctaxnumber; ?></span>
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>Phone</translate></h6> 
+                <span class="fn id span10"><?php echo $this->headquarters->phone; ?></span>
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>Address</translate></h6> 
+                <span class="fn id span10"><?php echo $this->headquarters->address; ?></span>                    
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>Number</translate></h6> 
+                <span class="fn id span3"><?php echo $this->headquarters->addressnumber; ?></span>                    
+                <h6 class="span2"><translate>Address details</translate></h6> 
+                <span class="fn id span4"><?php echo $this->headquarters->addressdetails; ?></span>                    
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>District</translate></h6> 
+                <span class="fn id span10"><?php echo $this->headquarters->district; ?></span>                    
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>City</translate></h6> 
+                <span class="fn id span3"><?php echo (is_null($this->headquarters->getCity())) ? '' : $this->headquarters->getCity()->name; ?></span>                    
+                <h6 class="span2"><translate>State</translate></h6> 
+                <span class="fn id span4"><?php echo (is_null($this->headquarters->getCity())) ? '' : $this->headquarters->getCity()->getState()->name; ?></span>
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>Postal code</translate></h6> 
+                <span class="fn id span10"><?php echo $this->headquarters->postalcode; ?></span>                    
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>Web site</translate></h6> 
+                <span class="fn id span10">
+                    <?php echo $this->externalLink($this->headquarters->website); ?>
+                </span>
+            </div>            
+        </div>            
+
+    </div>
+</div>

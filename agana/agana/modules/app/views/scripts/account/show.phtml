@@ -1,0 +1,53 @@
+<?php
+$title = $this->translate("App Account");
+$this->title = $title;
+$this->headTitle($this->translate("App Account details"));
+
+$editurl = $this->url(array('module' => 'app', 'controller' => 'account', 'action' => 'update', 'id' => $this->account->id));
+?>
+
+<div class="window">
+    <div class="window-header">
+        <div class="row-fluid">
+            <h3 class="span3"><i class="icon-certificate"></i> <translate>App Account</translate></h3>
+            <?php if (Agana_Acl_Service::isAllowed(
+                    Zend_Auth::getInstance()->getIdentity()->acl_role_id, 
+                    App_Module_Acl::ACL_RESOURCE_APPACCOUNT, 
+                    App_Module_Acl::ACL_RESOURCE_APPACCOUNT_PRIVILEGE_UPDATE
+                    )) : ?>
+            <div class="nav">
+                <ul class="nav nav-pills">
+                    <li>
+                        <a href="<?php echo $editurl; ?>" load-in="content-container"><i class="icon-edit"></i> <translate>Edit</translate></a>
+                    </li>
+                </ul>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="window-content">
+        <div class="vcard span6 details-bordered">
+            <div class="row">
+                <h6 class="span2"><translate>Id</translate></h6>
+                <span class="fn id span4"><?php echo $this->account->id; ?></span>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>App account name</translate></h6> 
+                <span class="fn id span4"><?php echo $this->account->name; ?></span>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Email</translate></h6> 
+                <span class="fn id span4">
+                    <i class="icon-envelope"></i> 
+                    <a href="mailto:<?php echo $this->account->email; ?>"><?php echo $this->account->email; ?></a></span>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Created on</translate></h6>
+                <span class="span4">
+                    <?php echo $this->date($this->account->created, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                    <?php echo $this->date($this->account->created, Zend_Date::TIME_SHORT); ?>
+                </span>
+            </div>    
+        </div>
+    </div>    
+</div>

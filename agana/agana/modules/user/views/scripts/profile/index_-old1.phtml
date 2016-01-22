@@ -1,0 +1,68 @@
+<?php
+$this->title = $this->user->name;
+$this->headTitle($this->translate('Profile'));
+
+if ($this->user->status == -1) {
+    $classes = "icon-minus-sign alert-warning";
+} else if ($this->user->status == 0) {
+    $classes = "icon-ban-circle alert-error";
+} else if ($this->user->status == 1) {
+    $classes = "icon-ok-circle alert-success";
+}
+?>
+<div class="container">
+    <div class="widget profile">
+        <div class="widget-header">
+            <h3 class="span12"><i class="icon-user"></i> <?php echo $this->user->name; ?></h3>
+        </div>
+        <div class="widget-content">
+            <div class="nav">
+                <ul class="nav nav-pills">
+                    <li>
+                        <a href="" load-in="content-container"><i class="icon-edit"></i> <translate>Edit user</translate></a>
+                    </li>
+                    <li>
+                        <a href="" load-in="content-container"><i class="icon-picture"></i> <translate>Alter picture</translate></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="vcard span6 details-bordered">
+                <div class="row">
+                    <h6 class="span2"><translate>User name</translate></h6> 
+                    <span class="fn id span4"><?php echo $this->user->name; ?></span>
+                </div>
+                <div class="row">
+                    <h6 class="span2"><translate>Status</translate></h6>
+                    <span class="span2">
+                        <i class="<?php echo $classes; ?>"></i>
+                        <?php echo $this->translate($this->status($this->user->status)); ?>
+                    </span>
+                    <h6 class="span1"><translate>Id</translate></h6>
+                    <span class="fn id span1"><?php echo $this->user->id; ?></span>
+                </div>
+                <div class="row">
+                    <h6 class="span2"><translate>Email</translate></h6> 
+                    <span class="fn id span4">
+                        <i class="icon-envelope"></i> 
+                        <a href="mailto:<?php echo $this->user->email; ?>"><?php echo $this->user->email; ?></a></span>
+                </div>
+                <div class="row">
+                    <h6 class="span2"><translate>Created on</translate></h6>
+                    <span class="span4">
+                        <?php echo $this->date($this->user->created, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                        <?php echo $this->date($this->user->created, Zend_Date::TIME_SHORT); ?>
+                    </span>
+                </div>    
+                <div class="row">
+                    <h6 class="span2"><translate>Last login</translate></h6>
+                    <span class="span4">
+                        <?php echo $this->date($this->user->last_login, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                        <?php echo $this->date($this->user->last_login, Zend_Date::TIME_MEDIUM); ?>
+                    </span>
+                </div>            
+            </div>
+            <div class="span3 picture">
+                <img class="thumbnail" src="http://placehold.it/180x200"/>
+            </div>
+        </div>
+    </div>

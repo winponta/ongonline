@@ -1,0 +1,16 @@
+<?php
+$title = $this->translate("Volunteer");
+$this->title = $title . ' - ' . $this->translate("Add new");
+$this->headTitle($this->translate("Volunteer"));
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-group"></i> <?php echo $this->title; ?></h3>
+        <?php //echo $this->userguide()->getLink("staff.employee.create"); ?>
+    </div>
+        <?php echo $this->form->render(); ?>
+</div>

@@ -1,0 +1,34 @@
+<?php
+$title = $this->translate("Search");
+$this->title = $title;
+$this->headTitle($this->translate("Search") . ' ' . $this->translate("Person"));
+
+//echo $this->partial('search/form.phtml', 'aganacore', 
+//        array(
+//            'actionUrl' => $actionUrl,
+//            'imgSrc'    => $imgSrc,
+//            'path_js' => $this->path_js,
+//            'elImgToUpdate' => 'userImage', // the id of the img element on person html
+//            ));
+
+$form = new Zend_Form();
+$form = $this->form;
+
+$urlAction = $this->url(array(
+    'module'=>'persons',
+    'controller'=>'person',
+    'action'=>'search'
+    ), null, true);
+
+$form->setAction($urlAction);
+?>
+
+<div class="widget span11">
+    <div class="widget-header">
+        <h3><i class="icon-search"></i> <?php echo $this->title; ?></h3>
+    </div>
+    <?php echo $this->form->render(); ?>
+    <div id="colorbox-content-container" class="widget-table">
+    </div>
+</div>
+

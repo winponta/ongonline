@@ -1,0 +1,61 @@
+<?php
+$title = $this->translate("Job function");
+$this->title = $title;
+$this->headTitle($this->translate("Job function"));
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span9"><i class="icon-wrench"></i> <translate>Job function</translate></h3>
+        <a class="btn span2" load-in="content-container" href="<?php
+echo $this->url(
+        array('module' => 'staff', 'controller' => 'jobfunction',
+    'action' => 'create'), null, true);
+?>">
+            <i class="icon-plus-sign"></i> <translate>Add new</translate></a>
+    </div>
+    <div class="window-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th><translate>Name</translate></th>
+                    <th><translate>Description</translate></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->functions as $acc) {
+                    $edit = $this->url(
+                            array('module' => 'staff', 'controller' => 'jobfunction',
+                        'action' => 'update', 'id' => $acc->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'staff', 'controller' => 'jobfunction',
+                        'action' => 'delete', 'id' => $acc->id), null, true);
+
+                    ?>
+                    <tr>
+                        <td><?php echo $acc->id; ?></td>
+                        <td><?php echo $acc->name; ?></td>
+                        <td>
+                            <?php if($acc->description) { ?>
+                            <span class="badge badge-info" rel="popover" 
+                                  data-title="<translate>Description</translate>" 
+                                  data-content="<?php echo nl2br($acc->description) ?>"><i class="icon-info-sign"></i> <translate>More info</translate></span></td>
+                            <?php } ?>
+                                  
+                <td class='align_center'>
+                    <a class="btn btn-mini btn-info" href="<?php echo $edit; ?>" load-in="content-container">
+                        <i class="icon-edit"></i> <translate>Edit</translate>
+                    </a>
+                    <a class="btn btn-mini btn-danger" href="<?php echo $delete; ?>" load-in="content-container">
+                        <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                    </a>                    
+                </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>

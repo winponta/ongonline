@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Ong Online" default="default">
+
+    <target name="ini">
+        <exec command="clear" />
+        
+        <property file="build.properties"/>        
+
+        <input propertyName="app.releaseType" defaultValue="Bugfix" validargs="Major,Minor,Bugfix">
+            Wich type of release is this?
+        </input>
+        
+        <version releasetype="${app.releaseType}" file="version.txt" property="version.number"/>
+        <loadfile property="app.version" file="version.txt"/>
+        <php expression="preg_replace('/(*ANYCRLF)\n/', '', '${app.version}')" returnProperty="app.version"/>
+
+        <tstamp />
+        <tstamp>
+            <format property="app.released.date" pattern="%G.%m.%d"/>
+            <format property="app.released.time" pattern="%H.%M"/>
+        </tstamp>            
+
+        <echo>Defining last build date and time</echo>
+        <tstamp>
+            <format property="builddate" pattern="%Y/%m/%d"  />
+            <format property="buildtime" pattern="%H:%M:%S" />
+        </tstamp>
+        <property file="lastbuild.properties"/>
+        <echo>Will deploy files changed after ${lastbuild.date}</echo>
+
+        <echo msg="Seting version ${versioning.tag.base} ${app.version} on ${app.released.date} at ${app.released.time} in config file"/>
+        <reflexive>
+            <fileset dir="./configs">
+                <include pattern="*.ini" />
+            </fileset>
+            <filterchain>
+                <replaceregexp>
+                    <regexp pattern="agana.app.version = .*" replace="agana.app.version = &quot;${app.version}&quot;" />
+                    <regexp pattern="agana.app.deploydate = .*" replace="agana.app.deploydate = &quot;${app.released.date} ${app.released.time}&quot;"/>
+                </replaceregexp>
+            </filterchain>
+        </reflexive>
+    </target>
+    
+    <target name="define.tag">
+        <property name="versioning.tag" value="${versioning.tag.base}-v.${app.version}-r.d.${app.released.date}.t.${app.released.time}" />
+        <echo>Defined Tag: ${versioning.tag}</echo>
+        
+        <echo msg="Creating version ${versioning.tag.base} ${app.version} on ${app.released.date} at ${app.released.time}"/>
+
+    </target>
+        
+    <target name="copy.files.delete.build">
+        <echo msg="Deleting ${build.dir}"/>
+        <delete dir="${build.dir}" includeemptydirs="true" verbose="false" failonerror="false" />
+    </target>
+    
+    <target name="copy.files.app.public">
+        <echo msg="Copying ${build.app.dir}"/>
+        <copy todir="${build.app.dir}">            
+            <fileset refid="app"/>
+        </copy>
+
+        <if> 
+            <equals arg1="deploy.by" arg2="ftp"/>
+            <then>
+                <echo>Sending PUBLIC files by FTP ...</echo>
+                <ftpdeploy 
+                    host="${ftp.host}" 
+                    port="${ftp.port}" 
+                    username="${ftp.username}" 
+                    password="${ftp.password}"
+                    dir="${ftp.dir.public}" 
+                    passive="false"
+                    mode="${ftp.mode}"
+                    depends="true"
+                    level="debug">
+                    <fileset dir="${build.app.dir}"/>
+                </ftpdeploy>        
+            </then>       
+        </if>
+
+    </target>
+    
+    <target name="copy.files.app.lib">
+        <echo msg="Copying ${build.hsm.dir} LIB"/>
+        <copy todir="${build.hsm.dir}/lib">
+            <fileset refid="lib"/>
+        </copy>
+
+        <if> 
+            <equals arg1="deploy.by" arg2="ftp"/>
+            <then>
+                <echo>Sending LIB files by FTP ...</echo>
+                <ftpdeploy 
+                    host="${ftp.host}" 
+                    port="${ftp.port}" 
+                    username="${ftp.username}" 
+                    password="${ftp.password}"
+                    dir="${ftp.dir.public}/lib/" 
+                    passive="false"
+                    mode="${ftp.mode}"
+                    depends="true"
+                    level="debug">
+                    <fileset dir="${build.hsm.app}/lib"/>
+                </ftpdeploy>        
+            </then>
+        </if>
+    </target>
+    
+    <target name="copy.files.app.core">
+        <echo msg="Copying ${build.hsm.dir} CORE"/>
+        <copy todir="${build.hsm.dir}/agana">
+            <fileset refid="agana"/>
+        </copy>
+        <copy todir="${build.hsm.dir}/configs">
+            <fileset refid="configs"/>
+        </copy>        
+
+        <if> 
+            <equals arg1="deploy.by" arg2="ftp"/>
+            <then>
+                <echo>Sending CONFIG files by FTP ...</echo>
+                <ftpdeploy 
+                    host="${ftp.host}" 
+                    port="${ftp.port}" 
+                    username="${ftp.username}" 
+                    password="${ftp.password}"
+                    dir="${ftp.dir.public}/configs/" 
+                    passive="false"
+                    mode="${ftp.mode}"
+                    depends="true"
+                    level="debug">
+                    <fileset dir="${build.hsm.dir}/configs"/>
+                </ftpdeploy>        
+
+                <echo>Sending CORE files by FTP ...</echo>
+                <ftpdeploy 
+                    host="${ftp.host}" 
+                    port="${ftp.port}" 
+                    username="${ftp.username}" 
+                    password="${ftp.password}"
+                    dir="${ftp.dir.public}/agana/" 
+                    passive="false"
+                    mode="${ftp.mode}"
+                    depends="true"
+                    level="debug">
+                    <fileset dir="${build.hsm.dir}/agana/modules/aganacore"/>
+                </ftpdeploy>        
+            </then>
+        </if>
+    </target>
+    
+    <target name="default" depends="ini, define.tag">
+        <input propertyName="deploy" defaultValue="ui.core" validargs="full,lib,ui.core,ui,core">
+            Wich deploy?
+        </input>
+
+        <input propertyName="run.hg.push" defaultValue="y" validargs="y,n">
+            Run hg push?
+        </input>
+
+        <input propertyName="run.hg.tag" defaultValue="y" validargs="y,n">
+            Tag this release?
+        </input>
+
+        <input propertyName="deploy.by" defaultValue="none" validargs="none,ftp,ssh">
+            Deploy files by?
+        </input>
+        
+        <input propertyName="lastbuild.update" defaultValue="y" validargs="y,n">
+            Update last build date?
+        </input>
+        
+        <if>
+            <equals arg1="${lastbuild.update}" arg2="y"/>
+            <then>
+                <echo msg="lastbuild.date=${builddate} ${buildtime}" file="lastbuild.properties" append="false" />
+            </then>
+        </if>
+
+        <exec command="hg commit -I lastbuild.properties -I version.txt -I configs/agana_ongonline.ini -m &quot;Last agana.app version ${app.version} and deploy date ${app.released.date} and time ${app.released.time} updated&quot;" 
+            passthru="true"/>
+
+        <if>
+            <equals arg1="${run.hg.tag}" arg2="y" />
+            <then>
+                <echo>Tag ${versioning.tag}</echo>
+                <exec command="./hg-bitbucket-tag-full.sh &quot;${versioning.tag}&quot;" 
+                      passthru="true"/>
+            </then>
+        </if>
+
+        <if>
+            <equals arg1="${run.hg.push}" arg2="y" />
+            <then>
+                <exec command="./hg-bitbucket-push-full.sh" 
+                      passthru="true"/>
+            </then>
+        </if>
+
+        <phingcall target="deploy.${deploy}"/>
+
+    </target>
+    
+    <target name="deploy.full">
+        <echo>Generate the FULL deployment of app</echo>
+        <echo>Preparing ${build.dir}</echo>
+        
+        <phingcall target="copy.files.delete.build"></phingcall>
+        <phingcall target="copy.files.app.public"></phingcall>
+        <phingcall target="copy.files.app.lib"></phingcall>
+        <phingcall target="copy.files.app.core"></phingcall>
+    </target>
+    
+    <target name="deploy.lib">
+        <echo>Generate the LIB deployment of app</echo>
+        <echo>Preparing ${build.dir}</echo>
+        
+        <phingcall target="copy.files.delete.build"></phingcall>
+        <phingcall target="copy.files.app.lib"></phingcall>
+    </target>
+    
+    <target name="deploy.ui.core">
+        <echo>Generate the UI and CORE deployment of app</echo>
+        <echo>Preparing ${build.dir}</echo>
+        
+        <phingcall target="copy.files.delete.build"></phingcall>
+        <phingcall target="copy.files.app.public"></phingcall>
+        <phingcall target="copy.files.app.core"></phingcall>
+    </target>
+    
+    <target name="deploy.ui">
+        <echo>Generate the UI and CORE deployment of app</echo>
+        <echo>Preparing ${build.dir}</echo>
+        
+        <phingcall target="copy.files.delete.build"></phingcall>
+        <phingcall target="copy.files.app.public"></phingcall>
+
+    </target>
+    
+    <target name="deploy.core">
+        <echo>Generate the UI and CORE deployment of app</echo>
+        <echo>Preparing ${build.dir}</echo>
+        
+        <phingcall target="copy.files.delete.build"></phingcall>
+        <phingcall target="copy.files.app.core"></phingcall>
+    </target>
+    
+    <fileset id="lib" dir="./agana/lib">        
+        <date datetime="${lastbuild.date}" when="after" checkdirs="true"/>
+        <exclude name="**/.hg/" />
+        <exclude name="**/.hg/*" />
+        <exclude name="**/.hgignore" />
+        <exclude name="**/.hgtags" />
+    </fileset>
+    
+    <fileset id="agana" dir="./agana/agana">
+        <date datetime="${lastbuild.date}" when="after" checkdirs="true"/>
+        <exclude name="**/.hg/" />
+        <exclude name="**/.hg/*" />
+        <exclude name="**/.hgignore" />
+        <exclude name="**/.hgtags" />
+        
+        <exclude name="**/configs/" />
+        <exclude name="**/docs/" />
+    </fileset>
+    
+    <fileset id="configs" dir="./configs">
+        <date datetime="${lastbuild.date}" when="after" checkdirs="true"/>
+        <exclude name="**/.hg/" />
+        <exclude name="**/.hg/*" />
+        <exclude name="**/.hgignore" />
+        <exclude name="**/.hgtags" />
+    </fileset>
+    
+    <fileset id="app" dir="./app">
+        <date datetime="${lastbuild.date}" when="after" checkdirs="true"/>
+        <exclude name="**/.hg/" />
+        <exclude name="**/.hg/*" />
+        <exclude name="**/.hgignore" />
+        <exclude name="**/.hgtags" />
+        <exclude name="**/*.zip" />
+        <exclude name="**/assets/" />
+        <exclude name="**/jquery-ui-*/" />
+    </fileset>
+
+    <fileset id="app.teste" dir="./app">
+        <date datetime="${lastbuild.date}" when="after" checkdirs="true"/>
+        <include name="teste.txt" />
+    </fileset>
+</project>

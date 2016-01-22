@@ -1,0 +1,88 @@
+    <?php
+$title = $this->translate("Report") . ': ' . $this->translate("Persons helped by project");
+$this->title = $title;
+$this->headTitle($title);
+
+function openGroupHeader($projectName) {
+?>
+    <table class="mpdf table table-condensed">
+        <thead>
+            <tr style="background: #aaa; font-weight: bold; font-size: 1.2em;"
+                     class="text-left">
+                <th colspan="3">
+                    <translate>Project</translate>: <?=$projectName?>
+                </th>
+            </tr>
+            <tr>
+                <th style="width:16cm;"><translate>Person</translate></th>
+                <th style="width:3cm;">Entrada</th>
+                <th>Saída</th>
+            </tr>
+        </thead>
+        <tbody>
+
+<?php
+} // openProjectHeader
+
+function closeGroupHeader($projectName, $count) {
+ ?>
+        </tbody>
+        <tfoot>
+            <tr style="background: #f0f0f0; font-style: italic;" class="pull-left">
+                <td class="text-right">
+                    <!--Número de assistidos alocados no projeto <?=$projectName?> nesta data-->
+                    Quantidade listada no projeto <?=$projectName?> 
+                </td>
+                <td colspan="2" style="text-align: right;">
+                    <?=$count?>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+<?php
+} // closeProjectHeader
+
+
+            $project = -1;
+            $projectName = '';
+            $countProject = 0;
+            $countTotal = 0;
+            
+            if ($this->format == 'html') { echo $this->report->getHeaderTemplate(); }
+            
+            foreach ($this->records as $rec) {
+                if ($rec['project_id'] != $project) {
+                    if ($project >= 0) { closeGroupHeader ($projectName, $countProject); }
+                    
+                    $project = $rec['project_id'];
+                    $projectName = $rec['project_name'];
+                    openGroupHeader($rec['project_name']);
+                    $countTotal += $countProject;
+                    $countProject = 0;
+                }
+                if($rec['person_name']) { $countProject++; } 
+        ?>
+                <tr>
+                    <td><?=$rec['person_name']?></td>
+                    <td><?=$this->date($rec['date_in'], Zend_Date::DATE_MEDIUM)?></td>
+                    <td><?=$this->date($rec['date_out'], Zend_Date::DATE_MEDIUM)?></td>
+                </tr>
+
+        <?php
+            }
+            closeGroupHeader($projectName, $countProject);
+        ?>
+
+        <table class='mpdf table'>
+            <tr style="border-top: 10px double #333;">                
+                <td class="text-right">
+                    Total de assistidos listados neste relatório
+                </td>
+                <td style="text-align: right;" width='3cm;'>
+                    <?=$countTotal?>
+                </td>
+            </tr>
+        </table>
+                
+        <?php if ($this->format == 'html') { echo $this->report->getFooterTemplate(); } ?>

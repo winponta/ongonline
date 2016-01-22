@@ -1,0 +1,66 @@
+<?php
+$title = $this->translate("Report") . ': ' . $this->translate("Persons helped by project") . ' - sumarizado';
+$this->title = $title;
+$this->headTitle($title);
+        
+function printLine($projectName, $count) {
+ ?>
+    <tr>
+        <td class="text-right">
+            <?=$projectName?> 
+        </td>
+        <td style="text-align: right;">
+            <?=$count?>
+        </td>
+    </tr>
+
+<?php
+} // closeProjectHeader
+
+$project = -1;
+$projectName = '';
+$countProject = 0;
+$countTotal = 0;
+
+if ($this->format == 'html') echo $this->report->getHeaderTemplate();
+
+?>
+    
+    <table class="mpdf table table-condensed">
+        <thead>
+            <tr>
+                <th style="width:16cm;"><translate>Project</translate></th>
+                <th style="width:5cm;">Qtde assistidos</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <?php
+            foreach ($this->records as $rec) {
+                if ($rec['project_id'] != $project) {
+                    if ($project >= 0) printLine($projectName, $countProject);
+
+                    $project = $rec['project_id'];
+                    $projectName = $rec['project_name'];
+                    $countTotal += $countProject;
+                    $countProject = 0;
+                }
+                if($rec['person_name']) $countProject++;
+            }
+        ?>
+
+        </tbody>
+    </table>
+
+    <table class='mpdf table'>
+        <tr style="border-top: 10px double #333;">                
+            <td class="text-right">
+                Total de assistidos neste relatório
+            </td>
+            <td style="text-align: right;" width='3cm;'>
+                <?=$countTotal?>
+            </td>
+        </tr>
+    </table>
+
+<?php if ($this->format == 'html') echo $this->report->getFooterTemplate(); ?>

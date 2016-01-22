@@ -1,0 +1,33 @@
+<?php
+$this->title = $this->user->name;
+$this->headTitle($this->translate('Profile'));
+?>
+<h2><translate>Profile</translate></h2>
+<div class="vcard profile">
+    <p>
+        <span class="label"><translate>Name</translate></span> 
+        <span class="fn id"><?php echo $this->user->name; ?></span>
+    </p>
+    <p>
+        <span class="label"><translate>Id</translate></span>
+        <span class="fn id"><?php echo $this->user->id; ?></span>
+    </p>
+    <p>
+        <span class="label"><translate>Status</translate></span>
+        <?php echo $this->translate($this->status($this->user->status));?>
+    </p>    
+    <p>
+        <span class="label"><translate>Email</translate></span>
+        <?php echo $this->user->email;?> 
+    </p>    
+    <p>
+        <span class="label"><translate>Created on</translate></span>
+        <?php echo $this->date($this->user->created, Zend_Date::DATE_LONG);?> <translate>at</translate> 
+        <?php echo $this->date($this->user->created, Zend_Date::TIME_SHORT);?>
+    </p>    
+    <p>
+        <span class="label"><translate>Last login</translate></span>
+        <?php echo $this->date($this->user->last_login, Zend_Date::DATE_LONG);?> <translate>at</translate> 
+        <?php echo $this->date($this->user->last_login, Zend_Date::TIME_MEDIUM);?>
+    </p>    
+</div>

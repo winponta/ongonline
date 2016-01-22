@@ -1,0 +1,303 @@
+<?php
+$title = 'Atendimentos em evento';
+$this->title = $title;
+$this->headTitle($title);
+$this->form->setAction($this->url());
+$form = $this->form;
+
+$urlSearchForm = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'search-form'
+        ));
+
+$urlPersonDetails = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'get',
+        ));
+?>
+
+<div class="window" ng-controller="AssistanceController" id="windowCreateActivityAssistance">
+    <div class="window-header">
+        <h3 class="span4"><i class="icon-food"></i> <?php echo $this->title; ?></h3>
+        <h3 class="span1 alert alert-success text-right pull-right">
+            <?= $this->event->getId(); ?>
+        </h3>
+    </div>
+
+    <div class="window-content">
+        <div class="row">
+            <h6 class="span1">
+                Evento
+            </h6>
+            <span class="alert alert-info span1">
+                <?= $this->date($this->event->getEvent_date(), Zend_Date::DATE_MEDIUM); ?>
+            </span>
+            <h6 class="span1">
+                Projeto
+            </h6>
+            <span class="alert alert-info span7">
+                <?= $this->event->getProject()->getName(); ?>
+            </span>            
+        </div>
+
+        <div class="row">
+            <h6 class="span1">
+                Tarefa
+            </h6>
+            <span class="alert alert-info span10">
+                <?php
+                $taskName = '';
+                if (intval($this->event->getTask_type()->getParent_id()) > 0) {
+                    $parentName = $this->event->getTask_type()->getParent()->getName();
+                    $taskName .= $parentName . ' :: ';
+                }
+                $taskName .= $this->event->getTask_type()->getName();
+                echo $taskName;
+                ?>
+            </span>            
+        </div>
+    </div>
+
+    <form id="person" 
+          class=" form-horizontal well" 
+          action="<?= $this->form->getAction() ?>" 
+          load-in="content-container" 
+          method="post" 
+          enctype="application/x-www-form-urlencoded" 
+          name="atividade_assistencia"
+          style="margin-top: -1em;padding-top: 0px;padding-bottom: 0px;"
+          >
+
+        <?= $form->getElement('id_by_finger_key')->render() ?>
+        <input type="hidden" name="person_recorded_id" value="<?= $this->person_recorded->getId() ?>"/>
+        <input type="hidden" name="person_performed_id" id="person_performed_id" value="<?= $this->person_performed->getId() ?>"/>
+        <input type="hidden" name="assistance_date" id="assistance_date" value="<?= $this->event->getEvent_date() ?>"/>
+        <input type="hidden" name="project_id" id="project_id" value="<?= $this->event->getProject_id() ?>"/>
+        <input type="hidden" name="task_type_id" id="task_type_id" value="<?= $this->event->getTask_type_id() ?>"/>
+        <input type="hidden" name="event_id" id="event_id" value="<?= $this->event->getId() ?>"/>
+        <input type="hidden" name="assistance_date" id="assistance_date" value="<?= $this->date($this->event->getEvent_date(), Zend_Date::DATE_MEDIUM) ?>"/>
+
+
+        <div class="row">
+            <span class="span6">
+                <!-- ATENDENTE -->
+                <div class="row">
+                    <span class="span12">
+                        <div class="control-group <?= ($form->getElement('person_performed_id')->hasErrors()) ? 'error' : '' ?>">
+                            <label for="person_performed_name" class="control-label optional">
+                                Atendente
+                                <i class="icon-question-sign" rel="tooltip" data-original-title="Pessoa que realizou o atendimento/atividade com o assistido"></i>
+                            </label>
+                            <div class="controls">
+                                <div class="input-append ">
+                                    <input name="person_performed_name" id="person_performed_name" 
+                                           value="<?= $this->person_performed->getName() ?>" 
+                                           disabled="1" 
+                                           placeholder="Use os links ao lado para procurar ou criar uma pessoa" 
+                                           class=" span4" 
+                                           type="text">
+                                    <span class="add-on">
+                                        <a class="cboxElement" id="btnPersonPerformedSearch" 
+                                           href="<?= $urlSearchForm ?>" 
+                                           rel="colorbox-search" 
+                                           search-return-id="person_performed_id" 
+                                           search-return-value="person_performed_name">
+                                            <i class="icon-search" rel="tooltip" data-original-title="Procurar pessoa"></i>
+                                        </a>
+                                    </span>
+                                    <span class="add-on">
+                                        <a class="cboxElement" 
+                                           id="btnPersonDetails"
+                                           element-value-id="person_performed_id"
+                                           href="<?= $urlPersonDetails ?>" 
+                                           rel="colorbox-person-details">
+                                            <i class="icon-user" rel="tooltip" data-original-title="Mostrar detalhes"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>            
+                    </span>
+                    <!--</div>-->
+                    <!-- ASSISTIDO -->
+                    <!--<div class="row">-->
+                    <span class="span12">
+                        <div class="control-group <?= ($form->getElement('person_helped_id')->hasErrors()) ? 'error' : '' ?>">
+                            <label for="person_performed_name" class="control-label optional">Assistido</label>
+                            <div class="controls">
+                                <div class="input-append ">
+                                    <input name="person_helped_name" id="person_helped_name" 
+                                           disabled="1" 
+                                           placeholder="Use os links ao lado para procurar uma pessoa" 
+                                           class=" span4" 
+                                           type="text"
+                                           value="<?= $this->person_helped->getName() ?>"
+                                           >
+                                    <span class="add-on">
+                                        <a class="cboxElement" 
+                                           href="<?= $urlSearchForm ?>" 
+                                           rel="colorbox-search" 
+                                           search-return-id="person_helped_id" 
+                                           search-return-value="person_helped_name"
+                                           search-return-obj-trigger-event="windowCreateActivityAssistance"
+                                           search-return-trigger-event="atualizarImagemAssistido"
+                                           >
+                                            <i class="icon-search" rel="tooltip" data-original-title="Procurar pessoa"></i>
+                                        </a>
+                                    </span>
+                                    <span class="add-on">
+                                        <a class="cboxElement" 
+                                           id="btnPersonDetails"
+                                           element-value-id="person_helped_id"
+                                           href="<?= $urlPersonDetails ?>" 
+                                           rel="colorbox-person-details">
+                                            <i class="icon-user" rel="tooltip" data-original-title="Mostrar detalhes"></i>
+                                        </a>
+                                    </span>
+                                </div>
+
+                                <input 
+                                    name="person_helped_id" 
+                                    type="hidden"
+                                    id="person_helped_id" 
+                                    value="<?= $this->person_helped->getId() ?>"
+                                    />
+                            </div>
+                        </div>            
+                    </span>
+                </div>
+            </span>
+
+            <span class="span5 offset1">
+                <img id="imgPersonHelped" src="#" class="thumbnail pull-right" width="90px" height="90px">
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span12 ">
+                <div class="control-group <?= ($form->getElement('assistance_time')->hasErrors()) ? 'error' : '' ?>">
+                    <label for="assistance_time" class="control-label required">
+                        Hora do atendimento
+                        <i class="icon-question-sign" rel="tooltip" data-original-title="Hora em que foi realizado o atendimento. HH:MM - Time format 23:11:05"></i>
+                    </label>
+                    <div class="controls">
+                        <input name="assistance_time" id="assistance_time" value="<?= Zend_Date::now()->get(Zend_Date::TIME_SHORT) ?>" class=" span2" type="text">
+                    </div>
+                </div>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span12">
+                <?php 
+                    $formDesc = $form->getElement('description');
+                    $formDesc->setAttrib('rows', 2);
+                    echo $formDesc->render();
+                ?>
+            </span>
+        </div>
+
+        <?= $form->getDisplayGroup('actions-end')->render() ?>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Assistido</th>
+                <th></th>
+                <th></th>
+                <th class="hidden-print"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($this->activities as $act) {
+                $act = new Assistance_Model_Activity($act);
+
+                $edit = $this->url(
+                        array('module' => 'assistance', 'controller' => 'activity',
+                    'action' => 'update', 'id' => $act->id), null, true);
+
+                $delete = $this->url(
+                        array('module' => 'assistance', 'controller' => 'activity',
+                    'action' => 'delete', 'id' => $act->id), null, true);
+
+                $urlGetPersonHelped = $this->url(
+                        array('module' => 'persons', 'controller' => 'person',
+                    'action' => 'getgm', 'id' => $act->person_helped_id), null, true);
+                ?>
+                <tr>
+                    <td><?= substr($act->assistance_time, 0, 5); ?></td>
+                    <td>
+                        <a href="<?= $urlGetPersonHelped ?>" load-in="content-container">
+                            <?= $act->getPerson_helped()->getName(); ?>
+                        </a>
+                    </td>
+                    <td>
+                        <?php
+                        $taskName = '';
+                        if (intval($act->getTask_type()->getParent_id()) > 0) {
+                            $parentName = $act->getTask_type()->getParent()->getName();
+                            $taskName .= $parentName . ' :: ';
+                        }
+                        $taskName .= $act->getTask_type()->getName();
+                        echo $taskName;
+                        ?>
+                    </td>
+                    <td><?= $act->getProject()->getName(); ?></td>
+                    <td class='align_center hidden-print'>
+                        <!--
+                        <a class="btn btn-mini btn-info" href="<?php echo ''//$edit;      ?>" load-in="content-container">
+                            <i class="icon-edit"></i> <translate>Edit</translate>
+                        </a>
+
+                        <a class="btn btn-mini btn-danger" href="<?php echo ''; //$delete;      ?>" load-in="content-container">
+                            <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                        </a>
+                        -->
+                    </td>
+                    <td>
+                        <?php
+                        if ($act->getDescription()) {
+                            ?>
+                            <span class="badge badge-info" rel="popover" 
+                                  data-content="<?= nl2br($act->getDescription()) ?>"
+                                  data-placement="left"
+                                  data-html="true">
+                                Descrição                            
+                            </span>
+                        <?php } ?>
+                    </td>
+                    <td>
+                        <?= $this->identifiedByWidget($act->getId_by_finger_key()) ?>
+                    </td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+<?php
+$urlImgPersonHelped = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'image-url'
+        ), null, true);
+?>
+    $('#windowCreateActivityAssistance').on('atualizarImagemAssistido', null, function(ev) {
+        console.log('Chamou atualizar imagem');
+        var urlImgSrc = '<?= $urlImgPersonHelped ?>/id/' + $('#person_helped_id').val();
+        console.log('img src = ' + urlImgSrc);
+        $.ajax({
+            url: urlImgSrc
+        }).done(function(imgUrl) {
+            console.log(imgUrl);
+            $('#imgPersonHelped').attr({src: imgUrl});
+        });
+    });
+</script>

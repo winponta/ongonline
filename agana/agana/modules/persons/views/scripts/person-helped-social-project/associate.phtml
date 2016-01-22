@@ -1,0 +1,58 @@
+<?php
+$title = $this->translate("Person helped") . ' - Associar Programa Social Federal';
+$this->title = $title;
+$this->headTitle($title);
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-credit-card"></i> <?= $this->title; ?></h3>
+    </div>
+    <?= $this->form->render(); ?>
+
+    <h6 class="text-info span4">
+        Programas Sociais Federais
+    </h6>
+    <div class="row">
+        <table class="span12 table table-bordered">                
+            <?php $relSocialProjects = $this->helped->getSocialProjects(); ?>
+            <?php if (!$relSocialProjects) { ?>
+                <tr>
+                    <td>
+                        <h6 class="text-warning"><translate>No one found</translate></h6>
+                    </td>
+                </tr>
+            <?php } else { ?>
+                <thead>
+                    <tr>
+                        <th><translate>Sigla</translate></th>
+                <th><translate>Programa</translate></th>
+                <th><translate>Número</translate></th>
+                </tr>
+                </thead>
+                <?php if (!$relSocialProjects) { ?>
+                    <tr><td>
+                            <h6 class="text-warning"><translate>No one found</translate></h6>
+                        </td></tr>
+                <?php } else { ?>
+                    <?php foreach ($relSocialProjects as $sprj) { ?>
+                        <tr>
+                            <td>
+                                <strong><?= $sprj->getSocialProject()->getSigla(); ?> </strong>
+                            </td>
+                            <td>
+                                <?= $sprj->getSocialProject()->getNome(); ?>
+                            </td>
+                            <td>
+                                <?= $sprj->getNumero(); ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                <?php } ?>
+            </table>
+        <?php } ?>
+    </div>
+</div>

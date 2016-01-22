@@ -1,0 +1,110 @@
+<?php
+$title = $this->translate("Users");
+$this->title = $title;
+$this->headTitle($this->translate("Users"));
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span9"><i class="icon-user"></i> <translate>Users</translate></h3>
+        <?php if (Agana_Acl_Service::isAllowed(Zend_Auth::getInstance()->getIdentity()->acl_role_id, User_Module_Acl::ACL_RESOURCE_USER, User_Module_Acl::ACL_RESOURCE_USER_PRIVILEGE_CREATE)) { ?>
+        <a class="btn pull-right" load-in="content-container" href="<?php
+echo $this->url(
+        array('module' => 'user', 'controller' => 'admin',
+    'action' => 'add'), null, true);
+?>">
+            <i class="icon-plus-sign"></i> <translate>Add new</translate></a>
+        <?php } ?>
+    </div>
+    <div class="window-content">
+        <ul class="nav nav-pills nav-stacked span2">
+            <!-- dropdown menu links -->
+            <li class="<?php echo ($this->listing == 1 ? 'active' : ''); ?>" >
+                <a load-in="content-container" href="<?php
+           echo $this->url(array(
+               'action' => 'list', 'show' => 'active'));
+?>"><translate>Actives</translate></a>    
+            </li>
+            <li  class="<?php echo ($this->listing == 0 ? 'active' : ''); ?>" >
+                <a load-in="content-container" href="<?php
+                   echo $this->url(array(
+                       'action' => 'list', 'show' => 'inactive'));
+?>"><translate>Inactives</translate></a>    
+            </li>
+            <li  class="<?php echo ($this->listing == -1 ? 'active' : ''); ?>" >
+                <a load-in="content-container" href="<?php
+                   echo $this->url(array(
+                       'action' => 'list', 'show' => 'blocked'));
+?>"><translate>Blockeds</translate></a>    
+            </li>
+        </ul>            
+
+        <div class="span12">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th><translate>User name</translate></th>
+                        <th><translate>Person name</translate></th>
+                        <th><translate>Email</translate></th>
+                        <th><translate>User role</translate></th>
+                        <th><translate>Status</translate></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($this->users as $user) {
+                        $profile = $this->url(
+                                array('module' => 'user', 'controller' => 'profile',
+                            'action' => 'index', 'id' => $user->id), null, true);
+
+                        $edit = $this->url(
+                                array('module' => 'user', 'controller' => 'admin',
+                            'action' => 'edit', 'id' => $user->id), null, true);
+//            $edit = 'user/admin/delete/id/' . $user->id;
+
+                        $delete = $this->url(
+                                array('module' => 'user', 'controller' => 'admin',
+                            'action' => 'delete', 'id' => $user->id), null, true);
+
+//            $delete .= '/id/' . $user->uid;
+                        ?>
+                        <tr class="<?php echo $this->cycle(array("light", "dark"))->next(); ?>">
+                            <td><?php echo $user->id; ?></td>
+                            <td><?php echo $user->name; ?></td>
+                            <td><?php echo $user->getPerson()->getName(); ?></td>
+                            <td><?php echo $user->email; ?></td>
+                            <td><?php echo $user->getRole()->getName(); ?></td>
+                            <td class="align_center"><translate><?php echo $this->userStatus($user->status); ?></translate></td>
+                    <td class='align_center'>
+                        <a class="btn btn-mini btn-info" href="<?php echo $profile; ?>" load-in="content-container">
+                            <i class="icon-user"></i> <translate>Profile</translate>
+                        </a>
+                        <?php if (Agana_Acl_Service::isAllowed(
+                                Zend_Auth::getInstance()->getIdentity()->acl_role_id, 
+                                User_Module_Acl::ACL_RESOURCE_USER, 
+                                User_Module_Acl::ACL_RESOURCE_USER_PRIVILEGE_UPDATE)) :
+                            ?>                       
+                        <a class="btn btn-mini btn-warning" href="<?php echo $edit; ?>" load-in="content-container">
+                            <i class="icon-edit"></i> <translate>Edit</translate>
+                        </a>
+                        <?php 
+                            endif;
+                                
+                        if (Agana_Acl_Service::isAllowed(
+                                Zend_Auth::getInstance()->getIdentity()->acl_role_id, 
+                                User_Module_Acl::ACL_RESOURCE_USER, 
+                                User_Module_Acl::ACL_RESOURCE_USER_PRIVILEGE_DELETE)) :
+                            ?>
+                        <a class="btn btn-mini btn-danger" href="<?php echo $delete; ?>" load-in="content-container">
+                            <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                        </a>                    
+                        <?php endif; ?>
+                    </td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>

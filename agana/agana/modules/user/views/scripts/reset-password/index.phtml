@@ -1,0 +1,26 @@
+<?php
+$title = $this->translate("Reset password");
+$this->title = $title;
+$this->headTitle($title);
+?>
+
+<div id="login-container" class="container">
+    <div id="login-inner-container" class="span6 well well-large">
+        <div class="row">
+            <h2 class="span4">ONG online</h2>
+            <a class="pull-right" rel="colorbox" href="<?php echo $this->userguide()->getUrl('user.reset-password.index'); ?>">
+                Help <i class="icon-question-sign"></i>
+            </a>
+
+        </div>
+        <div class="row">
+            <h3 class="span8"><i class="icon-lock"></i> 
+                <?php echo $title; ?>
+            </h3>
+
+        </div>
+        <div class="well">
+            <?php echo $this->form->render(); ?>
+        </div>
+    </div>
+</div>

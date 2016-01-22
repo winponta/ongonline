@@ -1,0 +1,153 @@
+    <?php
+$title = "Relatório Sintético" . ': ' . $this->translate("Assistances by project");
+$this->title = $title;
+$this->headTitle($title);
+
+function openProjectGroup($projectName) {
+?>
+    <table class="mpdf table table-condensed">
+        <thead>
+            <tr style="background: #aaa; font-weight: bold; font-size: 1.2em;"
+                     class="text-left">
+                <th colspan="2">
+                    <translate>Project</translate>: <?=$projectName?>
+                </th>
+            </tr>
+            <tr>
+                <th>Tarefa</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+
+<?php
+} // openProjectHeader
+
+function closeProjectGroup($projectName, $count) {
+ ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style="background: #f0f0f0; font-style: italic; font-weight: bold;">
+                    <!--Número de assistidos alocados no projeto <?=$projectName?> nesta data-->
+                    Atendimentos no projeto <?=$projectName?>: 
+                </td>
+                <td style="background: #f0f0f0; font-style: italic; font-weight: bold;">
+                    <?=$count?>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+<?php
+} // closeProjectHeader
+function openTaskParentGroup($taskParentName) {
+} // openTaskParentGroup
+
+function closeTaskParentGroup($taskParentName, $count) {
+ ?>
+    <tr>
+        <td style="background: #f0f0f0;">
+            Totalizador <strong><?=$taskParentName?></strong>
+        </td>
+        <td style="background: #f0f0f0;">
+            <?=$count?>
+        </td>
+    </tr>
+
+<?php
+} // closeTaskParent
+
+function openTaskGroup($taskName) {
+} // openTaskGroup
+
+function closeTaskGroup($taskName, $count) {
+ ?>
+    <tr>
+        <td>
+            <?=$taskName?> 
+        </td>
+        <td>
+            <?=$count?>
+        </td>
+    </tr>
+
+<?php
+} // closeTask
+
+
+            $project = -1;
+            $task_parent = -1;
+            $task = -1;
+            $projectName = '';
+            $taskParentName = '';
+            $taskName = '';
+            $assistanceDate = '';
+            $countProject = 0;
+            $countTaskParent = 0;
+            $countTask = 0;
+            $countDate = 0;
+            $countTotal = 0;
+            
+            if ($this->format == 'html') echo $this->report->getHeaderTemplate();
+            
+            foreach ($this->records as $rec) {
+                if ($rec['task_id'] != $task) {
+                    if ($task >= 0) {
+                        closeTaskGroup($taskName, $countTask);
+                    }
+                    
+                    $task = $rec['task_id'];
+                    $taskName = $rec['task_name'];
+                    
+                    openTaskGroup($rec['task_name']);
+                    
+                    $countTask = 0;
+                }
+                if ($rec['task_parent_id'] != $task_parent) {
+                    if ($task_parent >= 0) closeTaskParentGroup($taskParentName, $countTaskParent);
+                    
+                    $task_parent = $rec['task_parent_id'];
+                    $taskParentName = $rec['task_parent_name'];
+                    
+                    openTaskParentGroup($rec['task_parent_name']);
+                    
+                    $countTaskParent = 0;
+                    $countTask = 0;
+                }
+                if ($rec['project_id'] != $project) {
+                    if ($project >= 0) closeProjectGroup($projectName, $countProject);
+                    
+                    $project = $rec['project_id'];
+                    $projectName = $rec['project_name'];
+                    
+                    openProjectGroup($rec['project_name']);
+                    
+                    $countProject = 0;
+                    $countTaskParent = 0;
+                    $countTask = 0;
+                }
+                if($rec['person_name'] != NULL) {
+                    $countTotal++;
+                    $countProject++;
+                    $countTaskParent++;
+                    $countTask++;
+                }
+            }
+            closeTaskGroup($taskName, $countTask);
+            closeTaskParentGroup($taskParentName, $countTaskParent);
+            closeProjectGroup($projectName, $countProject);
+        ?>
+
+        <table class='mpdf table'>
+            <tr style="border-top: 10px double #333;">                
+                <td class="text-right">
+                    Total de atendimentos listados neste relatório
+                </td>
+                <td style="text-align: right;" width='3cm;'>
+                    <?=$countTotal?>
+                </td>
+            </tr>
+        </table>
+                
+        <?php if ($this->format == 'html') echo $this->report->getFooterTemplate(); ?>

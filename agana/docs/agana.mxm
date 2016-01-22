@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><Model version="5.0">
+    <Configuration>
+        <Property name="dialect" value="PostgresDialect"/>
+        <Property name="ALIAS" value="PGSQL Health Studio"/>
+        <Property name="DRIVER" value="org.postgresql.Driver"/>
+        <Property name="PASSWORD" value="aefcmfepg"/>
+        <Property name="PROMPTFORPASSWORD" value="false"/>
+        <Property name="URL" value="jdbc:postgresql://localhost:5432/healthstudio"/>
+        <Property name="USER" value="postgres"/>
+    </Configuration>
+    <CustomTypes/>
+    <Domains/>
+    <Tables>
+        <Table id="de6c00a7-e285-49ad-be9a-5ea4bdf85659" name="user" schema="">
+            <Property name="LOCATION" value="40:480"/>
+            <Comment>User of the system</Comment>
+            <Attribute datatype="serial" defaultvalue="nextval('user_id_seq'::regclass)" extra="" fraction="0" id="e682aeaa-75e6-46e7-8793-90c86f14b027" name="id" nullable="false" scale="10" size="10"/>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="df1a5886-d6eb-45a8-9a55-21759d9d8d60" name="name" nullable="false" scale="10" size="64"/>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="e72d41d9-7997-42ff-9317-6b33aa772807" name="email" nullable="false" scale="10" size="255"/>
+            <Attribute datatype="bpchar" defaultvalue="" extra="" fraction="0" id="ff3497d4-3a0b-44f8-9b9b-22baa9bcc923" name="pwd" nullable="false" scale="10" size="32"/>
+            <Attribute datatype="timestamp" defaultvalue="" extra="" fraction="6" id="3c10e4ad-d822-48bc-8936-9c0c830d97b7" name="created" nullable="false" scale="10" size="29"/>
+            <Attribute datatype="timestamp" defaultvalue="" extra="" fraction="6" id="a906590b-4d8f-45fa-98f6-b832e2a94370" name="last_login" nullable="true" scale="10" size="29"/>
+            <Attribute datatype="int2" defaultvalue="" extra="" fraction="0" id="b4d540f0-836b-4dbe-a923-1381c53576cd" name="status" nullable="false" scale="10" size="5">
+                <Comment>Status of the user account. 
+
+-1 	= Blocked
+0 	= Not yet activated
+1	= Active</Comment>
+            </Attribute>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="216d71c0-ce59-4223-8ea8-be8ab07ee491" name="rnd_salt" nullable="false" scale="10" size="32">
+                <Comment>Randomic salt to generate the encripted password with MD5</Comment>
+            </Attribute>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="c9d743c0-1d1c-4280-96c6-81a7ed3c14cc" name="person_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="082a5d8b-d092-418d-a085-f3b0f7602bc2" name="appaccount_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="d4b9446c-efc5-4fcd-8ef5-d4e6f928d38d" name="objid" nullable="false" scale="10" size="19"/>
+            <Index id="878c5506-271c-423f-9b75-b0a818291753" indextype="PRIMARYKEY" name="user_pk">
+                <Indexattribute attributerefid="e682aeaa-75e6-46e7-8793-90c86f14b027" id="e9b0681b-7e55-4b9c-8edf-7f18956c33ee"/>
+            </Index>
+            <Index id="2e6a5d3d-ecfd-4099-a990-960779a175a8" indextype="UNIQUE" name="user_idx_email">
+                <Indexattribute attributerefid="e72d41d9-7997-42ff-9317-6b33aa772807" id="0830aa87-ad5b-4bf2-b6ed-1ffefaf53e25"/>
+            </Index>
+            <Index id="9cac7244-c0f5-4832-9e01-cfdc9e7fe5b6" indextype="UNIQUE" name="user_idx_objid">
+                <Indexattribute attributerefid="d4b9446c-efc5-4fcd-8ef5-d4e6f928d38d" id="d1e51ccb-33ad-452f-8172-1a86f73c6756"/>
+            </Index>
+        </Table>
+        <Table id="55ac5486-ca68-4c19-94b8-e13ec7174fcb" name="objectidentity" schema="">
+            <Property name="LOCATION" value="770:610"/>
+            <Attribute datatype="bigserial" defaultvalue="nextval('objectidentity_objid_seq'::regclass)" extra="" fraction="0" id="a701fd8b-60a7-4733-9c40-0a15ea14b304" name="objid" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="d4f3e6a0-d239-4a98-a526-f80b5f36235c" name="tablename" nullable="false" scale="10" size="60">
+                <Comment>Table name of the object referenced</Comment>
+            </Attribute>
+            <Index id="3fbb3764-9173-4e1a-8156-697ad99f6ddd" indextype="PRIMARYKEY" name="obj_pk">
+                <Indexattribute attributerefid="a701fd8b-60a7-4733-9c40-0a15ea14b304" id="06395180-107a-4d36-9325-12926fba1415"/>
+            </Index>
+            <Index id="b0e724d3-335f-4f4f-87ed-af3f863a1262" indextype="NONUNIQUE" name="obj_idx_table">
+                <Indexattribute attributerefid="d4f3e6a0-d239-4a98-a526-f80b5f36235c" id="e4e4f003-7122-4227-a3fb-7a155dbfb258"/>
+            </Index>
+        </Table>
+        <Table id="7e8c7039-2be7-4388-8553-f1733fa908d7" name="media" schema="">
+            <Property name="LOCATION" value="40:230"/>
+            <Attribute datatype="bigserial" defaultvalue="nextval('media_id_seq'::regclass)" extra="" fraction="0" id="9ce1e65b-ed23-42c4-aacf-24691cd781f4" name="id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="varchar" defaultvalue="'No title specified'::character varying" extra="" fraction="0" id="f507efe6-1106-45ab-9273-c959db1da667" name="title" nullable="false" scale="10" size="140"/>
+            <Attribute datatype="varchar" defaultvalue="'/'::character varying" extra="" fraction="0" id="2af3e812-ef12-4e51-b0ca-dd8aa4b18d66" name="folder" nullable="true" scale="10" size="140">
+                <Comment>The sub folders tree, can be something like: /person/logo</Comment>
+            </Attribute>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="7659ca73-e77b-4fd3-891b-81c2732018dc" name="file" nullable="false" scale="10" size="140">
+                <Comment>The name and extension of the file: user-1.png</Comment>
+            </Attribute>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="a5aad449-d4f8-49ad-878a-36cace728674" name="filesize" nullable="false" scale="10" size="19">
+                <Comment>The size in bytes of the file</Comment>
+            </Attribute>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="4113f792-60db-47cd-83a0-02accd7e16dd" name="objid" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="394a35ab-8ae8-4980-ad9a-77852cd627be" name="mimetype" nullable="false" scale="10" size="50"/>
+            <Index id="ab528d71-c011-4eb2-8f56-4bc94f6b547d" indextype="PRIMARYKEY" name="media_pk">
+                <Indexattribute attributerefid="9ce1e65b-ed23-42c4-aacf-24691cd781f4" id="3c627825-8e04-42b5-a9db-7bae1fb8ae6b"/>
+            </Index>
+        </Table>
+        <Table id="9bca4c3a-a9d6-48b1-bda4-e71253b93855" name="appaccount" schema="">
+            <Property name="LOCATION" value="390:480"/>
+            <Comment>The owners of accounts in the system</Comment>
+            <Attribute datatype="bigserial" defaultvalue="nextval('appaccount_id_seq'::regclass)" extra="" fraction="0" id="e647bbb1-98b6-4886-aa4b-20e2651f434d" name="id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="7e1924fb-87de-46b4-ad3d-b711bf3f20e2" name="name" nullable="false" scale="10" size="120"/>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="c4318372-f809-4879-ac0f-bb200aaf532e" name="email" nullable="false" scale="10" size="255"/>
+            <Attribute datatype="timestamp" defaultvalue="" extra="" fraction="6" id="ce34b24f-f10b-4723-8896-5c80db08e492" name="created" nullable="false" scale="10" size="29"/>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="27995011-77ee-447e-99a6-30f590d5328b" name="objid" nullable="false" scale="10" size="19"/>
+            <Index id="965abb4e-9661-47fc-a929-847508c72077" indextype="PRIMARYKEY" name="appaccount_pk">
+                <Indexattribute attributerefid="e647bbb1-98b6-4886-aa4b-20e2651f434d" id="b0232d1e-dc80-4ede-92c8-6dd84c399f04"/>
+            </Index>
+            <Index id="f79d3e37-f068-434b-b5f0-7c7f57845fb9" indextype="UNIQUE" name="appaccount_idx_name">
+                <Indexattribute attributerefid="7e1924fb-87de-46b4-ad3d-b711bf3f20e2" id="1788c56c-b7da-4e83-a6ae-2833d75ef660"/>
+            </Index>
+        </Table>
+        <Table id="82cbcec1-5a0f-4623-ad39-f5f0b0d22db4" name="person" schema="">
+            <Property name="LOCATION" value="390:230"/>
+            <Comment>The Person (customer, client, vendor, fabricant, employe, student, user) basic data.
+It's tight related to user table</Comment>
+            <Attribute datatype="bigserial" defaultvalue="nextval('person_id_seq'::regclass)" extra="" fraction="0" id="34aae930-d553-4355-b366-d68171af8b08" name="id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="varchar" defaultvalue="" extra="" fraction="0" id="b49c2135-b6c0-41f6-89b2-7c4d51ef4132" name="name" nullable="false" scale="10" size="120"/>
+            <Attribute datatype="timestamp" defaultvalue="" extra="" fraction="6" id="53bae2f4-4c38-4836-b1b0-a7331c865764" name="created" nullable="false" scale="10" size="29"/>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="396c8f9f-8fc0-4ac3-a929-e9c501fb03a7" name="objid" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="ff28da2e-54a2-4f7e-b442-b97bc31c3468" name="appaccount_id" nullable="false" scale="10" size="19"/>
+            <Index id="fa9c1e90-50b3-4f44-bf03-a81836f5265b" indextype="PRIMARYKEY" name="person_pk">
+                <Indexattribute attributerefid="34aae930-d553-4355-b366-d68171af8b08" id="fdc3ee9e-bd6c-443b-bbd9-d5f9b004aae0"/>
+            </Index>
+        </Table>
+        <Table id="185cba4f-11da-44f1-9ab4-77d5d16cf99a" name="person_media" schema="">
+            <Property name="LOCATION" value="40:60"/>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="24896b96-1a54-4ead-8878-c5594f43b87b" name="person_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="int8" defaultvalue="" extra="" fraction="0" id="8a5f5ff3-8e33-4461-9683-4e9859dbdc09" name="media_id" nullable="false" scale="10" size="19"/>
+            <Index id="f5906f2f-121b-4b8b-9d53-1caac57cb6da" indextype="PRIMARYKEY" name="person_media_pk">
+                <Indexattribute attributerefid="24896b96-1a54-4ead-8878-c5594f43b87b" id="c972851d-8a80-42da-8ed5-6d2e08a44076"/>
+                <Indexattribute attributerefid="8a5f5ff3-8e33-4461-9683-4e9859dbdc09" id="d05761ed-2606-42f2-9f2f-68c31c3b015e"/>
+            </Index>
+        </Table>
+    </Tables>
+    <Relations>
+        <Relation exportingtablerefid="9bca4c3a-a9d6-48b1-bda4-e71253b93855" id="e38a860e-6683-4e46-9333-c6e4f8c57864" importingtablerefid="de6c00a7-e285-49ad-be9a-5ea4bdf85659" name="appaccount_user_fk" ondelete="RESTRICT" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="b0232d1e-dc80-4ede-92c8-6dd84c399f04" importingattributerefid="082a5d8b-d092-418d-a085-f3b0f7602bc2"/>
+        </Relation>
+        <Relation exportingtablerefid="82cbcec1-5a0f-4623-ad39-f5f0b0d22db4" id="a83d8625-8364-4778-b747-2745300d35cd" importingtablerefid="de6c00a7-e285-49ad-be9a-5ea4bdf85659" name="person_user_fk" ondelete="RESTRICT" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="fdc3ee9e-bd6c-443b-bbd9-d5f9b004aae0" importingattributerefid="c9d743c0-1d1c-4280-96c6-81a7ed3c14cc"/>
+        </Relation>
+        <Relation exportingtablerefid="9bca4c3a-a9d6-48b1-bda4-e71253b93855" id="ddb57ae5-e33d-426e-8806-9794e089b6b8" importingtablerefid="82cbcec1-5a0f-4623-ad39-f5f0b0d22db4" name="appaccount_person_fk" ondelete="CASCADE" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="b0232d1e-dc80-4ede-92c8-6dd84c399f04" importingattributerefid="ff28da2e-54a2-4f7e-b442-b97bc31c3468"/>
+        </Relation>
+        <Relation exportingtablerefid="7e8c7039-2be7-4388-8553-f1733fa908d7" id="9a526dc7-b53c-46de-9b67-bfd5fee2aa15" importingtablerefid="185cba4f-11da-44f1-9ab4-77d5d16cf99a" name="media_person_media_fk" ondelete="RESTRICT" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="3c627825-8e04-42b5-a9db-7bae1fb8ae6b" importingattributerefid="8a5f5ff3-8e33-4461-9683-4e9859dbdc09"/>
+        </Relation>
+        <Relation exportingtablerefid="82cbcec1-5a0f-4623-ad39-f5f0b0d22db4" id="de6750c0-0893-41c5-9a98-5013a22b1b0c" importingtablerefid="185cba4f-11da-44f1-9ab4-77d5d16cf99a" name="person_person_media_fk" ondelete="CASCADE" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="fdc3ee9e-bd6c-443b-bbd9-d5f9b004aae0" importingattributerefid="24896b96-1a54-4ead-8878-c5594f43b87b"/>
+        </Relation>
+    </Relations>
+    <Views>
+        <View id="0bfb6289-f3f9-4915-9c0c-a01a613d0fa8" name="v_user_person">
+            <Property name="LOCATION" value="400:660"/>
+            <Sql>SELECT u.id, u.name, u.email, u.pwd, u.created, u.last_login, u.status, u.rnd_salt, u.person_id, u.appaccount_id, u.objid, p.name AS person_name, p.created AS person_created, p.objid AS person_objid, m.title AS media_title, m.folder AS media_folder, m.file AS media_file, m.objid AS media_objid FROM ((("user" u JOIN person p ON ((u.person_id = p.id))) LEFT JOIN person_media pm ON ((p.id = pm.person_id))) LEFT JOIN media m ON ((pm.media_id = m.id)))</Sql>
+        </View>
+    </Views>
+    <Subjectareas>
+        <Subjectarea color="-4144960" expanded="true" id="16f067e4-a094-4b72-a298-23bc4902c34b" name="Person" visible="true">
+            <Item tablerefid="185cba4f-11da-44f1-9ab4-77d5d16cf99a"/>
+            <Item tablerefid="de6c00a7-e285-49ad-be9a-5ea4bdf85659"/>
+            <Item tablerefid="9bca4c3a-a9d6-48b1-bda4-e71253b93855"/>
+            <Item tablerefid="7e8c7039-2be7-4388-8553-f1733fa908d7"/>
+            <Item tablerefid="82cbcec1-5a0f-4623-ad39-f5f0b0d22db4"/>
+            <Item viewrefid="0bfb6289-f3f9-4915-9c0c-a01a613d0fa8"/>
+        </Subjectarea>
+    </Subjectareas>
+    <Comments/>
+</Model>

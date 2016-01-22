@@ -1,0 +1,95 @@
+<?php
+$title = 'Eventos de Assistência';
+$this->title = $title;
+$this->headTitle($this->title);
+
+$urlNewEventActivity = $this->url(
+        array('module' => 'assistance', 'controller' => 'event',
+    'action' => 'create'), null, true);
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span8"><i class="icon-group"></i> Eventos de Assistência</h3>
+        <a class="btn span3 hidden-print" load-in="content-container" href="<?= $urlNewEventActivity ?>">
+            <i class="icon-plus-sign"></i> 
+            <i class="icon-group"></i> 
+            Novo evento
+        </a>
+    </div>
+    <div class="window-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Data</th>
+                    <th>Tipo de Tarefa</th>
+                    <th>Projeto</th>
+                    <th class="align_center">Atendimentos</th>
+                    <th></th>
+            <th class="hidden-print"></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->events as $act) {
+                    $edit = $this->url(
+                            array('module' => 'assistance', 'controller' => 'activity',
+                        'action' => 'update', 'id' => $act->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'assistance', 'controller' => 'activity',
+                        'action' => 'delete', 'id' => $act->id), null, true);
+                    
+                    $urlListEventActivities = $this->url(
+                            array('module' => 'assistance', 'controller' => 'event',
+                        'action' => 'list-activities', 'id' => $act->id), null, true);
+                    
+                    $urlNewEventActivity = $this->url(
+                            array('module' => 'assistance', 'controller' => 'event',
+                        'action' => 'create-activity', 'id' => $act->id), null, true);
+                ?>
+                <tr>
+                    <td><?= $act->id; ?></td>
+                    <td><?= $this->date($act->event_date, Zend_Date::DATE_MEDIUM); ?></td>
+                    <td>
+                        <?php 
+                        $taskName = '';
+                        if (intval($act->getTask_type()->getParent_id())>0) {
+                            $parentName = $act->getTask_type()->getParent()->getName();
+                            $taskName .= $parentName . ' :: ' ;
+                        }
+                        $taskName .= $act->getTask_type()->getName(); 
+                        echo $taskName;
+                        ?>
+                    </td>
+                    <td><?= $act->getProject()->getName(); ?></td>
+                    <td class='text-center'><?= $act->getTotalActivities(); ?></td>
+                    <td class='align_center hidden-print'>
+                        <a class="btn btn-mini btn-info" load-in="content-container"
+                            href="<?= $urlListEventActivities; ?>">
+                            <i class="icon-list"></i> 
+                            Listar
+                        </a>
+
+                        <a class="btn btn-mini btn-success" load-in="content-container"
+                            href="<?= $urlNewEventActivity; ?>">
+                            <i class="icon-plus-sign"></i> 
+                            Lançar
+                        </a>
+
+                        <!--
+                        <a class="btn btn-mini btn-info" href="<?php echo ''//$edit; ?>" load-in="content-container">
+                            <i class="icon-edit"></i> <translate>Edit</translate>
+                        </a>
+
+                        <a class="btn btn-mini btn-danger" href="<?php echo ''; //$delete; ?>" load-in="content-container">
+                            <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                        </a>
+                        -->
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>

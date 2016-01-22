@@ -1,0 +1,79 @@
+<?php
+$title = $this->translate("Projects");
+$this->title = $title;
+$this->headTitle($title);
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span9"><i class="icon-folder-close"></i> <?php echo $title;?></h3>
+        <a class="btn pull-right" load-in="content-container" href="<?php
+echo $this->url(
+        array('module' => 'project', 'controller' => 'admin',
+    'action' => 'create'), null, true);
+?>">
+            <i class="icon-plus-sign"></i> <translate>Add new</translate></a>
+    </div>
+    <div class="window-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th></th>
+                    <th><translate>Name</translate></th>
+                    <th><translate>Start expected</translate></th>
+                    <th><translate>Start real</translate></th>
+                    <th><translate>Finish expected</translate></th>
+                    <th><translate>Finish real</translate></th>
+                    <th><translate>Abstract</translate></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->projects as $acc) {
+                    $details= $this->url(
+                            array('module' => 'project', 'controller' => 'admin',
+                        'action' => 'get', 'id' => $acc->id), null, true);
+
+                    $edit = $this->url(
+                            array('module' => 'project', 'controller' => 'admin',
+                        'action' => 'update', 'id' => $acc->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'project', 'controller' => 'admin',
+                        'action' => 'delete', 'id' => $acc->id), null, true);
+
+                    ?>
+                    <tr>
+                        <td><?= $acc->id; ?></td>
+                        <td><?= $this->projectStatus()->html($acc->getStatus()); ?></td>
+                        <td><?= $acc->name; ?></td>
+                        <td><?= $this->date($acc->startdateexpected, Zend_Date::DATE_MEDIUM); ?></td>
+                        <td><?= $this->date($acc->startdatereal, Zend_Date::DATE_MEDIUM); ?></td>
+                        <td><?= $this->date($acc->finishdateexpected, Zend_Date::DATE_MEDIUM); ?></td>
+                        <td><?= $this->date($acc->finishdatereal, Zend_Date::DATE_MEDIUM); ?></td>
+                        <td>
+                            <?php if($acc->abstract) { ?>
+                            <span class="badge badge-info" rel="popover" 
+                                  data-html="true"
+                                  data-title="<translate>Abstract</translate>" 
+                                  data-content="<?php echo nl2br($acc->abstract) ?>"><i class="icon-info-sign"></i> <translate>More info</translate></span></td>
+                            <?php } ?>
+                                  
+                <td class='align_center'>
+                    <a class="btn btn-mini btn-info" href="<?php echo $details; ?>" load-in="content-container">
+                        <i class="icon-folder-open"></i> <translate>Details</translate>
+                    </a>
+                    <a class="btn btn-mini btn-primary" href="<?php echo $edit; ?>" load-in="content-container">
+                        <i class="icon-edit"></i> <translate>Edit</translate>
+                    </a>
+                    <a class="btn btn-mini btn-danger" href="<?php echo $delete; ?>" load-in="content-container">
+                        <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                    </a>                    
+                </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>

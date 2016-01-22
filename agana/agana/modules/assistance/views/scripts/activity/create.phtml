@@ -1,0 +1,184 @@
+<?php
+$title = 'Atendimento de assistência';
+$this->title = $title . ' - ' . $this->translate("Add new");
+$this->headTitle($title);
+$this->form->setAction($this->url());
+$form = $this->form;
+
+$urlSearchForm = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'search-form'
+        ));
+
+$urlPersonDetails = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'get',
+        ));
+?>
+
+<div class="window" ng-controller="AssistanceController" id="windowCreateActivityAssistance">
+    <div class="window-header">
+        <h3><i class="icon-food"></i> <?php echo $this->title; ?></h3>
+    </div>
+    <form id="person" 
+          class=" form-horizontal well" 
+          action="<?= $this->form->getAction() ?>" 
+          load-in="content-container" 
+          method="post" 
+          enctype="application/x-www-form-urlencoded" 
+          name="atividade_assistencia">
+
+        <?= $form->getElement('id_by_finger_key')->render() ?>
+        <input type="hidden" name="person_recorded_id" value="<?= $this->person_recorded->getId() ?>"/>
+        <input type="hidden" name="person_performed_id" id="person_performed_id" value="<?= $this->person_performed->getId() ?>"/>
+
+
+        <div class="row">
+            <span class="span6">
+                <!-- ATENDENTE -->
+                <div class="row">
+                    <span class="span12">
+                        <div class="control-group <?= ($form->getElement('person_performed_id')->hasErrors()) ? 'error' : '' ?>">
+                            <label for="person_performed_name" class="control-label optional">Atendente</label>
+                            <div class="controls">
+                                <div class="input-append ">
+                                    <input name="person_performed_name" id="person_performed_name" 
+                                           value="<?= $this->person_performed->getName() ?>" 
+                                           disabled="1" 
+                                           placeholder="Use os links ao lado para procurar ou criar uma pessoa" 
+                                           class=" span4" 
+                                           type="text">
+                                    <span class="add-on">
+                                        <a class="cboxElement" id="btnPersonPerformedSearch" 
+                                           href="<?= $urlSearchForm ?>" 
+                                           rel="colorbox-search" 
+                                           search-return-id="person_performed_id" 
+                                           search-return-value="person_performed_name">
+                                            <i class="icon-search" rel="tooltip" data-original-title="Procurar pessoa"></i>
+                                        </a>
+                                    </span>
+                                    <span class="add-on">
+                                        <a class="cboxElement" 
+                                           id="btnPersonDetails"
+                                           element-value-id="person_performed_id"
+                                           href="<?= $urlPersonDetails ?>" 
+                                           rel="colorbox-person-details">
+                                            <i class="icon-user" rel="tooltip" data-original-title="Mostrar detalhes"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <p class="help-block">
+                                    Pessoa que realizou o atendimento/atividade com o assistido
+                                </p>
+                            </div>
+                        </div>            
+                    </span>
+                    <!--</div>-->
+                    <!-- ASSISTIDO -->
+                    <!--<div class="row">-->
+                    <span class="span12">
+                        <div class="control-group <?= ($form->getElement('person_helped_id')->hasErrors()) ? 'error' : '' ?>">
+                            <label for="person_performed_name" class="control-label optional">Assistido</label>
+                            <div class="controls">
+                                <div class="input-append ">
+                                    <input name="person_helped_name" id="person_helped_name" 
+                                           disabled="1" 
+                                           placeholder="Use os links ao lado para procurar uma pessoa" 
+                                           class=" span4" 
+                                           type="text"
+                                           value="<?= $this->person_helped->getName() ?>"
+                                           >
+                                    <span class="add-on">
+                                        <a class="cboxElement" 
+                                           href="<?= $urlSearchForm ?>" 
+                                           rel="colorbox-search" 
+                                           search-return-id="person_helped_id" 
+                                           search-return-value="person_helped_name"
+                                           search-return-obj-trigger-event="windowCreateActivityAssistance"
+                                           search-return-trigger-event="atualizarImagemAssistido"
+                                           >
+                                            <i class="icon-search" rel="tooltip" data-original-title="Procurar pessoa"></i>
+                                        </a>
+                                    </span>
+                                    <span class="add-on">
+                                        <a class="cboxElement" 
+                                           id="btnPersonDetails"
+                                           element-value-id="person_helped_id"
+                                           href="<?= $urlPersonDetails ?>" 
+                                           rel="colorbox-person-details">
+                                            <i class="icon-user" rel="tooltip" data-original-title="Mostrar detalhes"></i>
+                                        </a>
+                                    </span>
+                                </div>
+
+                                <input 
+                                    name="person_helped_id" 
+                                    type="hidden"
+                                    id="person_helped_id" 
+                                    value="<?= $this->person_helped->getId() ?>"
+                                    />
+                            </div>
+                        </div>            
+                    </span>
+                </div>
+            </span>
+
+            <span class="span5 offset1">
+                <img id="imgPersonHelped" src="#" class="thumbnail pull-right" width="90px" height="90px">
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span4">
+                <?= $form->getElement('assistance_date')->render() ?>
+            </span>
+            <span class="span4 ">
+                <?= $form->getElement('assistance_time')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span12">
+                <?= $form->getElement('project_id')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span12">
+                <?= $form->getElement('task_type_id')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span12">
+                <?= $form->getElement('description')->render() ?>
+            </span>
+        </div>
+
+        <?= $form->getDisplayGroup('actions-end')->render() ?>
+    </form>
+</div>
+
+<script>
+    <?php
+        $urlImgPersonHelped = $this->url(array(
+                'module' => 'persons',
+                'controller' => 'person',
+                'action' => 'image-url'
+            ), null, true);
+
+    ?>
+    $('#windowCreateActivityAssistance').on('atualizarImagemAssistido', null, function(ev) {
+        console.log('Chamou atualizar imagem');
+        var urlImgSrc = '<?= $urlImgPersonHelped ?>/id/' + $('#person_helped_id').val();
+        console.log('img src = ' + urlImgSrc);
+        $.ajax({
+            url: urlImgSrc
+        }).done(function(imgUrl) {
+            console.log(imgUrl);
+            $('#imgPersonHelped').attr({src: imgUrl});
+        });
+    });
+</script>

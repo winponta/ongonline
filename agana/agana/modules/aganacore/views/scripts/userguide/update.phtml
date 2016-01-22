@@ -1,0 +1,45 @@
+<?php
+$title = $this->translate("User guide");
+$this->title = $title . ' - ' . $this->translate("Edit page");
+$this->headTitle($this->translate("User guide"));
+if (isset($this->form)) {
+    $form = new Zend_Form();
+    $form = $this->form;
+    $form->setAction($this->url());
+}
+?>
+
+<div class="container-fluid">
+    <h6 class="row-fluid"><translate>System Help</translate> :: <?php echo $this->page['name']; ?></h6>
+
+    <div class="row-fluid">
+        <h3 class="span10"><i class="icon-book"></i> <?php echo $this->title; ?></h3>
+        <ul class="span2 nav nav-pills">
+            <li>
+                <!--<a href="<?php echo $this->userguide()->getUrl($this->page['name']); ?>"><i class="icon-eye-open"></i> See this page</a>-->
+                <?php
+                echo $this->userguide()->getLink(
+                        $this->page['name'], array('text' => 'See this page')
+                );
+                ?>
+            </li>
+        </ul>
+    </div>
+    <?php
+    echo $this->guideContent;
+
+    if (isset($this->form))
+        echo $this->form->render();
+    ?>
+</div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl() . $this->path_vendor; ?>/markitup/jquery.markitup.js">
+</script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() . $this->path_vendor; ?>/markitup/sets/html/set.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl() . $this->path_vendor; ?>/markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl() . $this->path_vendor; ?>/markitup/sets/html/style.css" />
+
+<script type="text/javascript" >
+    $("form#userguide #content").markItUp(mySettings);
+</script>

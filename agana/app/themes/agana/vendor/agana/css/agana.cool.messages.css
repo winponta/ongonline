@@ -1,0 +1,72 @@
+/*********** MESSAGE BLOCKS ***************/
+/*#app-messages .close {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-image: url("data:image/gif;base64,R0lGODlhIAAgAPf/AP//////zP//mf//Zv//M///AP/M///MzP/Mmf/MZv/MM//MAP+Z//+ZzP+Zmf+ZZv+ZM/+ZAP9m//9mzP9mmf9mZv9mM/9mAP8z//8zzP8zmf8zZv8zM/8zAP8A//8AzP8Amf8AZv8AM/8AAMz//8z/zMz/mcz/Zsz/M8z/AMzM/8zMzMzMmczMZszMM8zMAMyZ/8yZzMyZmcyZZsyZM8yZAMxm/8xmzMxmmcxmZsxmM8xmAMwz/8wzzMwzmcwzZswzM8wzAMwA/8wAzMwAmcwAZswAM8wAAJn//5n/zJn/mZn/Zpn/M5n/AJnM/5nMzJnMmZnMZpnMM5nMAJmZ/5mZzJmZmZmZZpmZM5mZAJlm/5lmzJlmmZlmZplmM5lmAJkz/5kzzJkzmZkzZpkzM5kzAJkA/5kAzJkAmZkAZpkAM5kAAGb//2b/zGb/mWb/Zmb/M2b/AGbM/2bMzGbMmWbMZmbMM2bMAGaZ/2aZzGaZmWaZZmaZM2aZAGZm/2ZmzGZmmWZmZmZmM2ZmAGYz/2YzzGYzmWYzZmYzM2YzAGYA/2YAzGYAmWYAZmYAM2YAADP//zP/zDP/mTP/ZjP/MzP/ADPM/zPMzDPMmTPMZjPMMzPMADOZ/zOZzDOZmTOZZjOZMzOZADNm/zNmzDNmmTNmZjNmMzNmADMz/zMzzDMzmTMzZjMzMzMzADMA/zMAzDMAmTMAZjMAMzMAAAD//wD/zAD/mQD/ZgD/MwD/AADM/wDMzADMmQDMZgDMMwDMAACZ/wCZzACZmQCZZgCZMwCZAABm/wBmzABmmQBmZgBmMwBmAAAz/wAzzAAzmQAzZgAzMwAzAAAA/wAAzAAAmQAAZgAAM+4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABEAAADuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEe7u7t3d3bu7u6qqqoiIiHd3d1VVVURERCIiIv///wD/ACH5BAEKAP8ALAAAAAAgACAAAAj/AP8JHEjwn7+DCP0VXMiQYMKH/urZq9ewokGIGFfYs+jwYb0V+EKuqJew3j2KFh/ay8eqn0uXrPbdS4hvY8OHLF/qfLnPHkIrNhcirBdop1GYKw7Wyxd0YEJ9R6Oy8ulvRT6UAmlG3cqPpL98+DpGbMnzHlmX/Fbs02nl4IpAQX/q3EfSHtmuEfm9ZIUwUNiLB9e+zIfQLt6DRV8m/apv49CzLvEV9uoPqk7C/vAFWgHY3lHJDy3rDHTw3r6whaPORJjv6D63+6xQ9mz08EG7RklX3cf08U7bhSH3w4yPN9XAOm3rA+0P90vQ+Yz/84pPJ3PLzAX3Y+U1UOyNVOudp2WVVHQ/yYldYrbHzy9FytX36t0JmfvBfPz03Ru4uPLWo6uxxxtnAk2EkHlbsXJdezURtNpBVgj3W3/48DNgQfUw11xOv8mG0D0WLtdUgR4mBFI+VtT0UIX7iNjQSv1hVJg+IVpB4Iv55BOjSviFiM9IHGUYSCBg3bPCiYHwYyGRDXI0kD346OPdPlRSGYg+YGnk5EL2gGRFjijiY+SIW2Joz5kTORkQADs%3D");
+}*/
+
+#app-messages i {
+    float: left;
+    font-size: 24px;
+}
+
+#app-messages li {
+    list-style: none;
+}
+
+#app-messages div ul {
+    padding-left: 24px;    
+}
+
+#app-messages div ul li {
+    list-style: url('../img/list-item.png');
+}
+
+#app-messages .notice, #app-messages .success, #app-messages .warning, #app-messages .error, #app-messages .validation {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+#app-messages .notice {
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('../img/notice.png');
+}
+
+#app-messages .success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    background-image:url('../img/success.png');
+}
+#app-messages .warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('../img/warning.png');
+}
+#app-messages .error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('../img/error.png');
+}
+#app-messages .validation {
+    color: #D63301;
+    background-color: #FFCCBA;
+    background-image: url('../img/validation.png');
+}
+
+#app-messages .close_message {
+    color: #666;
+    font-size: 0.7em;
+    border: 1px solid #999;
+    background-color: #ddd;
+    padding: 0.2em;
+    margin: 0;
+    width: 50%;
+}

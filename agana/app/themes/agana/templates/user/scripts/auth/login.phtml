@@ -1,0 +1,62 @@
+<?php
+$this->headTitle('Login');
+
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+
+$errorsMessages = $form->getMessages();
+?>
+
+<div id="login-container" class="container">
+    <div id="login-inner-container" class="span6 well well-large">
+        <div class="row">
+        <h2 class="span4">ONG online</h2>
+        <a class="pull-right" rel="colorbox" href="<?php echo $this->userguide()->getUrl('user.auth.login'); ?>">
+            <i class="icon-question-sign"></i> Help
+        </a>
+        </div>
+        Por favor autentique-se para utilizar o aplicativo.
+        <form class="well" method="POST" action="<?php echo $form->getAction(); ?>">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="name"><translate>User name</translate></label>
+                    <div class="controls">
+                        <input type="text" name="name" id="name"
+                               value="<?php echo $form->getElement('name')->getValue(); ?>">
+                               <?php echo $this->showFormElementMessages($form, 'name'); ?>                    
+                    </div>
+                    <span class="help-block"><?php echo $form->getElement('name')->getAttrib('title'); ?></span>
+                </div>
+
+                <label><translate>Password</translate></label>
+                <input class="error" type="password" name="pwd" id="pwd">
+                <?php echo $this->showFormElementMessages($form, 'pwd'); ?>
+            </fieldset>
+            <button type="submit" class="btn"><translate>Login</translate></button>
+        </form>
+    </div>
+</div>
+
+<img src="<?php echo $this->baseUrl() . $this->path_img; ?>/logo.png"
+     style="position: fixed; right: 10%; bottom: 30%">
+
+<script>
+    var h = $('.navbar .navbar-fixed-top').height();
+    h = $('body').height() - h;
+    $('body').css({
+        'background-image': 'url(<?php echo $this->baseUrl() . $this->path_img; ?>/bg.png)',
+        'background-color': ' #fc0'
+    });  
+    
+    $('#name').focus();
+    
+    $('#login-container').css({
+       'background-color':'#eee'
+    });
+
+$('#login-inner-container').css({
+       'position':'fixed',
+       'top' : '15%'
+    });
+</script>

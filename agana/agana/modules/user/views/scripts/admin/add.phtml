@@ -1,0 +1,111 @@
+<?php
+$title = $this->translate("Users");
+$this->title = $title . ' - ' . $this->translate("Add new user");
+$this->headTitle($this->translate("Users"));
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-user"></i> <?php echo $this->title; ?></h3>
+    </div>
+    <?php echo $this->form->render(); ?>
+</div>
+
+<!--    <form class="form-horizontal" method="POST" action="<?php echo $form->getAction($this->url()); ?>">
+        <fieldset class="well">
+            <legend><translate>User data</translate></legend>
+
+             NAME 
+<?php $element = $form->getElement('name'); ?>
+            <div class="control-group">
+                <label class="control-label" for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+                <div class="controls">
+                    <input  class="span4"
+                            name='<?php echo $element->getName(); ?>' id='<?php echo $element->getName(); ?>' type="<?php echo $element->getType(); ?>"
+                            maxlength="<?php echo $element->getAttrib('maxlength'); ?>"
+                            size="<?php echo $element->getValidator('maxlength'); ?>"/>
+                </div>
+            </div>
+
+             EMAIL 
+<?php $element = $form->getElement('email'); ?>
+            <div class="control-group">
+                <label class="control-label" for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+                <div class="controls">
+                    <input  class="span4"
+                            name='<?php echo $element->getName(); ?>' id='<?php echo $element->getName(); ?>' type="<?php echo $element->getType(); ?>"
+                            maxlength="<?php echo $element->getAttrib('maxlength'); ?>"
+                            size="<?php echo $element->getValidator('maxlength'); ?>"/>
+
+<?php
+$t = $element->getAttrib('title');
+if (is_string($t)) {
+    echo '<p class="help-inline">';
+    echo $this->translate($t);
+    echo '</p>';
+}
+?>
+                </div>
+            </div>
+
+             PWD 
+<?php $element = $form->getElement('pwd'); ?>
+            <div class="control-group">
+                <label class="control-label" for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+                <div class="controls">
+                    <input  class="span4"
+                            name='<?php echo $element->getName(); ?>' id='<?php echo $element->getName(); ?>' type="password"
+                            size="32"/>
+                </div>
+            </div>
+
+             PWD 
+<?php $element = $form->getElement('pwdconfirm'); ?>
+            <div class="control-group">
+                <label class="control-label" for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input  class="span4"
+                                name='<?php echo $element->getName(); ?>' id='<?php echo $element->getName(); ?>' type="password"
+                                size="32"/>
+                        <span class="add-on">=</span>
+                    </div>
+<?php
+$t = $element->getAttrib('title');
+if (is_string($t)) {
+    echo '<span class="help-inline">';
+    echo $this->translate($t);
+    echo '</span>';
+}
+?>
+                </div>
+            </div>
+
+             STATUS 
+<?php $element = $form->getElement('status'); ?>
+            <div class="control-group">
+                <label class="control-label" for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+                <div class="controls">
+                    <select class="span4"
+                            name='<?php echo $element->getName(); ?>' id='<?php echo $element->getName(); ?>'>
+<?php
+$opt = $element->getMultiOptions();
+foreach ($opt as $key => $value) {
+    ?>
+                            <option value="<?php echo $key; ?>" label="<?php echo $value; ?>"><?php echo $value; ?></option>
+<?php } ?>
+                        ?>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit"><translate>Save</translate></button>
+                <button class="btn" type="submit"><translate>Cancel</translate></button>
+            </div>
+        </fieldset>
+    </form>
+</div>-->

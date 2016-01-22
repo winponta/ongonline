@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="yes"?>
+<page>
+                    <updated>20/09/2012 22:29</updated><title>Perfil do usu&#xE1;rio</title><content>&lt;h3&gt;Vis&#xE3;o geral&lt;/h3&gt;&#xD;
+&lt;p&gt;Tela que mostra o perfil do usu&#xE1;rio com seus dados cadastrais.&lt;/p&gt;&#xD;
+&lt;p&gt;N&#xE3;o confundir com os dados cadastrais de pessoa.&lt;/p&gt;&#xD;
+&#xD;
+&lt;h4&gt;Dados de usu&#xE1;rio&lt;/h4&gt;&#xD;
+&#xD;
+&lt;p&gt;Todos os dados do cadastro de usu&#xE1;rio s&#xE3;o listados.&lt;/p&gt;&#xD;
+&lt;p&gt;&lt;strong&gt;Dados importantes:&lt;/strong&gt; data de &#xFA;ltimo login, estado do usu&#xE1;rio.&lt;/p&gt;&#xD;
+&#xD;
+&lt;h4&gt;Dados de pessoa&lt;/h4&gt;&#xD;
+&lt;p&gt;Todo usu&#xE1;rio do sistema esta ligado a um cadastro geral de pessoa. No perfil do usu&#xE1;rio o nome da pessoa &#xE9; mostrado. Ele &#xE9; um link para o cadastro de pessoa. Clique-o para abrir a tela com os dados completo desta pessoa.&lt;/p&gt;&#xD;
+&#xD;
+&lt;h3&gt;Alterando os dados do usu&#xE1;rio&lt;/h3&gt;&#xD;
+&lt;p&gt;Para alterar os dados do usu&#xE1;rio, clique no bot&#xE3;o de edi&#xE7;&#xE3;o. Uma formul&#xE1;rio ser&#xE1; apresentado.&lt;/p&gt;&#xD;
+&#xD;
+&lt;h3&gt;Alterando a foto do usu&#xE1;rio&lt;/h3&gt;&#xD;
+&lt;p&gt;A foto apresentada do usu&#xE1;rio &#xE9; a mesma associada ao cadastro de pessoa. Para alter&#xE1;-la na tela de perfil do usu&#xE1;rio, clique no link &lt;em&gt;Alterar Imagem&lt;/em&gt;. Um formul&#xE1;rio ser&#xE1; apresentado com op&#xE7;&#xF5;es para envio de uma nova foto.&lt;/p&gt;&#xD;
+</content></page>

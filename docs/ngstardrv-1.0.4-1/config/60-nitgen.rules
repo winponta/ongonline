@@ -1,0 +1,6 @@
+############################################
+# NITGEN USB FRD interfaces.
+############################################
+# USB device VID:0x0a86, Mode:0666
+SUBSYSTEM=="usb", ACTION=="add", ATTRS{idVendor}=="0a86", MODE="0666"
+

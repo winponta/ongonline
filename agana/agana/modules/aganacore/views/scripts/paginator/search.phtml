@@ -1,0 +1,55 @@
+<?php if ($this->pageCount): ?>
+    <div class="hidden-print pagination pagination-centered <?php echo ($this->class) ? $this->class : '' ?>">
+        <ul>
+            <?php if ($this->first < $this->firstPageInRange) : ?>
+                <li>
+                    <a href="<?php echo $this->url(array('page' => $this->first, 'filter-keyword'=>$this->filter_keyword)); ?>"
+                       load-in="content-container">
+                        <i class="icon-fast-backward"></i> <translate>First</translate>
+                    </a>
+                </li>
+                <li class="disabled"><a href="#"> || </a></li>
+            <?php endif ?>
+                
+            <!-- Previous page link -->
+            <li class="<?php echo (isset($this->previous)) ? '' : 'disabled' ?>">
+                <a href="<?php echo $this->url(array('page' => $this->previous, 'filter-keyword'=>$this->filter_keyword)); ?>"
+                   load-in="content-container">
+                    <i class="icon-caret-left"></i> <translate>Previous</translate>
+                </a>
+            </li>
+
+            <!-- Numbered page links -->
+            <?php foreach ($this->pagesInRange as $page) : ?>
+                <li class="<?php echo ($page == $this->current) ? 'active' : '' ?>">
+                    <a href="<?php echo $this->url(array('page' => $page, 'filter-keyword'=>$this->filter_keyword)); ?>"
+                       load-in="content-container">
+                        <?php echo $page; ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+
+            <!-- Next page link -->
+            <li class="<?php echo (isset($this->next)) ? '' : 'disabled' ?>">
+                <a href="<?php echo $this->url(array('page' => $this->next, 'filter-keyword'=>$this->filter_keyword)); ?>"
+                   load-in="content-container">
+                    <translate>Next</translate> <i class="icon-caret-right"></i>
+                </a>
+            </li>
+            
+                <?php if ($this->last > $this->lastPageInRange) : ?>
+                <li class="disabled"><a href="#"> || </a></li>
+                <li>
+                    <a href="<?php echo $this->url(array('page' => $this->last, 'filter-keyword'=>$this->filter_keyword)); ?>"
+                       load-in="content-container">
+                        <translate>Last</translate> <i class="icon-fast-forward"></i>
+                    </a>
+                </li>
+            <?php endif ?>
+
+            <li class="disabled">
+                <a href=""><translate>items</translate>(<?php echo $this->lastItemNumber . '/' . $this->totalItemCount; ?>)</a>
+            </li>
+        </ul>
+    </div>
+<?php endif; ?>

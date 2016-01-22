@@ -1,0 +1,27 @@
+<?php
+$this->title = "Health Studio Manager";
+
+$appName = '';
+if (Zend_Auth::getInstance()->hasIdentity()) {
+    $auth = Zend_Auth::getInstance()->getIdentity();
+    $ud = new User_Domain_User();
+    $auth = $ud->getById($auth->id);
+    $appName = $auth->getAppAccount()->getName();
+}
+?>
+
+<h1>Health Studio Manager</h1>
+<p>This is the name of app account</p>
+
+<div id="background-brand" class="container-fluid">
+    <a class="brand" load-in="content-container" id="accountbrand" href="<?php
+echo $this->url(array(
+    'module' => 'app',
+    'controller' => 'account',
+    'action' => 'index'), null, true);
+?>">
+        <div class="brand">
+            <?php echo $appName; ?>
+        </div>
+    </a>
+</div>

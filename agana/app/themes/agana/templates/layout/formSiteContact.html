@@ -1,0 +1,24 @@
+<script type="text/javascript">
+    require(["dojo/parser", "dijit/Dialog", "dijit/form/Button", "dijit/form/TextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox"]);
+</script>
+
+<div id="dialogFormSiteContact" data-dojo-type="dijit/Dialog" title="Formulario de Contato"
+     style="display: none;">
+    <form dojoType="dijit.form.Form" id="formSiteContact">
+        <label class="firstLabel" for="name">Nome *</label>
+        <input type="text" id="name" name="name" class="medium"
+               dojoType="dijit.form.ValidationTextBox"
+               required="true"
+               ucfirst="true" invalidMessage=""/>
+        <br>
+
+        <label class="firstLabel" for="address">Address *</label>
+        <input type="text" id="address" name="address" class="long"
+               dojoType="dijit.form.ValidationTextBox"
+               required="true"
+               trim="true"
+               ucfirst="true" />
+        <br>
+
+    </form>
+</div>

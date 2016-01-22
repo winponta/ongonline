@@ -1,0 +1,79 @@
+<?php
+$title = $this->translate('Person helped');
+$this->title = $title;
+$this->headTitle($title);
+
+?>
+
+<h4 class="caption-bottom-dotted"><?= $title ?></h4>
+
+<table class="mpdf">
+    <tr>
+        <td>
+            <table class="mpdf pad-right-1em pad-bottom-05em">
+                <tr>
+                    <td><h6><translate>First help date</translate></h6></td>
+                    <td>
+                        <?
+                            if ($this->helped->first_help_date) {
+                                echo $this->Date($this->helped->first_help_date, Zend_Date::DATE_FULL); 
+                            } else {
+                                echo $this->translate('uninformed');
+                            }
+                        ?> 
+                    </td>
+                    <td><h6><translate>Religion</translate></h6></td>
+                    <td><?= $this->helped->religion; ?></td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="caption-bottom-dotted muted"><translate>Birth data</translate></td>
+                </tr>
+                <tr>
+                    <td><h6><translate>State</translate></h6></td>
+                    <td><?= $this->helped->getBornState()->getName(); ?> </td>
+                    <td><h6><translate>City</translate></h6></td>
+                    <td><?= $this->helped->getBornCity()->getName(); ?> </td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="caption-bottom-dotted muted"><translate>Professional data</translate></td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Professional occupation</translate></h6></td>
+                    <td><?= $this->helped->professional_occupation; ?> </td>
+                    <td><h6><translate>Professional experience</translate></h6></td>
+                    <td><?= $this->helped->professional_experience; ?></td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="caption-bottom-dotted muted"><translate>Home data</translate></td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Live with family</translate></h6></td>
+                    <td><?= $this->translate(($this->helped->live_with_family) ? 'Yes' : 'No'); ?></td>
+                    <td><h6><translate>Living since</translate></h6></td>
+                    <td><?= $this->date($this->helped->home_since, Zend_Date::DATE_MEDIUM); ?></td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Home situation</translate></h6></td>
+                    <td><?= $this->helped->home_situation; ?></td>
+                    <td><h6><translate>Rent value</translate></h6></td>
+                    <td><?= $this->helped->rent_value; ?></td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Home area</translate></h6></td>
+                    <td><?= $this->helped->home_area; ?></td>
+                    <td><h6><translate>Home type</translate></h6></td>
+                    <td><?= $this->helped->home_type; ?> </td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Home pieces</translate></h6></td>
+                    <td><?= $this->helped->home_pieces_number; ?> </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

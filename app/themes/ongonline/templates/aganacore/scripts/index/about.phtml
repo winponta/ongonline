@@ -1,0 +1,75 @@
+<?php
+$this->title = "Health Studio Manager";
+
+$appName = '';
+if (Zend_Auth::getInstance()->hasIdentity()) {
+    $auth = Zend_Auth::getInstance()->getIdentity();
+    $ud = new User_Domain_User();
+    $auth = $ud->getById($auth->id);
+    $appName = $auth->getAppAccount()->getName();
+}
+?>
+
+<div class="container">
+    <div class="row-fluid">
+        <div class="span12" style="text-align: center;">
+            <a  href="http://www.winponta.com.br" target="_blank">
+                <img src="<?php echo $this->baseUrl() . $this->path_img; ?>/winponta-logo-700x100.png" style="width:50%"/>
+            </a>
+        </div>
+    </div>
+
+    <hr class="row-fluid"/>
+
+    <div class="row-fluid">
+        <div class="span12" style="text-align: center;">
+            <img src="<?php echo $this->baseUrl() . $this->path_img; ?>/logo.png" style="width:250px;"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12" style="text-align: center;">
+            <h6 style="padding-left: 30px;">no profit entities management</h6>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="offset3">
+        <h6 class="span2">App Version:</h6>
+        <h6 class="span2">
+            <?php echo Agana_Version::getAppVersion(); ?>
+        </h6>
+        <h6 class="span3">In production since:</h6>
+        <h6 class="span2">
+            <?php echo Agana_Version::getAppDeployDate(); ?>
+        </h6>
+        </div>
+    </div>
+
+    <hr class="row-fluid"/>
+
+    <div class="row-fluid">
+        <h6 class="span2">Account name:</h6>
+        <h3 class="brand">
+            <a class="span6" load-in="content-container" id="accountbrand" href="<?php
+echo $this->url(array(
+    'module' => 'app',
+    'controller' => 'account',
+    'action' => 'index'), null, true);
+?>">
+                   <?php echo $appName; ?>
+            </a>
+        </h3>
+    </div>
+
+    <hr class="row-fluid"/>
+
+    <div class="row-fluid">
+        <div class="span12">
+            Sistema de gerenciamento de entidades sem fins lucrativos.
+        </div>
+        <div class="span12">
+            Cores baseadas no esquema gerado em <a href="http://www.lavishbootstrap.com/?utf8=%E2%9C%93&image_url=http%3A%2F%2Fongonline.com.br%2Fwp-content%2Fthemes%2Ffoundation%2Fincludes%2Fjs%2Ftimthumb.php%3Fsrc%3Dhttp%3A%2F%2Fongonline.com.br%2Fwp-content%2Fuploads%2F2012%2F10%2Fcharity-soup.jpg%26w%3D390%26h%3D320%26zc%3D1&commit=Go+Lavish">Lavish</a>
+        </div>
+    </div>
+</div>

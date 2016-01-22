@@ -1,0 +1,113 @@
+<?php
+$title = $this->translate("Person - personal data");
+$this->title = $title;
+$this->headTitle($this->translate("Person - personal data"));
+
+$editDetailsUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'update',
+    'id' => $this->person->id,
+        ));
+
+$alterImageUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'upload-image',
+    'id' => $this->person->id,
+        ));
+
+$createUserUrl = $this->url(array(
+    'module' => 'user',
+    'controller' => 'admin',
+    'action' => 'create-for-person',
+    'id' => $this->person->id
+        ), 'default', true);
+
+$editUserUrl = $this->url(array(
+    'module' => 'user',
+    'controller' => 'admin',
+    'action' => 'edit',
+    'id' => $this->person->getUser()->id
+        ), 'default', true);
+?>
+
+<table class="mpdf">
+    <tr>
+        <td>
+            <h3><i class="icon-user-md"></i> <?= $this->person->getName(); ?></h3>
+        </td>
+        <td><h6><translate>Id</translate></h6></td>
+        <td><span><?= $this->person->id; ?></span></td>
+    </tr>
+</table>
+
+<hr/>
+<h4 class="caption-bottom-dotted"><translate>Dados pessoais</translate></h4>
+
+<table class="mpdf">
+    <tr>
+        <td class="width70">
+            <table class="mpdf pad-right-1em pad-bottom-05em">
+                <tr>
+                    <td><h6><translate>Birthdate</translate></h6></td>
+                    <td><?= $this->date($this->person->birthdate, Zend_Date::DATE_MEDIUM); ?> </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h6><translate><?= $this->person->getMarital_status(); ?></translate></h6></td>
+                    <td colspan="2"><h6><translate><?= $this->gender($this->person->gender); ?></translate></h6></td>
+<!--                    <td><h6 class="span2"><translate>Created on</translate></h6></td>
+                    <td>
+                    <?= $this->date($this->person->created, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                    <?= $this->date($this->person->created, Zend_Date::TIME_SHORT); ?>
+                    </td>-->
+                </tr>    
+                <tr>
+                    <td><h6><translate>Phone</translate></h6></td>
+                    <td><?= $this->person->phone; ?></td>
+                    <td><h6><translate>Mobile phone</translate></h6></td>
+                    <td><?= $this->person->mobilephone; ?></td>
+                </tr>
+                <tr>
+                    <td><h6 class="span2"><translate>Email</translate></h6></td>
+                    <td colspan="3"><?= $this->person->email; ?></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><h6><translate>Address</translate></h6></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <?= $this->person->address; ?>, 
+                        <?= $this->person->addressnumber; ?>
+                    </td>
+                </tr>
+                <? if ($this->person->addressdetails != '') { ?>
+                    <tr>
+                        <td colspan="4">
+                            <?= $this->person->addressdetails; ?>
+                        </td>
+                    </tr>
+                <? } ?>
+                <tr>
+                    <td colspan="4">
+                        <?= $this->person->getCityRegion()->name; ?> - 
+                        <?= $this->person->getCity()->name; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h6><translate>Postal code</translate></h6></td>
+                    <td colspan="3"><?= $this->person->postalcode; ?></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><?= $this->externalLink($this->person->website); ?></td>
+                </tr>
+            </table>
+        </td>
+        <td style="width:30%">
+            <!---  PICTURE -->
+            <div class=" picture thumbnail">                        
+                <?= $this->personPicture()->getTag($this->person, 'medium', array('id' => 'userImage', 'style'=>'width:8cm;')); ?>
+            </div>
+        </td>
+    </tr>
+</table>

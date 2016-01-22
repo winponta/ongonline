@@ -1,0 +1,87 @@
+<?php
+$this->title = $this->translate("Dashboard");
+?>
+
+<h6><?= $this->title; ?></h6>
+
+<div class="container-fluid" id="dashboard">
+    <?php
+    $dimension = 0;
+
+    // open row
+    echo '<div class="row-fluid">';
+    foreach ($this->widgets as $key => $widget) {
+        $dimension += $widget->getDimension();
+
+        if ($dimension > 12) {
+            // close and open a new row
+            $dimension = $widget->getDimension();
+            echo '</div>';
+            echo '<div class="row-fluid">';
+        }
+
+        $widgetId = 'dash-wdg-' .
+                $widget->getModule() .
+                $widget->getController() .
+                $widget->getAction();
+        ?>
+
+        <div class="window span<?= $widget->getDimension(); ?> collapse in"
+             id="<?= $widgetId;?>">
+            <div class="window-header">
+                &nbsp;<i class="<?= $widget->getIcon(); ?>"></i>&nbsp;
+                <translate><?= $widget->getTitle(); ?></translate>
+                <ul class="nav nav-pills pull-right">
+                    <li>
+                        <a class="dashboard-widget-collapse-btn" 
+                           href="#" 
+                           data-toggle="collapse" 
+                           data-target="#<?= $widgetId; ?>"
+                           title="Collape widget">
+                            <i class="icon-caret-up icon-large"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dashboard-widget-close-btn" 
+                           href="#" 
+                           data-dismiss="#<?= $widgetId;?>"
+                           title="Close widget">
+                            <i class="icon-remove"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="window-content">
+                <?php
+                echo $this->action(
+                        $widget->getAction(), $widget->getController(), $widget->getModule(), $widget->getParams()
+                );
+                ?>
+            </div>
+        </div>
+
+        <?php
+    }
+// close row
+    echo '</div>';
+    ?>
+
+</div>
+
+<script>
+    $('#dashboard').on('show', '.collapse', function() {
+        var btn = $(this).find('.dashboard-widget-collapse-btn i');
+        btn.addClass('icon-caret-up');
+        btn.removeClass('icon-caret-down');
+    });
+
+    $('#dashboard').on('hide', '.collapse', function() {
+        var btn = $(this).find('.dashboard-widget-collapse-btn i');
+        btn.removeClass('icon-caret-up');
+        btn.addClass('icon-caret-down');
+    });
+    
+    $('.dashboard-widget-close-btn').on('click', null, function(){
+        $($(this).attr('data-dismiss')).hide('slow');
+    });
+</script>

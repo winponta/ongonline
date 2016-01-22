@@ -1,0 +1,74 @@
+<?php
+$title = $this->translate("Project");
+$this->title = $title . ' - ' . $this->project->name;
+$this->headTitle($this->translate("Project"));
+?>
+
+<table style="width:100%; font-size: 9pt;">
+    <tr>
+        <td class="alert alert-heading alert-info">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:100%">
+                        <h3>
+                            <i class="icon-folder-close"></i> <?= $this->title; ?>
+                        </h3>
+                    </td>
+                    <td>
+                        <?= $this->projectStatus()->html($this->project->getStatus(), array('class' => 'span12', 'tag' => 'div')); ?>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td>
+            <table style="width:100%">
+                <tr>
+                    <td style="width:25%">
+                        <h6><translate>Start date expected</translate></h6>
+                    </td>
+                    <td style="width:25%">
+                        <?= $this->date($this->project->startdateexpected, Zend_Date::DATE_SHORT); ?> 
+                    </td>
+                    <td style="width:25%">
+                        <h6><translate>Finish date expected</translate></h6>
+                    </td>
+                    <td style="width:25%">
+                        <?= $this->date($this->project->finishdateexpected, Zend_Date::DATE_SHORT); ?> 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong><h6><translate>Start date real</translate></strong></h6>
+                    </td>
+                    <td>
+                        <strong><?= $this->date($this->project->startdatereal, Zend_Date::DATE_SHORT); ?> </strong>
+                    </td>
+                    <td>
+                        <h6><translate>Finish date real</translate></h6>
+                    </td>
+                    <td>
+                        <strong><?= $this->date($this->project->finishdatereal, Zend_Date::DATE_SHORT); ?> </strong>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td><hr/></td></tr>
+    <tr>
+        <td>
+            <h6><translate>Abstract</translate></h6>
+        </td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+        <td>
+            <?= nl2br($this->project->abstract); ?>
+        </td>
+    </tr>
+    <tr><td><hr/></td></tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr><td><translate>Printed on</translate> <?= date('d/m/Y - H:j') ?></td></tr>
+</table>

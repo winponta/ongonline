@@ -1,0 +1,46 @@
+<?php
+$title = $this->translate("Person - volunteer data");
+$this->title = $title;
+$this->headTitle($this->translate("Person - volunteer data"));
+
+$editUrl = $this->url(array(
+    'module' => 'staff',
+    'controller' => 'volunteer',
+    'action' => 'update',
+    'id' => $this->volunteer->person->id,
+        ));
+?>
+
+<div class="window">
+    <div class="window-header">
+        <div class="row">
+            <h3 class="span"><i class="icon-group"></i> <?php echo $this->title; ?></h3>
+            
+            <ul class="nav nav-pills offset6 hidden-print">
+                <li>
+                    <a  href="<?= $editUrl; ?>" load-in="content-container"><i class="icon-edit"></i> <translate>Edit</translate></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="window-content">
+        <div class="vcard details-bordered">
+            <div class="row">
+                <h3 class="fn span12 id alert alert-heading alert-info">
+                    <?= $this->volunteer->getPerson()->getName(); ?>
+                </h3>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Expertise areas</translate></h6>
+                <span class="span10">
+                    <?php
+                    foreach ($this->volunteer->getExpertisearea() as $exp) {
+                        echo $exp->name . ', ';
+                    }
+                    ?>
+                </span>                
+            </div>
+        </div>            
+    </div>
+</div>
+

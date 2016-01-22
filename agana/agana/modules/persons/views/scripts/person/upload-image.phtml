@@ -1,0 +1,23 @@
+<?php
+$title = $this->translate("Upload image");
+$this->title = $title;
+$this->headTitle($this->translate("Upload image"));
+
+$actionUrl = $this->url(array(
+    'module' => 'persons', 'controller' => 'person', 'action' => 'update',
+    //'id' => $this->person->id,
+    'image' => 'main',
+        ));
+
+$imgSrc = $this->baseUrl('media/image/get/file/' . $this->person->getMedia()->getFile());
+
+echo $this->partial('image/upload-form.phtml', 'media', 
+        array(
+            'actionUrl' => $actionUrl,
+            'imgSrc'    => $imgSrc,
+            'path_js' => $this->path_js,
+            'path_vendor' => $this->path_vendor,
+            'elImgToUpdate' => 'userImage', // the id of the img element on person html
+            ));
+
+?>

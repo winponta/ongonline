@@ -1,0 +1,34 @@
+<?php
+$urlAction = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'search'
+        ), null, true);
+?>
+
+<span class="alert"><?php echo $this->msg; ?></span>
+
+<div class="row-fluid">
+    <ul class="thumbnails">
+        <?php foreach ($this->persons as $rec) { ?>
+            <li >
+                <a href="#" rel="search-select-item" 
+                   search-select-item-id="<?php echo $rec->id; ?>" 
+                   search-select-item-value="<?php echo $rec->name; ?>"
+                >
+                    <div class="thumbnail">
+                        <?php
+                        echo $this->mediaImgTag($rec->getMedia()->file, 'small', array(
+                            'showpopover' => true,
+                            'height' => 100,
+                        ));
+                        ?>
+                        <div class="caption" >
+                            <?php echo $rec->name; ?> 
+                        </div>
+                    </div>
+                </a>
+            </li>
+        <?php } ?>
+    </ul>
+</div>

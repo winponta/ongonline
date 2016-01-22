@@ -1,0 +1,48 @@
+<?php
+$title = 'Programas sociais federais';
+$this->title = $title;
+$this->headTitle($title);
+
+$relSocialProjects = $this->socialProjects;
+?>
+
+<div class="window">
+    <div class="window-header">
+        <div class="row">
+            <h3 class="span3">
+                <i class="icon-credit-card"></i> 
+                <?= $this->title; ?>
+            </h3>
+        </div>
+    </div>
+    <div class="window-content">
+        <table class="span12 table table-bordered">                
+            <thead>
+                <tr>
+                    <th><translate>Sigla</translate></th>
+                    <th><translate>Programa</translate></th>
+                    <th><translate>Número</translate></th>
+                </tr>
+            </thead>
+            <?php if (!$relSocialProjects) { ?>
+                <tr><td>
+                        <h6 class="text-warning"><translate>No one found</translate></h6>
+                    </td></tr>
+            <?php } else { ?>
+                <?php foreach ($relSocialProjects as $sprj) { ?>
+                    <tr>
+                        <td>
+                            <strong><?= $sprj->getSocialProject()->getSigla(); ?> </strong>
+                        </td>
+                        <td>
+                            <?= $sprj->getSocialProject()->getNome(); ?>
+                        </td>
+                        <td>
+                            <?= $sprj->getNumero(); ?>
+                        </td>
+                    </tr>
+                <?php } ?>
+            <?php } ?>
+        </table>
+    </div>
+</div>

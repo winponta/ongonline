@@ -1,0 +1,14 @@
+<?php
+$title = $this->translate("App Account");
+$this->title = $title . ' - ' . $this->translate("Add new");
+$this->headTitle($this->translate("App Account"));
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="container">
+    <h1><i class="icon-cog"></i> <?php echo $this->title; ?></h1>
+    <hr/>
+    <?php echo $this->form->render();?>
+</div>

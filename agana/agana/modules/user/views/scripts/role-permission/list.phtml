@@ -1,0 +1,104 @@
+<?php
+$title = $this->translate("Role permissions");
+$this->title = $title;
+$this->headTitle($this->translate("Role permissions"));
+?>
+<form name="permissions" method="post" 
+      action="<?php
+echo $this->url(
+        array('module' => 'user',
+    'controller' => 'role-permission',
+    'action' => 'update',
+    'id' => $this->role->id,
+        ), null, true);
+?>"
+    load-in="content-container"
+>
+
+    <div class="window">
+        <div class="window-header">
+            <h3 class="span8"><i class="icon-group"></i> 
+                <translate>User role</translate> :: <translate>permissions</translate> :: <strong><?php echo $this->role->name; ?></strong>
+            </h3>
+            <div class="pull-right">
+                <input value="<translate>Save</translate>" type="submit" name="save"
+                       class="btn btn-primary" >
+
+                <input value="<translate>Cancel</translate>" type="submit" name="cancel"
+                       class="btn" >
+            </div>
+
+        </div>
+        <div class="window-content">
+            <? foreach ($this->modulesResources as $mod => $resources) { ?>
+                <div class="well">
+                    <div class="row-fluid">
+                        <div class="span2">
+                            <h4 class="text-info">
+                                <translate><? echo $mod; ?></translate>
+                            </h4>
+                            <small class="muted"><translate>module</translate></small>
+                        </div>
+                        <div class="span10">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr >
+                                        <th class="alert alert-info"><translate>Resource</translate></th>
+                                        <th class="alert alert-info"><translate>Privileges</translate></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <? foreach ($resources as $res) { ?>
+                                    <tr>
+                                       <td>
+                                           <? $resName = (isset($res['name_label'])) ? $res['name_label'] : $res['name']; ?>
+                                           <strong>
+                                           <translate><? echo $resName; ?></translate>
+                                           </strong>                                            
+
+                                            <? if (isset($res['description'])) { ?>
+                                              <i class="icon-question-sign pull-right" rel="tooltip" 
+                                                 title ="<translate><? echo $res['description']; ?></translate>"> </i>
+                                            <? } ?>
+                                       </td>
+                                       <td>
+                                           <?
+                                           $qtdePriv = count($res['privileges']);
+                                           for ($i=0; $i < $qtdePriv; $i++) {
+                                               $priv = $res['privileges'][$i];
+
+                                               $chkName = $res['name'] . '::';
+                                               $chkName .= $priv;
+
+                                               $checked = Agana_Acl_Service::isAllowed($this->role->id, $res['name'], $priv);
+
+                                               $privName = (isset($res['privileges_label'][$i])) ? $res['privileges_label'][$i] : $priv; 
+
+                                               echo '<translate>'.$privName.'</translate>'; 
+                                               ?>
+                                               <input type="checkbox" name="resource[<? echo $res['name']; ?>][]"
+                                                      value="<? echo $privName; ?>"
+                                                      <? echo ($checked) ? 'checked' : ''; ?> 
+                                                      >
+                                               &nbsp;&nbsp;&nbsp;&nbsp;
+                                           <? } ?>
+                                       </td>
+                                   <? } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <? } ?>
+
+            <div class="pull-right">
+                <input value="<translate>Save</translate>" type="submit" name="save"
+                       class="btn btn-primary" >
+
+                <input value="<translate>Cancel</translate>" type="submit" name="cancel"
+                       class="btn" >
+            </div>
+        </div>
+    </div>
+</form>

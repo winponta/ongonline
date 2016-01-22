@@ -1,0 +1,181 @@
+<?php
+$title = $this->translate("Person");
+$this->title = $title . ' - ' . $this->translate("Add new");
+$this->headTitle($this->translate("Person"));
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-user-md"></i> <?php echo $this->title; ?></h3>
+    </div>
+    <form id="person" 
+          class=" form-horizontal well" 
+          action="<?= $form->getAction() ?>" 
+          load-in="content-container" 
+          method="post" 
+          enctype="application/x-www-form-urlencoded" 
+          name="person">
+
+        <div class="row">
+            <span class="span9">
+                <?= $form->getElement('name')->render() ?>
+            </span>
+            <span class="span3">
+                <span id='name-search' class='label label-info'></span>
+            </span>
+        </div>
+        <?= $form->getElement('gender')->render() ?>
+
+        <div class="row">
+            <span class="span6">
+                <?= $form->getElement('birthdate')->render() ?>
+            </span>
+            <span class="span3">
+                <?= $form->getElement('marital_status')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span6">
+                <?= $form->getElement('phone')->render() ?>
+            </span>
+            <span class="span3">
+                <?= $form->getElement('mobilephone')->render() ?>
+            </span>
+        </div>
+
+        <?= $form->getElement('email')->render() ?>
+
+        <div class="row">
+            <span class="span7">
+                <?= $form->getElement('address')->render() ?>
+            </span>
+            <span class="span4">
+                <?= $form->getElement('addressnumber')->render() ?>
+                <script type="text/javascript">
+                    $('label[for="addressnumber"]').text('<translate>Number</translate>');
+                </script>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span7">
+                <?= $form->getElement('addressdetails')->render() ?>
+            </span>
+            <span class="span3">
+                <?= $form->getElement('postalcode')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span5">
+                <?= $form->getElement('city_id')->render() ?>
+            </span>
+            <span class="span3">
+                <?= $form->getElement('city_region_id')->render() ?>
+            </span>
+        </div>
+
+        <?= $form->getElement('website')->render() ?>
+
+        <?= $form->getDisplayGroup('actions-end')->render() ?>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var cBox;
+    // variavel que controla a chamada da pesquisa, para que não 
+    // realize mais de uma vez a chamada como estava ocorrendo
+    var fazendoPesquisa = false;
+    $('input#name').on('blur', null, function(ev) {
+        ev.preventDefault();
+
+        if ($.trim($(this).val()).length > 3) {
+            if (fazendoPesquisa) {
+                return;
+            } else {
+                fazendoPesquisa = true;
+            }
+            
+            var basePersonUrl = '<?php echo $this->url(array('module' => 'persons','controller'=> 'person','action' => 'get'));?>';
+            var baseMediaUrl = '<?php echo $this->url(array('module' => 'persons','controller'=> 'person','action' => 'get'));?>';
+            
+            var nameSearch = $('#name-search');
+            $(nameSearch).html('<translate>verifing registers</translate> ...');
+
+            var searchUrl = '<?= $this->url(array('module' => 'persons', 'controller' => 'persons', 'action' => 'search-exist-register')) ?>';
+            searchUrl += '/name/' + $(this).val();
+
+            var jx = $.ajax({
+                url: searchUrl,
+                dataType: 'json',
+            }).done(function(res) {
+                fazendoPesquisa = false;
+                if (res.found) {
+                    var similarResult = $('#similar-result');
+                    var html = '';
+                    html += '<table class="table table-striped">';
+                    html += '<tr>';
+                    html += '<th>ID</th>';
+                    html += '<th><translate>Name</translate></th>';
+                    html += '<th><translate>Email</translate></th>';
+                    html += '<th></th>';
+                    html += '</tr>';
+                    for (i = 0; i < res.registers.length; i++) {
+                        html += '<tr>';
+                        html += '<td>' + res.registers[i].id + '</td>';
+                        html += '<td>' + res.registers[i].name + '</td>';
+                        html += '<td>' + res.registers[i].email + '</td>';
+                        html += '<td><a href="' + basePersonUrl + '/id/' + res.registers[i].id + '" \n\
+                                class="btn btn-mini btn-info close-cbox" load-in="content-container">\n\
+                                <i class="icon-search"></i> <translate>Details</translate>\n\
+                                </td>';
+                        html += '</tr>';
+                    }
+                    html += '</table>';
+                    
+                    $(similarResult).html(html);
+                    $('.numRegistros').html(res.registers.length);
+                    
+                    cBox = $.colorbox({
+                        html:$('#similar').html(),
+                        width:'90%', 
+                        maxWidth:1200,
+                        height: '90%'
+                    });
+                    
+                    $('.close-cbox').on('click', null, function() {
+                        $.colorbox.close();
+                    });
+                }
+            }).always(function() {
+                $(nameSearch).html('');
+            });
+        }
+    });
+</script>
+
+<div id="similar" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel"><translate>Similar registers</translate> <span class="badge badge-important numRegistros"></span></h3>
+    </div>
+    <div class="modal-body">
+        <p>
+            <strong>Atenção</strong>: foram encontrados <span class="numRegistros text-error"></span> registro(s) similar(es) ao que está cadastrando,
+            de acordo com o nome lançado.
+            Por favor, verifique se a pessoa que está tentando criar já existente e considere não
+            lançar dados duplicados no sistema.
+        </p>
+        <p>
+            Clicando em "detalhes" na lista abaixo encerrará a inclusão sendo realizada.
+        </p>
+        <p id="similar-result"></p>
+    </div>
+<!--    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><translate>Close</translate></button>
+    </div>-->
+</div>

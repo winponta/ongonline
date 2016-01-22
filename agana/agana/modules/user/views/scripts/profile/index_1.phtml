@@ -1,0 +1,162 @@
+<?php
+$this->title = $this->user->getName();
+$this->headTitle($this->translate('Profile'));
+
+if ($this->user->status == -1) {
+    $classes = "icon-minus-sign alert-warning";
+} else if ($this->user->status == 0) {
+    $classes = "icon-ban-circle alert-error";
+} else if ($this->user->status == 1) {
+    $classes = "icon-ok-circle alert-success";
+}
+
+$personUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'show',
+    'id' => $this->user->getPerson()->id,
+        ));
+?>
+<div class="container">
+    <div class="widget profile">
+        <div class="widget-header">
+            <h3 class="span6"><i class="icon-user"></i> <?php echo $this->user->name; ?></h3>
+        </div>
+        <div class="widget-content">
+            <div class="vcard span6 details-bordered">
+                <div class="row">
+                    <a class="span3" href="" load-in="content-container"><i class="icon-edit"></i> <translate>Edit user</translate></a>
+                    <a class="span3" href="#uploadImageDialog" data-toggle="modal"><i class="icon-camera"></i> <translate>Alter picture</translate></a>
+                    <hr/>
+                    <h6 class="span2"><translate>Id</translate></h6>
+                    <span class="fn id span1"><?php echo $this->user->id; ?></span>
+                </div>
+                <div class="row">
+                    <h6 class="span2"><translate>User name</translate></h6> 
+                    <span class="fn id span4"><?php echo $this->user->name; ?></span>
+                </div>
+                <!---  PERSON -->
+                <div class="row">
+                    <h6 class="span2"><translate>Person name</translate></h6>
+                    <span class="span4">
+                        <a href="<?php echo $personUrl; ?>" load-in="content-container"><?php echo $this->user->getPerson()->name; ?></a>
+                        <i class="icon-question-sign pull-right" rel="tooltip" title="<translate>This is a link to person full data profile</translate>"></i> 
+                    </span>
+                </div>            
+                <div class="row">
+                    <h6 class="span2"><translate>Status</translate></h6>
+                    <span class="span2">
+                        <i class="<?php echo $classes; ?>"></i>
+                        <?php echo $this->translate($this->status($this->user->status)); ?>
+                    </span>
+                </div>
+                <div class="row">
+                    <h6 class="span2"><translate>Email</translate></h6> 
+                    <span class="fn id span4">
+                        <i class="icon-envelope"></i> 
+                        <a href="mailto:<?php echo $this->user->email; ?>"><?php echo $this->user->email; ?></a>
+                    </span>
+                </div>
+                <div class="row">
+                    <h6 class="span2"><translate>Created on</translate></h6>
+                    <span class="span4">
+                        <?php echo $this->date($this->user->created, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                        <?php echo $this->date($this->user->created, Zend_Date::TIME_SHORT); ?>
+                    </span>
+                </div>    
+                <div class="row">
+                    <h6 class="span2"><translate>Last login</translate></h6>
+                    <span class="span4">
+                        <?php echo $this->date($this->user->lastlogin, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                        <?php echo $this->date($this->user->lastlogin, Zend_Date::TIME_MEDIUM); ?>
+                    </span>
+                </div>            
+            </div>            
+
+            <!---  PICTURE -->
+            <div class="span5">
+                <div class="row">
+                    <div class="span3 picture thumbnail">                        
+                        <?php if ($this->user->getPerson()->getMedia() == null) { ?>
+                            <i class="icon-user " style="font-size: 180px; padding: 40px ; color: #ccc;"></i>
+    <!--                        <img class="thumbnail" src="http://placehold.it/180x200"/>-->
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="uploadImageDialog" class="modal hide fade">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">&times;</button>
+        <h3><translate>Upload image</translate></h3>
+    </div>
+    <div class="modal-body row">    
+        <div class="span3" style="position: relative;">
+            <div id="fileUpload"></div>
+            <span class="span2 btn btn-warning"><translate>Select file</translate></span>
+            <input type="file" id="inputFile" name="file" 
+                   class="span2 btn btn-warning"
+                   style="opacity: 0; z-index: 9999; position: absolute; left:0; top:0;padding: 0; width: 100%"/>
+            <br/><br/>
+            <div class="progress progress-striped span3">
+                <div id="uploadImageProgressBar" class="bar"></div>
+            </div>
+            <p id="uploadImageMsg" class="span3"></p>
+        </div>
+        <div class="span3 pull-right">
+            <img class="thumbnail" src="http://placehold.it/180x200"/>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" ><translate>Cancel</translate></a>
+        <a href="#" class="btn btn-primary"><translate>Save</translate></a>
+    </div>
+</div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl() . $this->path_js; ?>/lib/fileuploader.js"></script>
+<script type="text/javascript">
+    var actionUrl = "<?php 
+        echo $this->url(array(
+            'module'=>'persons','controller'=>'person', 'action'=>'update',
+            'id' => $this->user->person_id,
+            'image'=>'main',
+        )); ?>";
+            
+//    var uploader = new qq.FileUploaderBasic({
+//        // pass the dom node (ex. $(selector)[0] for jQuery users)
+//        element: $('#inputFile')[0],
+//        // path to server-side upload script
+//        action: actionUrl,
+//        allowedExtensions: ['jpg','jpeg','png'],
+//        sizeLimit: 100 * 1024, // max size
+//        // set to true to output server response to console
+//        debug: true,
+//        onProgress: function(id, fileName, loaded, total){},
+//        onComplete: function(id, fileName, responseJSON){
+//            console.info(fileName);
+//        },
+//
+//        messages: {
+//            typeError: "{file} has invalid extension. Only {extensions} are allowed.",
+//            sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+//            minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+//            emptyError: "{file} is empty, please select files again without it.",
+//            onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."            
+//        },
+//        showMessage: function(message){
+//            alert(message);
+//        }               
+//
+//    });
+
+    var uploader = new qq.FileUploader({
+        // pass the dom node (ex. $(selector)[0] for jQuery users)
+        element: $('#fileUpload')[0],
+        // path to server-side upload script
+        action: actionUrl,
+        debug: true
+    });
+</script>

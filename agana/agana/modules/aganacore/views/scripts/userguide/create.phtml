@@ -1,0 +1,24 @@
+<?php
+$title = $this->translate("User guide");
+$this->title = $title . ' - ' . $this->translate("Create new page");
+$this->headTitle($this->translate("User guide"));
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="container-fluid">
+    <h3><i class="icon-book"></i> <?php echo $this->title; ?></h3>
+    <?php echo $this->form->render(); ?>
+</div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl() . $this->path_vendor; ?>/markitup/jquery.markitup.js">
+</script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() . $this->path_vendor; ?>/markitup/sets/html/set.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl() . $this->path_vendor; ?>/markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl() . $this->path_vendor; ?>/markitup/sets/html/style.css" />
+
+<script type="text/javascript" >
+    $("form#userguide #content").markItUp(mySettings);
+</script>

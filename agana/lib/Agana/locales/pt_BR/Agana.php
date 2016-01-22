@@ -1,0 +1,110 @@
+<?php
+
+return array(
+    'About'             => 'Sobre',
+    'Add new'           => 'Adicionar novo',
+    'Administration'    => 'Administração',
+    'another'           => 'outro(a)',
+    'at'                => 'às',
+    'Base tables'       => 'Tabelas básicas',
+    'Cancel'            => 'Cancelar',
+    'Calculate'         => 'Calcular',
+    'Check this field to print this report in a summarized format'
+                        => 'Marque este campo para imprimir este relatório em um formato de dados resumidos, para análise',
+    'Close'             => 'Fechar',
+    'close'             => 'fechar',
+    'Confirm'           => 'Confirmar',
+    'Contact Form'      => 'Formulário de Contato',
+    'Contact mail sent' => 'Email de contato enviado',
+    'create'            => 'criar',
+    'Created on'        => 'Criado em',
+    'Date'              => 'Data',
+    "Date does not match the format 'dd/mm/yyyy'"
+                        => "Data não está de acordo com o formato 'dd/mm/aaaa'",
+    'Default value'     => 'Valor padrão',
+    'Default value - please change it'
+                        => 'Valor padrão - por favor altere-o',
+    'Delete'            => 'Excluir',
+    'delete'            => 'excluir',
+    'Description'       => 'Descrição',
+    'Details'           => 'Detalhes',
+    'Docs'              => 'Documentos',
+    'Documentation'     => 'Documentação',
+    'Edit'              => 'Editar',
+    'Edit details'      => 'Editar detalhes',
+    'Enter the search term'
+                        => 'Digite o termo de busca',
+    '<h6 class="title">Entry form validation</h6>'
+                        => '<h6 class="title">Validação da entrada de dados</h6>',
+    'error message'     => 'mensagem do erro',
+    'Field to describe free observations'
+                        => 'Campo para descrever observações livres',
+    'Filter'         => 'Filtrar',
+    'Filter by'         => 'Filtrar por',
+    'First'             => 'Primeiro',
+    'Format: local-part@hostname.com'
+                        => 'Formato: identificador@nomedoservidor.com',
+    'Formated PDF'      => 'PDF Formatado',
+    'Generate report at'=> 'Gerar relatório em',
+    'Last'              => 'Último',
+    'List'              => 'Listar',
+    'list'              => 'listar',
+    'Message'           => 'Mensagem',
+    'Mobile phone'      => 'Celular',
+    'More info'         => 'Mais informações',
+    'Name'              => 'Nome',
+    'Next'              => 'Próximo',
+    'No match found'    => 'Nenhum(a) registro (ocorrência) encontrado(a)',
+    'No one found'      => 'Nenhum encontrado',
+    'Number'            => 'Número',
+    'Password'          => 'Senha',
+    'Phone'             => 'Telefone',
+    'Please login to access this feature' 
+                        => 'Por favor entre com sua senha no sistema para ter acesso à esta funcionalidade',
+    'Previous'          => 'Anterior',
+    'Print'             => 'Imprimir',
+    'Print this page'   => 'Imprimir esta página',
+    'Printed on'        => 'Impresso em',
+    'Problems saving record'
+                        => 'Problemas ao salvar o registro',
+    'Record deleted'    => 'Registro excluído',
+    'Record successfully saved'
+                        => 'Registro salvo com sucesso',
+    'Registrations'     => 'Cadastros',
+    'Report'            => 'Relatório',
+    'Reports'           => 'Relatórios',
+    'Save'              => 'Salvar',
+    'Screen'            => 'Tela',
+    'Search'            => 'Pesquisar',
+    'Send'              => 'Enviar',
+    'Sending contact mail problems' 
+                        => 'Envio de email de contato com problemas',
+    'Settings'          => 'Configurações',
+    'Show'              => 'Mostrar',
+    'Similar registers' => 'Registros similares',
+    'Some problem with fields content.' 
+                        => 'Ocorreu algum erro no preenchimento dos campos',
+    'Some problem occur when tried to delete the record'
+                        => 'Ocorreu algum erro ao tentar excluir o registro',
+    'Sorry, but an error has ocurred !'
+                        => 'Desculpe, mas um erro ocorreu !',
+    'Subject'           => 'Assunto',
+    'System'            => 'Sistema',
+    'This function must be accessed by a post method'
+                        => 'Esta funcionalidade deve ser acessada por um método "post"',
+    'Type'              => 'Tipo',
+    'uninformed'        => 'não informado',
+    'unknown'           => 'desconhecido',
+    'update'            => 'atualizar',
+    'verifing registers'=> 'verificando registros',
+    'view'              => 'ver',
+    'Yes'               => 'Sim',
+    "You don't have permission to access this !"
+                        => 'Você não tem permissão de acessar esta funcionalidade!',
+    'Your are about to delete a record. If you confirm, all it´s data and the related data will be deleted. If any record related to this user should not be deleted from here, you will receive a warning and this action will be canceled.'
+                        => 'Você está excluindo um registro. Se confirmar, todos os dados dele e aqueles relacionados em outras tabelas serão excluídos. Se algum registro relacionado não permitir a exclusão por esta rotina, você receberá um aviso e esta ação será cancelada.',
+    'Your Email'        => 'Seu email',
+    'Your Name'         => 'Seu nome',
+    'Your Message'      => 'Sua mensagem',
+    'No'                => 'Não',
+);

@@ -1,0 +1,15 @@
+<?php
+$title = $this->translate("Phone type");
+$this->title = $title . ' - ' . $this->translate("Edit");
+$this->headTitle($this->translate("Phone type"));
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-globe"></i> <?php echo $this->title; ?></h3>
+    </div>
+    <?php echo $this->form->render(); ?>
+</div>

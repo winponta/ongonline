@@ -1,0 +1,21 @@
+<?php
+$title = $this->translate("Report") . ': ' . $this->translate("Assistances by project");
+$this->title = $title;
+$this->headTitle($title);
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+$form->setAttrib('class', $form->getAttrib('class'). ' serialize');
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-file-alt"></i> <?php echo $this->title; ?></h3>
+    </div>
+
+    <div class="window-content">
+        <?= $form->render() ?>
+
+        <?= $this->printButtonsBlock() ?>
+    </div>
+</div>

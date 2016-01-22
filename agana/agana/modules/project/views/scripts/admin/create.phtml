@@ -1,0 +1,24 @@
+<?php
+$title = $this->translate("Project");
+$this->title = $title . ' - ' . $this->translate("Add new");
+$this->headTitle($this->translate("Project"));
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-folder-close"></i> <?php echo $this->title; ?></h3>
+    </div>
+    <?php echo $this->form->render(); ?>
+</div>
+
+<script type="text/javascript">
+    var tinyConfig = $.extend({}, Agana.TinyMCE.DefaultConfig, {height: 450});
+    tinymce.init(tinyConfig);
+
+    $('#save').on('click', null, function() {
+        tinymce.triggerSave();
+    });
+</script>

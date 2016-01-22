@@ -1,0 +1,213 @@
+<?php
+$title = $this->translate('Person helped');
+$this->title = $title;
+$this->headTitle($title);
+
+$editDetailsUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person-helped',
+    'action' => 'update',
+    'id' => $this->person->id,
+        ));
+
+$editProjectsUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person-helped-project',
+    'action' => 'associate',
+    'id' => $this->person->id,
+        ));
+
+$editProjetosSociaisUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person-helped-social-project',
+    'action' => 'associate',
+    'id' => $this->person->id,
+        ));
+
+$activitiesUrl = $this->url(array(
+    'module' => 'assistance',
+    'controller' => 'activity',
+    'action' => 'list-by-person-helped',
+    'person' => $this->person->id,
+        ));
+?>
+
+<div class="window">
+    <div class="window-header">
+        <div class="row">
+            <h3 class="span3">
+                <i class="icon-heart"></i> 
+                <?= $this->title; ?>
+            </h3>
+
+            <ul class="nav nav-pills">
+                <li>
+                    <a href="<?= $editDetailsUrl; ?>" load-in="content-container"><i class="icon-edit"></i> <translate>Edit</translate></a>
+                </li>
+                <li>
+                    <a href="<?= $editProjetosSociaisUrl; ?>" load-in="content-container"><i class="icon-credit-card"></i> Projetos Sociais</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle"
+                       data-toggle="dropdown"
+                        href="#">
+                        <i class="icon-credit-card"></i> Programas federais sociais
+                        <i class="icon-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <?php
+                                $socialProjectsTotalCount = $this->helped->getSocialProjectsTotalCount();
+                                $socialProjectsRelatedUrl = '#';
+                                if ($socialProjectsTotalCount > 0) {
+                                    $socialProjectsRelatedUrl = $this->url(array(
+                                        'module' => 'persons',
+                                        'controller' => 'person-helped',
+                                        'action' => 'list-social-projects',
+                                        'id' => $this->person->id,
+                                            ));
+                                }
+                            ?>
+                            <a href="<?= $socialProjectsRelatedUrl ?>" rel="colorbox">
+                                <i class="icon-credit-card"></i>
+                                Listar programas <span class="badge"><?= $socialProjectsTotalCount ?></span>
+                            </a>
+                        </li>
+                        <li><hr/></li>
+                        <li>
+                            <a href="<?= $editProjetosSociaisUrl; ?>" 
+                               load-in="content-container">
+                                <i class="icon-plus-sign"></i> 
+                                Novo projeto social
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle"
+                       data-toggle="dropdown"
+                        href="#">
+                        <i class="icon-folder-close-alt"></i> Projetos relacionados
+                        <i class="icon-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <?php
+                                $projectsTotalCount = $this->helped->getProjectsTotalCount();
+                                $projectsRelatedUrl = '#';
+                                if ($projectsTotalCount > 0) {
+                                    $projectsRelatedUrl = $this->url(array(
+                                        'module' => 'persons',
+                                        'controller' => 'person-helped',
+                                        'action' => 'list-projects-related',
+                                        'id' => $this->person->id,
+                                            ));
+                                }
+                            ?>
+                            <a href="<?= $projectsRelatedUrl ?>" rel="colorbox">
+                                <i class="icon-food"></i>
+                                Listar projetos associados <span class="badge"><?= $projectsTotalCount ?></span>
+                            </a>
+                        </li>
+                        <li><hr/></li>
+                        <li>
+                            <a href="<?= $editProjectsUrl; ?>" load-in="content-container">
+                                <i class="icon-plus-sign"></i> 
+                                Nova associação à Projeto
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="<?= $activitiesUrl; ?>" rel="colorbox"><i class="icon-food"></i> Atendimentos</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="window-content">
+        <div class="vcard  details-bordered">
+            <div class="row">
+                <h3 class="fn span12 id alert alert-heading alert-info">
+                    <?= $this->person->getName(); ?>
+                </h3>
+            </div>
+        </div>
+        
+        <div class="row">
+            <h6 class="span3"><translate>First help date</translate></h6>
+            <span class="span3">
+                <?= $this->Date($this->helped->first_help_date, Zend_Date::DATE_FULL); ?> 
+            </span>
+            <h6 class="span3"><translate>Religion</translate></h6>
+            <span class="span3">
+                <?= $this->helped->religion; ?> 
+            </span>
+        </div>
+
+        <h6 class="text-info"><translate>Birth data</translate></h6>
+        <div class="row">
+            <h6 class="span3"><translate>State</translate></h6>
+            <span class="span3">
+                <?= $this->helped->getBornState()->getName(); ?> 
+            </span>
+            <h6 class="span3"><translate>City</translate></h6>
+            <span class="span3">
+                <?= $this->helped->getBornCity()->getName(); ?> 
+            </span>
+        </div>
+
+        <h6 class="text-info"><translate>Professional data</translate></h6>
+        <div class="row">
+            <h6 class="span3"><translate>Professional occupation</translate></h6>
+            <span class="span3">
+                <?= $this->helped->professional_occupation; ?> 
+            </span>
+        </div>
+        <div class="row">
+            <h6 class="span3"><translate>Professional experience</translate></h6>
+            <span class="span3">
+                <?= $this->helped->professional_experience; ?> 
+            </span>
+        </div>
+
+        <h6 class="text-info"><translate>Home data</translate></h6>
+        <div class="row">
+            <h6 class="span3"><translate>Live with family</translate></h6>
+            <span class="span3">
+                <translate>
+                    <?= $this->translate(($this->helped->live_with_family) ? 'Yes' : 'No'); ?> 
+                </translate>
+            </span>
+            <h6 class="span3"><translate>Living since</translate></h6>
+            <span class="span3">
+                <?= $this->date($this->helped->home_since, Zend_Date::DATE_MEDIUM); ?> 
+            </span>
+        </div>
+        <div class="row">
+            <h6 class="span3"><translate>Home situation</translate></h6>
+            <span class="span3">
+                <?= $this->helped->home_situation; ?> 
+            </span>
+            <h6 class="span3"><translate>Rent value</translate></h6>
+            <span class="span3">
+                <?= $this->helped->rent_value; ?>
+            </span>
+        </div>
+        <div class="row">
+            <h6 class="span3"><translate>Home area</translate></h6>
+            <span class="span3">
+                <?= $this->helped->home_area; ?> 
+            </span>
+            <h6 class="span3"><translate>Home type</translate></h6>
+            <span class="span3">
+                <?= $this->helped->home_type; ?> 
+            </span>
+        </div>
+        <div class="row">
+            <h6 class="span3"><translate>Home pieces</translate></h6>
+            <span class="span3">
+                <?= $this->helped->home_pieces_number; ?> 
+            </span>
+        </div>
+    </div>
+</div>

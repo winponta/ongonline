@@ -1,0 +1,78 @@
+<?php
+$title = $this->translate("User role");
+$this->title = $title;
+$this->headTitle($this->translate("User role"));
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span9"><i class="icon-group"></i> <translate>User role</translate></h3>
+        <?php if (Agana_Acl_Service::isAllowed(Zend_Auth::getInstance()->getIdentity()->acl_role_id,
+                User_Module_Acl::ACL_RESOURCE_USERROLE,
+                User_Module_Acl::ACL_RESOURCE_USERROLE_PRIVILEGE_CREATE)) :
+            ?>
+            <a class="btn pull-right" load-in="content-container" href="<?php
+echo $this->url(
+        array('module' => 'user', 'controller' => 'role',
+    'action' => 'create'), null, true);
+?>">
+            <i class="icon-plus-sign"></i> <translate>Add new</translate></a>
+            <?php endif; ?>
+    </div>
+    <div class="window-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th><translate>Name</translate></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->roles as $acc) :
+                    $edit = $this->url(
+                            array('module' => 'user', 'controller' => 'role',
+                        'action' => 'update', 'id' => $acc->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'user', 'controller' => 'role',
+                        'action' => 'delete', 'id' => $acc->id), null, true);
+
+                    $permissionUrl = $this->url(
+                            array('module' => 'user', 'controller' => 'role-permission',
+                        'action' => 'list', 'id' => $acc->id), null, true);
+
+                    ?>
+                    <tr>
+                        <td><?php echo $acc->id; ?></td>
+                        <td><?php echo $acc->name; ?></td>
+                <td class='align_center'>
+                    <a class="btn btn-mini btn-success" href="<?php echo $permissionUrl; ?>" load-in="content-container">
+                        <i class="icon-edit"></i> <translate>Permissions</translate>
+                    </a>
+        <?php if (Agana_Acl_Service::isAllowed(Zend_Auth::getInstance()->getIdentity()->acl_role_id,
+                User_Module_Acl::ACL_RESOURCE_USERROLE,
+                User_Module_Acl::ACL_RESOURCE_USERROLE_PRIVILEGE_UPDATE)) :
+            ?>
+                    <a class="btn btn-mini btn-info" href="<?php echo $edit; ?>" load-in="content-container">
+                        <i class="icon-edit"></i> <translate>Edit</translate>
+                    </a>
+        <?php 
+            endif;
+            
+        if (Agana_Acl_Service::isAllowed(Zend_Auth::getInstance()->getIdentity()->acl_role_id,
+                User_Module_Acl::ACL_RESOURCE_USERROLE,
+                User_Module_Acl::ACL_RESOURCE_USERROLE_PRIVILEGE_DELETE)) :
+            ?>
+
+                    <a class="btn btn-mini btn-danger" href="<?php echo $delete; ?>" load-in="content-container">
+                        <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                    </a> 
+            <?php endif; ?>
+                </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>

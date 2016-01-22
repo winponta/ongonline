@@ -1,0 +1,113 @@
+<?php
+$title = $this->translate("Report") . ': ' . $this->translate("Persons helped by project");
+$this->title = $title;
+$this->headTitle($title);
+
+function openReport($title) {
+?>   
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <?php
+                        $r = new Agana_Print_Report($title, 'ACCOUNT', 'ONG ONLINE');
+                        echo $r->getHtmlHeader();
+                    ?>
+                </th>
+            </tr>
+        </thead>
+<?php
+}
+
+function closeReport($title) {
+?>   
+        <footer>
+            <tr>
+                <td>
+                    <?php
+                        $r = new Agana_Print_Report($title, 'ACCOUNT', 'ONG ONLINE');
+                        echo $r->getHtmlFooter();
+                    ?>
+                </td>
+            </tr>
+        </tfooter>
+    </table>
+<?php
+}
+
+function openGroupHeader($projectName) {
+ ?>
+    <table class="mpdf">
+        <thead style="background: #e5e5e5;">
+            <tr>
+                <th><h2><translate>Project</translate>: <?=$projectName?></h2></th>
+            </tr>
+        </thead>
+        <tbody>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><translate>Person</translate></th>
+                        <th><translate>Date in</translate></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+<?php
+} // openProjectHeader
+
+function closeGroupHeader($projectName, $count) {
+ ?>
+                    <tfooter>
+                        <tr style="background: #f0f0f0; font-style: italic;">
+                            <td class="text-right">
+                                Número de assistidos alocados no projeto <?=$projectName?> nesta data
+                            </td>
+                            <td>
+                                <?=$count?>
+                            </td>
+                        </tr>
+                    </tfooter>
+                </tbody>
+            </table>
+        </tbody>
+    </table>
+
+<?php
+} // closeProjectHeader
+?>
+
+<div class="window">
+    <div class="window-content">
+        <?php 
+            $project = -1;
+            $projectName = '';
+            $count = 0;
+            
+            if ($this->format == 'html') openReport($title);
+            
+            foreach ($this->records as $rec) {
+                if ($rec['project_id'] != $project) {
+                    if ($project >= 0) closeGroupHeader ($projectName, $count);
+                    
+                    $project = $rec['project_id'];
+                    $projectName = $rec['project_name'];
+                    openGroupHeader($rec['project_name']);
+                    $count = 0;
+                }
+                $count++;
+        ?>
+            <tr>
+                <td><?=$rec['person_name']?></td>
+                <td><?=$this->date($rec['date_in'], Zend_Date::DATE_LONG)?></td>
+            </tr>
+
+        <?php
+            }
+            closeGroupHeader($projectName, $count);
+            if ($this->format == 'html') closeReport($title);
+
+        ?>
+    </div>
+
+</div>

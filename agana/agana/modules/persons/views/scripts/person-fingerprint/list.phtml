@@ -1,0 +1,191 @@
+<?php
+$title = 'Impressão digital';
+$this->title = $title;
+$this->headTitle($this->title);
+$form = $this->form;
+
+$formAction = $this->url(array('module' => 'persons', 'controller' => 'person-fingerprint',
+                       'action' => 'enroll', 'id' => $this->person->getId()), null, true);
+
+
+function isthereDigital($hand, $fps) {
+    if ($hand == 'right') {
+        if (count($fps) == 0 || $fps[0]->getFinger_number() > 5) {
+            return false;
+        }
+    }
+
+    if ($hand == 'left') {
+        if (count($fps) == 0 || $fps[count($fps) - 1]->getFinger_number() < 6) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function existFingerDigital($finger_number, $fps) {
+    $i = 0;
+    while ($i < count($fps)) {
+        if ($finger_number == $fps[$i]->getFinger_number()) {
+            return true;
+            break;
+        }
+        $i++;
+    }
+
+    return false;
+}
+
+function showFPrint($hand, $fp) {
+    $show = false;
+    if ($hand == 'right' && $fp->getFinger_number() < 6) {
+        $show = true;
+    }
+
+    if ($hand == 'left' && $fp->getFinger_number() > 5) {
+        $show = true;
+    }
+
+    if ($show) {
+        echo '<span class="span1 text-center badge badge-success" style="margin-bottom:2px;">' . $fp->getFingerName() . '</span>';
+    }
+}
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="pull-left"><i class="icon-hand-up"></i> <?= $this->title ?></h3>
+    </div>
+    <div class="window-content window-table">
+        <div class="row">
+            <h3 class="span12 fn id alert alert-heading alert-info">
+                <?= $this->person->getName(); ?>
+            </h3>
+        </div>
+
+        <div class="span6">
+            <h4 class="span12 page-header">
+                Mão direita - dedos
+            </h4>
+            <?php
+            if (isthereDigital('right', $this->fps) === false) {
+                echo '<span class="span12">nenhuma impressão digital desta mão</span>';
+            } else {
+                foreach ($this->fps as $rec) {
+                    showFPrint('right', $rec);
+                }
+            }
+            ?>
+        </div>
+
+        <div class="span6">
+            <h4 class="span12 page-header">
+                Mão esquerda - dedos
+            </h4>
+            <?php
+            if (isthereDigital('left', $this->fps) === false) {
+                echo '<span class="span12">nenhuma impressão digital desta mão</span>';
+            } else {
+                foreach ($this->fps as $rec) {
+                    showFPrint('left', $rec);
+                }
+            }
+            ?>
+        </div>
+
+        <form id="fprint" 
+              class=" form-horizontal well" 
+              action="<?= $formAction ?>" 
+              load-in="content-container" 
+              method="post" 
+              enctype="application/x-www-form-urlencoded" 
+              name="fprint">
+
+            <?= ''; //$form->getElement('person_id')->render() ?>
+            <?= ''; //$form->getElement('text_hash')->render() ?>
+
+            <input type="hidden" name="person_id" value="<?= $this->person->getId()?>"/>
+            
+            <div class="row">
+                <h5 class="span12 page-header muted">
+                    Captura de digitais <br/>
+                </h5>
+                <span class="span6">
+                    <?php
+                    for ($i = 1; $i <= 5; $i++) {
+                        $fp = new Persons_Model_PersonFingerprint();
+                        $fp->setFinger_number($i);
+                        if (existFingerDigital($i, $this->fps) === false) {
+                            echo '<span class="span12">';
+                            echo '<input class="span1" type="radio" name="finger_number" value="' . $i . '"/>';
+                            echo $fp->getFingerName();
+                            echo '<label for="finger_number" class="span2">';
+                            echo ' :: mão direita';
+                            echo '</label>';
+                            echo '</span>';
+                        }
+                    }
+                    ?>
+                </span>
+                <span class="span6">
+                    <?php
+                    for ($i = 6; $i <= 10; $i++) {
+                        $fp = new Persons_Model_PersonFingerprint();
+                        $fp->setFinger_number($i);
+                        if (existFingerDigital($i, $this->fps) === false) {
+                            echo '<span class="span12">';
+                            echo '<input class="span1" type="radio" name="finger_number" value="' . $i . '"/>';
+                            echo $fp->getFingerName();
+                            echo '<label for="finger_number" class="span2">';
+                            echo ' :: mão esquerda';
+                            echo '</label>';
+                            echo '</span>';
+                        }
+                    }
+                    ?>
+                </span>
+            </div>
+
+            <textarea class="hide" name="text_hash" id="text_hash"></textarea>
+
+            <div class="row">
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary hide" id="enroll" name="save">
+                        <i class="icon-hand-up"></i>
+                        Capturar digital
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("[name='finger_number']").on('click', null, function() {
+        $("[name='finger_number']").parent('span').removeClass('alert-info span6');
+        $(this).parent('span').addClass('alert-info span6');
+        $('#enroll').show();
+    });
+
+    $('#enroll').on('click', null, function(event) {
+//        console.log('fkey');
+//        $('#text_hash').val('ESTE ÉUM TESTE POR ISSO A CHAVE NÃO É REAL E SIM SOMENTE ESTA FRASE, DEVE SER EXCLUIDO');
+        
+        if (fingerkey.isReady() == false) {
+            app.showAppMsg(fingerkey.getMessages(), 'alert-error');
+            event.preventDefault();
+            return false;
+        } else {
+            if (fkey.nitgen.enrollStringKey()) {
+                $('#text_hash').val(fkey.nitgen.getFingerkey());
+            } else {
+                app.showAppMsg(fkey.nitgen.getStatusMessage(), 'alert-error');
+                event.preventDefault();
+                return false;
+            }
+        }
+        
+    });
+
+</script>

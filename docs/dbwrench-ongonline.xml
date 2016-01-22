@@ -1,0 +1,1577 @@
+<?xml version="1.0" encoding="UTF-8"?><Db flnm="dbwrench-ongonline" nm="ongonline" ver="1.3.4">
+  <VerLbl/>
+  <VerNotes/>
+  <DefTblOpts/>
+  <DocFolder>/home/nuno/Workspaces/desenvolvimento/winponta/ongonline/docs</DocFolder>
+  <Sch Cm="standard public schema" nm="public">
+    <Tbl UsSo="1" nm="acl_role">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="acl_role_pk"/>
+      <Cl au="0" df="nextval('acl_role_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="appaccount_acl_role_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="appaccount" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="acl_role" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="appaccount_id" prCl="id"/>
+      </Fk>
+      <Idx clu="0" ftx="0" nm="acl_role_name_idx" spa="0" unq="1">
+        <ClNs>name, appaccount_id</ClNs>
+        <OptTx/>
+      </Idx>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="acl_role_permission">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="acl_role_permission_pk"/>
+      <Cl au="0" df="nextval('acl_role_permission_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="resource" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="30" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="privilege" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="30" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="acl_role_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="0" nm="acl_role_acl_role_permission_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="acl_role" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="acl_role_permission" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="acl_role_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="appaccount">
+      <Cm>The owners of accounts in the system</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="appaccount_pk"/>
+      <Cl au="0" df="nextval('appaccount_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="120" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="email" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="created" nu="0">
+        <DT arr="0" ds="TimeStamp" en="" id="93" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Idx clu="0" ftx="0" nm="appaccount_idx_name" spa="0" unq="1">
+        <ClNs>name</ClNs>
+        <OptTx/>
+      </Idx>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="appaccount_media">
+      <TblOpts/>
+      <Pk ClNs="appaccount_id, media_id" nm="pkappaccount_media"/>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="media_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="0" nm="fk_appaccount_media_appaccount" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="appaccount" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="appaccount_media" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="appaccount_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_appaccount_media_media" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="media" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="appaccount_media" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="media_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="atividade_assistencia">
+      <Cm>Atvidades de assistências realizadas, podendo ou não estar ligadas à um projeto, porém sempre ligadas à um Task Type (Tipo de Atividade)</Cm>
+      <TblOpts/>
+      <Pk ClNs="id" nm="pkatividade_assistencia"/>
+      <Cl au="1" df="nextval('atividade_assistencia_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="person_helped_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="person_performed_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="task_type_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="project_id" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="assistance_date" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="assistance_time" nu="0">
+        <DT arr="0" ds="Time" en="" id="92" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="person_recorded_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Pessoa que realizou o lançamento do r</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="description" nu="1">
+        <DT arr="0" ds="Text" en="" id="703" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="event_id" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="FALSE" nm="id_by_finger_key" nu="0">
+        <DT arr="0" ds="Boolean" en="" id="16" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="fk_atividade_assistencia_appaccount" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="appaccount" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="atividade_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="appaccount_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_atividade_assistencia_evento_assistencia" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="evento_assistencia" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="atividade_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="event_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_atividade_assistencia_person" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="atividade_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="person_recorded_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_atividade_assistencia_person_helped" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="atividade_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="person_helped_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_atividade_assistencia_person_performed" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="atividade_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="person_performed_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_atividade_assistencia_project" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="project" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="atividade_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="project_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_atividade_assistencia_task_type" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="task_type" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="atividade_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="task_type_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="audit_trail">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="audit_trail_pk"/>
+      <Cl au="0" df="nextval('audit_trail_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="record_id" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="tablename" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="60" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="fieldname" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="60" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="eventdate" nu="0">
+        <DT arr="0" ds="TimeStamp" en="" id="93" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="eventtype" nu="0">
+        <DT arr="0" ds="Char" en="" id="1" ln="3" sc="null" sg="1" un="0"/>
+        <Cm>INS, UPD, DEL</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="user_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="false" nm="fieldtexttype" nu="0">
+        <DT arr="0" ds="Char" en="" id="1" ln="1" sc="null" sg="1" un="0"/>
+        <Cm>Y or N</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="value" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="260" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="busunit">
+      <Cm>Headquarter / Branch / Head Office
+Only one "main" unit may exist, this will have a relation with appaccount, all other will be child of it</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="busunit_pk"/>
+      <Cl au="0" df="nextval('busunit_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="tradename" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="doctaxnumber" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>This is the document id - Tax Number (USA), CNPJ (Brasil), CPF (Brasil Pessoa Física)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="phone" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="16" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="address" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="150" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="addressnumber" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="6" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="addressdetails" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="150" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="postalcode" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="9" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="website" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>This is the main url to access in web</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="city_id" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="0" nm="head" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Indicates the Headquarter or Head office unit of the app account. Only one is allowed for app account</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="district" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="appaccount_busunit_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="appaccount" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="busunit" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="appaccount_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="city_organization_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="city" oe="1" sch="public" zr="1"/>
+        <CdTb mn="1" nm="busunit" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="city_id" prCl="id"/>
+      </Fk>
+      <Idx clu="0" ftx="0" nm="busunit_appaccount_fk" spa="0" unq="0">
+        <ClNs>appaccount_id</ClNs>
+        <OptTx/>
+      </Idx>
+      <Idx clu="0" ftx="0" nm="busunit_idx_name" spa="0" unq="1">
+        <ClNs>name</ClNs>
+        <OptTx/>
+      </Idx>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="category">
+      <Cm>Terms in a taxonomy, category group</Cm>
+      <TblOpts/>
+      <Pk ClNs="id" nm="pkcategory"/>
+      <Cl au="1" df="" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="parent_id" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="80" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="category_group_id" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="fk_category_category" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="category" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="category" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="parent_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_category_category_group" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="category_group" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="category" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="category_group_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_category_category_group_id" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="category_group" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="category" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="category_group_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="category_group">
+      <Cm>Name of categories groups or vacabularies or taxonomies</Cm>
+      <TblOpts/>
+      <Pk ClNs="id" nm="pkcategory_group"/>
+      <Cl au="1" df="" nm="id" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="60" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="city">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="city_pk"/>
+      <Cl au="0" df="" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="70" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="state_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="state_city_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="state" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="city" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="state_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="city_region">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="city_region_pk"/>
+      <Cl au="0" df="nextval('city_region_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="city_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="parent_id" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="city_city_region_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="city" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="city_region" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="city_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="parent_city_region_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="city_region" oe="1" sch="public" zr="1"/>
+        <CdTb mn="1" nm="city_region" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="parent_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="country">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="country_pk"/>
+      <Cl au="0" df="nextval('country_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="employee">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="employee_pk"/>
+      <Cl au="0" df="" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="registration_number" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="busunit_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="job_function_id" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="busunit_employee_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="busunit" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="employee" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="busunit_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="job_function_employee_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="job_function" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="employee" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="job_function_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="3" nm="person_employee_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="employee" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="id" prCl="id"/>
+      </Fk>
+      <Idx clu="0" ftx="0" nm="employee_registration_idx" spa="0" unq="1">
+        <ClNs>registration_number, busunit_id</ClNs>
+        <OptTx/>
+      </Idx>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="evento_assistencia">
+      <Cm>Agrupador de atividades de assistencia</Cm>
+      <TblOpts/>
+      <Pk ClNs="id" nm="pkevento_assistencia"/>
+      <Cl au="1" df="nextval('evento_assistencia_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="event_date" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="task_type_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="0" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="project_id" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="0" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="0" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="fk_evento_assistencia_appaccount" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="appaccount" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="evento_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="appaccount_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_evento_assistencia_project" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="project" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="evento_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="project_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_evento_assistencia_task_type" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="task_type" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="evento_assistencia" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="task_type_id" prCl="id"/>
+      </Fk>
+      <Idx clu="0" ftx="0" nm="evento_assistencia_event_date_Idx" spa="0" unq="0">
+        <ClNs>event_date</ClNs>
+        <OptTx/>
+      </Idx>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="expertise_area">
+      <Cm>Expertise, knowledge, specialization area</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="expertise_area_pk"/>
+      <Cl au="0" df="nextval('expertise_area_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="description" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="400" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="fingerprint">
+      <TblOpts/>
+      <Pk ClNs="person_id, finger_number" nm="pkfingerprint"/>
+      <Cl au="0" df="" nm="person_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="1" nm="finger_number" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Mão direita a partir do polegar 1=pol, 2=indicador, etc ... segue mão esquerda 6=pol, etc</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="text_hash" nu="0">
+        <DT arr="0" ds="Text" en="" id="703" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Hash em texto gerado pelo leitor</Cm>
+      </Cl>
+      <Fk deAc="0" nm="fk_fingerprint_person" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="fingerprint" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="person_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="job_function">
+      <Cm>Describe the job function in a company for persons</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="job_function_pk"/>
+      <Cl au="0" df="nextval('job_function_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="description" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="400" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="media">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="media_pk"/>
+      <Cl au="0" df="nextval('media_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="No title specified" nm="title" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="140" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="file" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="140" sc="null" sg="1" un="0"/>
+        <Cm>The name and extension of the file: user-1.png</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="filesize" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The size in bytes of the file</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="mimetype" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="person">
+      <Cm>The Person (customer, client, vendor, fabricant, employe, student, user) basic data.
+It's tight related to user table</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="person_pk"/>
+      <Cl au="0" df="nextval('person_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="120" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="created" nu="0">
+        <DT arr="0" ds="TimeStamp" en="" id="93" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="address" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="150" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="addressdetails" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="150" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="addressnumber" nu="1">
+        <DT arr="0" ds="Char" en="" id="1" ln="6" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="city_id" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="mobilephone" nu="1">
+        <DT arr="0" ds="Char" en="" id="1" ln="16" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="phone" nu="1">
+        <DT arr="0" ds="Char" en="" id="1" ln="16" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="postalcode" nu="1">
+        <DT arr="0" ds="Char" en="" id="1" ln="9" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="website" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="email" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="gender" nu="0">
+        <DT arr="0" ds="Char" en="" id="1" ln="1" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="birthdate" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="city_region_id" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="marital_status" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="12" sc="null" sg="1" un="0"/>
+        <Cm>single, married, widow(er), separeted, stable union</Cm>
+      </Cl>
+      <Fk deAc="0" nm="appaccount_person_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="appaccount" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="appaccount_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="city_person_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="city" oe="1" sch="public" zr="1"/>
+        <CdTb mn="1" nm="person" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="city_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="city_region_person_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="city_region" oe="1" sch="public" zr="1"/>
+        <CdTb mn="1" nm="person" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="city_region_id" prCl="id"/>
+      </Fk>
+      <Idx clu="0" ftx="0" nm="person_name_idx" spa="0" unq="0">
+        <ClNs>name</ClNs>
+        <OptTx/>
+      </Idx>
+      <Idx clu="0" ftx="0" nm="person_name_like_idx" spa="0" unq="0">
+        <ClNs>name</ClNs>
+        <OptTx/>
+      </Idx>
+      <Idx clu="0" ftx="0" nm="person_name_pattern_idx" spa="0" unq="0">
+        <ClNs>name</ClNs>
+        <OptTx/>
+      </Idx>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="person_docs">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="person_docs_pk"/>
+      <Cl au="0" df="" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="identitycard" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>RG - Brasil</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="individualdoctaxnumber" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>CPF - Brasil</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="birthcertificate" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="30" sc="null" sg="1" un="0"/>
+        <Cm>Certificado de Nascimento - Brasil</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="professionalcard" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>Carteira Profissional - Brasil</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="driverslicense" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>Carteira de Motorista - Brasil</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="voterregistration" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>Título de Eleitor - Brasil</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="militaryregistration" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="30" sc="null" sg="1" un="0"/>
+        <Cm>Carteira de Reservista - Brasil</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="healthsystemcard" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>Cartão do SUS - Brasil</Cm>
+      </Cl>
+      <Fk deAc="0" nm="person_person_docs_fk" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_docs" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="person_helped">
+      <Cm>Data of person helped by non profit org</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="pkperson_helped"/>
+      <Cl au="0" df="" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Person id</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="religion" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="professional_occupation" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Seted by app as: Retired, Rural Worker, Unemployed, City Worker, Another (described)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="professional_experience" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="400" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="live_with_family" nu="0">
+        <DT arr="0" ds="Boolean" en="" id="16" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="home_situation" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Specified in app as: Owner, Rent, Mortgage, Present, Invasion, Other(describe)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="home_since" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="born_city_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="born_state_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="home_area" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Described in app as: Urban, Rural, Island, Quilombo, Indian</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="home_type" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Spcifeid in app as: Brick, Adobe, Wood, Another(describe)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="home_pieces_number" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="rent_value" nu="1">
+        <DT arr="0" ds="Numeric" en="" id="2" ln="10" sc="2" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="first_help_date" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="fk_person_helped_city" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="city" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_helped" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="born_city_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_person_helped_person" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_helped" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_person_helped_state" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="state" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_helped" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="born_state_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="person_helped_project">
+      <Cm>Persons helped on projects</Cm>
+      <TblOpts/>
+      <Pk ClNs="project_id, person_id, date_in" nm="pkperson_helped_project"/>
+      <Cl au="0" df="" nm="project_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="person_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="date_in" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that the person got in the project</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="date_out" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date the person got out</Cm>
+      </Cl>
+      <Fk deAc="1" nm="fk_project_person_helped_person_helped" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="person_helped" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_helped_project" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="person_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="0" nm="fk_project_person_helped_project" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="project" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_helped_project" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="project_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="person_media">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="person_id, media_id" nm="person_media_pk"/>
+      <Cl au="0" df="" nm="person_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="media_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="media_person_media_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="media" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_media" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="media_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="0" nm="person_person_media_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_media" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="person_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="person_programa_federal_social">
+      <TblOpts/>
+      <Pk ClNs="person_id, pfs_id" nm="pkperson_programa_federal_social"/>
+      <Cl au="0" df="" nm="person_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="pfs_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="numero" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="0" nm="fk_person_programa_federal_social_person" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_programa_federal_social" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="person_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="fk_person_programa_federal_social_programa_federal_social" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="programa_federal_social" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="person_programa_federal_social" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="pfs_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="programa_federal_social">
+      <Cm>Programas federais sociais como Bolsa Família, Pró-jovem, NIS, NIT, PASEP, PIS, etc</Cm>
+      <TblOpts/>
+      <Pk ClNs="id" nm="pkprograma_federal_social"/>
+      <Cl au="1" df="nextval('programa_federal_social_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="nome" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="40" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="sigla" nu="0">
+        <DT arr="0" ds="Char" en="" id="1" ln="5" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="project">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="project_pk"/>
+      <Cl au="0" df="nextval('project_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="60" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="startdateexpected" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="abstract" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="1200" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="fulldescription" nu="1">
+        <DT arr="0" ds="Text" en="" id="703" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="finishdateexpected" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="finishdatereal" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="startdatereal" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="0" nm="status" nu="0">
+        <DT arr="0" ds="TinyInt" en="" id="-6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>0 = Draft; 1 = Active; 2 = Paused; 3 = Finished; 4 = Closed</Cm>
+      </Cl>
+      <Fk deAc="1" nm="fk_project_appaccount" prLkCl="id" upAc="1">
+        <PrTb mn="0" nm="appaccount" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="project" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="appaccount_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="project_media">
+      <TblOpts/>
+      <Pk ClNs="project_id, media_id" nm="pkproject_media"/>
+      <Cl au="0" df="" nm="project_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="media_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="0" nm="fk_project_media_media" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="media" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="project_media" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="media_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="0" nm="fk_project_media_project" prLkCl="id" upAc="0">
+        <PrTb mn="0" nm="project" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="project_media" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="project_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="state">
+      <Cm>State of a Country</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="state_pk"/>
+      <Cl au="0" df="nextval('state_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="country_id" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="abbreviation" nu="0">
+        <DT arr="0" ds="Char" en="" id="1" ln="2" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="country_state_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="country" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="state" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="country_id" prCl="id"/>
+      </Fk>
+      <Idx clu="0" ftx="0" nm="state_unq_country_abbreviation" spa="0" unq="1">
+        <ClNs>abbreviation, country_id</ClNs>
+        <OptTx/>
+      </Idx>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="task_type">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="task_type_pk"/>
+      <Cl au="0" df="nextval('task_type_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="120" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="description" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="1200" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="parent_id" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="task_type_parent_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="task_type" oe="1" sch="public" zr="1"/>
+        <CdTb mn="1" nm="task_type" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="parent_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="user">
+      <Cm>User of the system</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="user_pk"/>
+      <Cl au="0" df="nextval('user_id_seq'::regclass)" nm="id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="64" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="email" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="pwd" nu="0">
+        <DT arr="0" ds="Char" en="" id="1" ln="32" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="created" nu="0">
+        <DT arr="0" ds="TimeStamp" en="" id="93" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="last_login" nu="1">
+        <DT arr="0" ds="TimeStamp" en="" id="93" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="status" nu="0">
+        <DT arr="0" ds="SmallInt" en="" id="5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Status of the user account. 
+
+-1 	= Blocked
+0 	= Not yet activated
+1	= Active</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="rnd_salt" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="32" sc="null" sg="1" un="0"/>
+        <Cm>Randomic salt to generate the encripted password with MD5</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="person_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="appaccount_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="acl_role_id" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="acl_role_user_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="acl_role" oe="1" sch="public" zr="1"/>
+        <CdTb mn="1" nm="user" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="acl_role_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="appaccount_user_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="appaccount" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="user" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="appaccount_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="1" nm="person_user_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="user" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="person_id" prCl="id"/>
+      </Fk>
+      <Idx clu="0" ftx="0" nm="user_idx_email" spa="0" unq="1">
+        <ClNs>email</ClNs>
+        <OptTx/>
+      </Idx>
+      <Idx clu="0" ftx="0" nm="user_idx_name" spa="0" unq="1">
+        <ClNs>name</ClNs>
+        <OptTx/>
+      </Idx>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="volunteer">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="id" nm="volunteer_pk"/>
+      <Cl au="0" df="" nm="id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="person_volunteer_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="person" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="volunteer" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="volunteer_expertise_area">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="volunteer_id, expertise_area_id" nm="volunteer_expertise_area_pk"/>
+      <Cl au="0" df="" nm="volunteer_id" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="expertise_area_id" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="1" nm="expertise_area_volunteer_expertise_area_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="expertise_area" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="volunteer_expertise_area" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="expertise_area_id" prCl="id"/>
+      </Fk>
+      <Fk deAc="0" nm="volunteer_volunteer_expertise_area_fk" prLkCl="id" upAc="3">
+        <PrTb mn="0" nm="volunteer" oe="1" sch="public" zr="0"/>
+        <CdTb mn="1" nm="volunteer_expertise_area" oe="0" sch="public" zr="1"/>
+        <ClPr cdCl="volunteer_id" prCl="id"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Proc nm="normalize_utf8(texto character varying)">
+      <src>CREATE OR REPLACE FUNCTION normalize_utf8(texto character varying) 
+  RETURNS character varying AS 
+$$select to_ascii(convert_to($1, 'latin1'), 'latin1')$$
+  LANGUAGE sql IMMUTABLE STRICT
+  COST 100;</src>
+    </Proc>
+    <Proc nm="to_ascii(bytea, name)">
+      <src>CREATE OR REPLACE FUNCTION to_ascii(bytea, name) 
+  RETURNS text AS 
+$$to_ascii_encname$$
+  LANGUAGE internal VOLATILE STRICT
+  COST 1;</src>
+    </Proc>
+    <Proc nm="unaccented(text)">
+      <src>CREATE OR REPLACE FUNCTION unaccented(text) 
+  RETURNS text AS 
+$$
+    SELECT translate($1,'ÀÁÂÃÄÅĀĂĄÈÉÊËĒĔĖĘĚÌÍÎÏĨĪĮİÒÓÔÕÖØŌŎŐÙÚÛÜŨŪŬŮŰŲàáâãäåāăąèéêëēĕėęěìíîïĩīĭįòóôõöøōŏőùúûüũūŭůųÇçÑñÝýÿĆćĈĉĊċČčĎďĐđĜĝĞğĠġĢģĤĥĦħ',
+'AAAAAAAAAEEEEEEEEEIIIIIIIIOOOOOOOOOUUUUUUUUUUaaaaaaaaaeeeeeeeeeiiiiiiiiooooooooouuuuuuuuuCcNnYyyCcCcCcCcDdDdGgGgGgGgHhHh');
+$$
+  LANGUAGE sql IMMUTABLE STRICT
+  COST 100;</src>
+    </Proc>
+    <View nm="v_Employee">
+      <Sql>SELECT
+    p.id,
+    p.name,
+    p.created,
+    p.appaccount_id,
+    p.address,
+    p.addressdetails,
+    p.addressnumber,
+    p.city_id,
+    p.mobilephone,
+    p.phone,
+    p.postalcode,
+    p.website,
+    p.email,
+    p.gender,
+    p.birthdate,
+    p.city_region_id,
+    e.busunit_id,
+    e.registration_number,
+    e.job_function_id
+FROM person p
+    JOIN employee e ON p.id = e.id</Sql>
+    </View>
+    <View nm="v_person_helped">
+      <Sql>SELECT 
+    p.*,
+    ph.religion,
+    ph.professional_occupation,
+    ph.professional_experience,
+    live_with_family,
+    home_situation,
+    home_since,
+    born_city_id,
+    born_state_id,
+    home_area,
+    home_type,
+    home_pieces_number,
+    rent_value,
+    first_help_date
+FROM
+    person p
+    INNER JOIN
+    person_helped ph
+    on p.id = ph.id</Sql>
+    </View>
+    <View nm="v_person_helped_by_project">
+      <Sql>SELECT prj.name as project_name, php.*, p.name as person_name
+FROM project prj LEFT OUTER JOIN person_helped_project php ON prj.id = php.project_id
+LEFT OUTER JOIN person p ON php.person_id = p.id
+ORDER BY prj.name ASC, p.name ASC   </Sql>
+    </View>
+    <View nm="v_person_helped_programa_federal_social">
+      <Sql>Select 
+    ph.id as person_id,
+    pfs.id as pfs_id,
+    pfs.nome as pfs_nome,
+    pfs.sigla as pgs_sigla
+FROM
+    person_helped ph INNER JOIN person_programa_federal_social ppfs
+    ON ph.id = ppfs.person_id
+    INNER JOIN programa_federal_social pfs
+    ON ppfs.pfs_id = pfs.id</Sql>
+    </View>
+    <View nm="v_Volunteer">
+      <Sql>SELECT
+    p.id,
+    p.name,
+    p.created,
+    p.appaccount_id,
+    p.address,
+    p.addressdetails,
+    p.addressnumber,
+    p.city_id,
+    p.mobilephone,
+    p.phone,
+    p.postalcode,
+    p.website,
+    p.email,
+    p.gender,
+    p.birthdate,
+    p.city_region_id
+FROM person p
+    JOIN volunteer v ON p.id = v.id</Sql>
+    </View>
+    <Seq incr="1" nm="acl_role_id_seq"/>
+    <Seq incr="1" nm="acl_role_permission_id_seq"/>
+    <Seq incr="1" nm="appaccount_id_seq"/>
+    <Seq incr="1" nm="atividade_assistencia_id_seq"/>
+    <Seq incr="1" nm="audit_trail_id_seq"/>
+    <Seq incr="1" nm="busunit_id_seq"/>
+    <Seq incr="1" nm="city_id_seq"/>
+    <Seq incr="1" nm="city_region_id_seq"/>
+    <Seq incr="1" nm="country_id_seq"/>
+    <Seq incr="1" nm="evento_assistencia_id_seq"/>
+    <Seq incr="1" nm="expertise_area_id_seq"/>
+    <Seq incr="1" nm="job_function_id_seq"/>
+    <Seq incr="1" nm="media_id_seq"/>
+    <Seq incr="1" nm="person_id_seq"/>
+    <Seq incr="1" nm="programa_federal_social_id_seq"/>
+    <Seq incr="1" nm="project_id_seq"/>
+    <Seq incr="1" nm="state_id_seq"/>
+    <Seq incr="1" nm="task_type_id_seq"/>
+    <Seq incr="1" nm="user_id_seq"/>
+    <CustomTypes/>
+  </Sch>
+  <Dgm nm="App Account">
+    <RnCf ClkAct="true" FtSz="9" lkStgy="OffsetDirect" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="1" PkCols="1"/>
+      <ErNotation>DbwErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ffccccff" sch="public" tbl="appaccount" x="386" y="43"/>
+    <TbGl bkCl="ffccccff" sch="public" tbl="media" x="713" y="204"/>
+    <TbGl bkCl="ffccccff" sch="public" tbl="appaccount_media" x="703" y="47"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="acl_role" x="328" y="465"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="acl_role_permission" x="703" y="461"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="person" x="0" y="45"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="user" x="0" y="385"/>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.acl_role.appaccount_acl_role_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.acl_role_permission.acl_role_acl_role_permission_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.appaccount_media.fk_appaccount_media_appaccount" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.appaccount_media.fk_appaccount_media_media" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person.appaccount_person_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.user.acl_role_user_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.user.appaccount_user_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.user.person_user_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="Busunit">
+    <RnCf ClkAct="true" FtSz="9" lkStgy="OffsetDirect" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="1" PkCols="1"/>
+      <ErNotation>DbwErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="busunit" x="174" y="54"/>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="Financial Flow">
+    <RnCf ClkAct="true" FtSz="9" lkStgy="OffsetDirect" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="1" PkCols="1"/>
+      <ErNotation>DbwErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="category_group" x="190" y="100"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="category" x="164" y="245"/>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.category.fk_category_category" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.category.fk_category_category_group" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.category.fk_category_category_group_id" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="Person Docs">
+    <RnCf ClkAct="true" FtSz="9" lkStgy="OffsetDirect" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="1"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="1" PkCols="1"/>
+      <ErNotation>DbwErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ffccccff" sch="public" tbl="person" x="57" y="26"/>
+    <TbGl bkCl="ffccccff" sch="public" tbl="person_docs" x="529" y="28"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="programa_federal_social" x="577" y="316"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="person_programa_federal_social" x="569" y="185"/>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person_docs.person_person_docs_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person_programa_federal_social.fk_person_programa_federal_social_person" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person_programa_federal_social.fk_person_programa_federal_social_programa_federal_social" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="Person_Helped">
+    <RnCf ClkAct="true" FtSz="9" lkStgy="OffsetDirect" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="1" PkCols="1"/>
+      <ErNotation>DbwErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ffccccff" sch="public" tbl="person" x="78" y="38"/>
+    <TbGl bkCl="ffccccff" sch="public" tbl="person_helped" x="496" y="47"/>
+    <TbGl bkCl="ffccccff" sch="public" tbl="state" x="87" y="522"/>
+    <TbGl bkCl="ffccccff" sch="public" tbl="city" x="103" y="335"/>
+    <TbGl bkCl="ffccccff" sch="public" tbl="person_helped_project" x="582" y="318"/>
+    <TbGl bkCl="ffccccff" sch="public" tbl="project" x="556" y="485"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="fingerprint" x="138" y="700"/>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.city.state_city_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.fingerprint.fk_fingerprint_person" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person.city_person_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person_helped.fk_person_helped_city" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person_helped.fk_person_helped_person" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person_helped.fk_person_helped_state" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person_helped_project.fk_project_person_helped_person_helped" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person_helped_project.fk_project_person_helped_project" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="Project">
+    <RnCf ClkAct="true" FtSz="9" lkStgy="KeyToKeyStrategy" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="1"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="1" PkCols="1"/>
+      <ErNotation>DbwErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="project" x="594" y="593"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="media" x="844" y="160"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="project_media" x="927" y="854"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="task_type" x="425" y="29"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="atividade_assistencia" x="519" y="183"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="person" x="43" y="123"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="evento_assistencia" x="955" y="356"/>
+    <TbGl bkCl="ff6666ff" sch="public" tbl="appaccount" x="198" y="646"/>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.atividade_assistencia.fk_atividade_assistencia_appaccount" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.atividade_assistencia.fk_atividade_assistencia_evento_assistencia" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.atividade_assistencia.fk_atividade_assistencia_person" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.atividade_assistencia.fk_atividade_assistencia_person_helped" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.atividade_assistencia.fk_atividade_assistencia_person_performed" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.atividade_assistencia.fk_atividade_assistencia_project" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.atividade_assistencia.fk_atividade_assistencia_task_type" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.evento_assistencia.fk_evento_assistencia_appaccount" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.evento_assistencia.fk_evento_assistencia_project" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.evento_assistencia.fk_evento_assistencia_task_type" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.person.appaccount_person_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.project.fk_project_appaccount" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.project_media.fk_project_media_media" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.project_media.fk_project_media_project" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="" nm="public.task_type.task_type_parent_fk" parentEdge="" positioner="">
+      <positionableLines/>
+    </FkGl>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="Support">
+    <RnCf ClkAct="true" FtSz="9" lkStgy="KeyToKeyStrategy" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="1"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="1" PkCols="1"/>
+      <ErNotation>DbwErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <RnmMgr NxRnmId="11">
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="public" SupCls="" SupNme="">
+      <Rnm id="1" nNm="person_helped" oNm="Person_Helped"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="person_helped" SupCls="Schema" SupNme="public">
+      <Rnm id="5" nNm="professional_occupation" oNm="professional_ocupation"/>
+      <Rnm id="3" nNm="professional_ocupation" oNm="professional_ocupation_id"/>
+      <Rnm id="2" nNm="professional_ocupation_id" oNm="professional_ocupation"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="person_helped" SupCls="Schema" SupNme="public">
+      <Rnm id="4" nNm="home_situation" oNm="home_owner"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="person_helped_project" SupCls="Schema" SupNme="public">
+      <Rnm id="6" nNm="date_in" oNm="date_started"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="public" SupCls="" SupNme="">
+      <Rnm id="7" nNm="person_helped_project" oNm="project_person_helped"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="category_group" SupCls="Schema" SupNme="public">
+      <Rnm id="8" nNm="id" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="programa_federal_social" SupCls="Schema" SupNme="public">
+      <Rnm id="9" nNm="id" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="atividade_assistencia" SupCls="Schema" SupNme="public">
+      <Rnm id="10" nNm="description" oNm="public_description"/>
+    </RnmCh>
+  </RnmMgr>
+  <DbDocOptionMgr>
+    <BasicOptionMgr>
+      <Name>db.doc.option.mgr</Name>
+      <BoolOpt lbl="Diagrams" nm="doc.diagrams" on="1" spl="0"/>
+      <BoolOpt lbl="Foreign Keys" nm="doc.fks" on="1" spl="0"/>
+      <BoolOpt lbl="Indexes" nm="doc.indexes" on="1" spl="0"/>
+      <BoolOpt lbl="Overwrite CSS File" nm="doc.overwrite.css" on="1" spl="0"/>
+      <BoolOpt lbl="Procedures" nm="doc.procs" on="1" spl="0"/>
+      <BoolOpt lbl="Schemas" nm="doc.schemas" on="1" spl="0"/>
+      <BoolOpt lbl="Sequences" nm="doc.sequences" on="1" spl="0"/>
+      <BoolOpt lbl="Tables" nm="doc.tables" on="1" spl="0"/>
+      <BoolOpt lbl="Triggers" nm="doc.triggers" on="1" spl="0"/>
+      <BoolOpt lbl="Views" nm="doc.views" on="1" spl="0"/>
+    </BasicOptionMgr>
+  </DbDocOptionMgr>
+  <OpenEditors>
+    <OpenEditor ClsNm="Diagram" fqn="null.Person Docs" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.Project" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.Person_Helped" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.App Account" selected="1"/>
+  </OpenEditors>
+  <TreePaths>
+    <TreePath/>
+    <TreePath>/Schemas (1)</TreePath>
+    <TreePath>/Schemas (1)/public</TreePath>
+    <TreePath>/Schemas (1)/public/Tables (32)</TreePath>
+    <TreePath>/Schemas (1)/public/Views (5)</TreePath>
+    <TreePath>/Schemas (1)/public/Sequences (19)</TreePath>
+    <TreePath>/Diagrams (7)</TreePath>
+  </TreePaths>
+</Db>

@@ -1,0 +1,17 @@
+<?xml version="1.0" standalone="yes"?>
+<page>
+                    <updated>02/10/2012 10:17</updated><title>Adicionar novo funcion&#xE1;rio</title><content>&lt;h2&gt;Vis&#xE3;o geral&lt;/h2&gt;&#xD;
+&lt;p&gt;O formul&#xE1;rio de cria&#xE7;&#xE3;o de novos funcion&#xE1;rios apresenta os campos associados ao cadastro de um colaborador contratado pela empresa.&lt;/p&gt;&#xD;
+&lt;p&gt;Cada funcion&#xE1;rio deve estar associado a uma unidade de neg&#xF3;cio e a uma pessoa existente.&lt;/p&gt;&#xD;
+&#xD;
+&lt;h2&gt;Orienta&#xE7;&#xE3;o de opera&#xE7;&#xE3;o&lt;/h2&gt;&#xD;
+&lt;p&gt;Orienta-se que ao criar um novo funcion&#xE1;rio, siga-se os seguintes passos:&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+&lt;li&gt;Pesquisar a exist&#xEA;ncia do cadastro da pessoa&lt;/li&gt;&#xD;
+&lt;li&gt;Caso n&#xE3;o exista a pessoa, clicar em &lt;em&gt;Nova pessoa&lt;/em&gt; para cadastrar os seus dados gerais&lt;/li&gt;&#xD;
+&lt;li&gt;Caso encontre a pessoa pela pesquisa, clique em seu nome para atualizar o formul&#xE1;rio do funcion&#xE1;rio&lt;/li&gt;&#xD;
+&lt;li&gt;Entre com o registro do funcion&#xE1;rio (matr&#xED;cula, c&#xF3;digo interno, etc)&lt;/li&gt;&#xD;
+&lt;li&gt;Escolha a fun&#xE7;&#xE3;o do funcion&#xE1;rio. Se ela n&#xE3;o existir, ser&#xE1; necess&#xE1;rio sair do cadastro de funcion&#xE1;rio, acessar as rotinas de cadastramento de fun&#xE7;&#xF5;es, ent&#xE3;o retornar ao cadastro do funcion&#xE1;rio, por&#xE9;m os passos dever&#xE3;o ser repetidos do in&#xED;cio. Caso tenha criado uma nova pessoa antes de sair desta janela, basta pesquis&#xE1;-la pois o registro n&#xE3;o se perder&#xE1;.&lt;/li&gt;&#xD;
+&lt;li&gt;Escolha a unidade de neg&#xF3;cio &#xE0; qual ele est&#xE1; associado. Se a unidade de neg&#xF3;cio n&#xE3;o existir, ser&#xE1; necess&#xE1;rio sair do cadastro de funcion&#xE1;rio, acessar as rotinas de cadastramento de unidades de neg&#xF3;cio, ent&#xE3;o retornar ao cadastro do funcion&#xE1;rio, por&#xE9;m os passos dever&#xE3;o ser repetidos do in&#xED;cio. Caso tenha criado uma nova pessoa antes de sair desta janela, basta pesquis&#xE1;-la pois o registro n&#xE3;o se perder&#xE1;.&lt;/li&gt;&#xD;
+&lt;/ol&gt;</content></page>

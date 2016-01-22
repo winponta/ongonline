@@ -1,0 +1,85 @@
+<?php
+$title = $this->translate('Person') .  ' - ' . $this->translate('Docs');
+$this->title = $title;
+$this->headTitle($title);
+
+$editDetailsUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person-docs',
+    'action' => 'update',
+    'id'    => $this->person->id,
+        ));
+
+?>
+
+<div class="window">
+    <div class="window-header">
+        <div class="row">
+            <h3 class="span4"><i class="icon-credit-card"></i> <?=$this->title; ?></h3>
+
+            <ul class="nav nav-pills">
+                <li>
+                    <a href="<?=$editDetailsUrl; ?>" load-in="content-container"><i class="icon-edit"></i> <translate>Edit</translate></a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="window-content">
+        <div class="vcard details-bordered">
+            <div class="row">
+                <h3 class="span12 fn id alert alert-heading alert-info">
+                    <?= $this->person->getName(); ?>
+                </h3>
+            </div>
+            <div class="row">
+                <h6 class="span3"><translate>Identity card</translate></h6>
+                <span class="span3">
+                    <?=$this->docs->identitycard; ?> 
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span3"><translate>Individual tax number</translate></h6>
+                <span class="span3">
+                    <?=$this->docs->individualdoctaxnumber; ?> 
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span3"><translate>Birth certificate</translate></h6>
+                <span class="span3">
+                    <?=$this->docs->birthcertificate; ?> 
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span3"><translate>Professional card</translate></h6>
+                <span class="span3">
+                    <?=$this->docs->professionalcard; ?> 
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span3"><translate>Drivers license</translate></h6>
+                <span class="span3">
+                    <?=$this->docs->driverslicense; ?> 
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span3"><translate>Voter registration</translate></h6>
+                <span class="span3">
+                    <?=$this->docs->voterregistration; ?> 
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span3"><translate>Military registration</translate></h6>
+                <span class="span3">
+                    <?=$this->docs->militaryregistration; ?> 
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span3"><translate>Health system card</translate></h6>
+                <span class="span3">
+                    <?=$this->docs->healthsystemcard; ?> 
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0');
+$this->headMeta()->appendName('description', 'Software para controle de academias e estúdios de treinamento pessoal ou nutricionista');
+$this->headMeta()->appendName('author', 'Winponta Software');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Winponta Health Studio Manager');
+echo $this->doctype() . PHP_EOL;
+?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br" lang="pt-br">
+    <head>
+        <?php
+        echo $this->headMeta() . PHP_EOL;
+        echo $this->headTitle() . PHP_EOL;
+
+        // favicon
+        echo '<link rel="icon" type="image/png" href="' . $this->baseUrl() . $this->path_img . '/favicon.png">';
+        echo PHP_EOL;
+
+        // CSS
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_vendor . "/colorbox/colorbox.css", "screen");
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_css . "/main.css", "screen");
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_vendor . "/agana/css/agana.cool.messages.css", "screen");
+        echo $this->headLink();
+        echo PHP_EOL;
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/js/agana.bootstrap.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/js/agana.gm.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/js/agana.app.js");
+//        $this->headScript()->prependFile($this->baseUrl() . $this->path_js . "/aganaCoolMessage.js");
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/colorbox/jquery.colorbox-min.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/twitter-bootstrap/js/bootstrap.min.js");
+
+        if (APPLICATION_ENV == 'production') {
+            $this->headScript()->prependFile('http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
+        } else {
+            $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/jquery/jquery-1.7.2.js");
+        }
+
+        echo $this->headScript();
+        echo PHP_EOL;
+        ?>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <!--                <div class="container-fluid">                
+            <?php echo $this->flashMessages(); ?>
+                            </div>-->
+
+            <div id="content">
+                <?php echo $this->layout()->content; ?>
+            </div>
+        </div>
+
+        <div id="footer">
+            powered by <a href="http://www.winponta.com.br" target="_blank"> <img src="<?php echo $this->baseUrl() . $this->path_img . '/favicon.png' ?>"/> Winponta Software</a>  |  <a href="<?php echo $this->url(array('pagename' => 'credits'), "pageRoute", false); ?>"><img src="<?php echo $this->baseUrl() . $this->path_img . '/blocks.png' ?>"/> créditos</a>
+        </div>
+    </body>
+</html>

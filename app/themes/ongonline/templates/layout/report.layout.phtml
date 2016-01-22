@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<?php
+$appName = '';
+if (Zend_Auth::getInstance()->hasIdentity()) {
+    $auth = Zend_Auth::getInstance()->getIdentity();
+    $ud = new User_Domain_User();
+    $auth = $ud->getById($auth->id);
+    $appName = $auth->getAppAccount()->getName();
+}
+
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0');
+$this->headMeta()->appendName('description', 'Software para controle de ONG\'s, entidades não governamentais de assistência social');
+$this->headMeta()->appendName('author', 'Winponta Software');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('Winponta ONG ONline Manager');
+echo $this->doctype() . PHP_EOL;
+?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br" lang="pt-br"
+      class="app">
+    <head>
+        <?php
+        echo $this->headMeta() . PHP_EOL;
+        echo $this->headTitle() . PHP_EOL;
+
+        // favicon
+        echo '<link rel="icon" type="image/png" href="' . $this->baseUrl() . $this->path_img . '/favicon.png">';
+        echo PHP_EOL;
+
+        // CSS
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_vendor . "/colorbox/example4/colorbox.css");
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_vendor . "/bootstrap-editable/css/bootstrap-editable.css", "screen");
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_vendor . "/jquery-ui/css/flick/jquery-ui.custom.min.css");
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_vendor . "/pnotify/jquery.pnotify.default.css");
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_vendor . "/bootstrap-popover-extra-placements/popover-extra-placements.min.css");
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_vendor . "/bootstrap-select/bootstrap-select.min.css");
+        $this->headLink()->appendStylesheet($this->baseUrl() . $this->path_css . "/main.css", "screen, print");
+        echo $this->headLink();
+        echo PHP_EOL;
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/js/agana.bootstrap.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/js/agana.gm.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/js/agana.overlay.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/js/agana.app.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/js/agana.js");
+//        $this->headScript()->prependFile($this->baseUrl() . $this->path_js . "/aganaCoolMessage.js");
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/pnotify/jquery.pnotify.min.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/tinymce/js/tinymce/tinymce.min.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/jquery.inputmask/dist/jquery.inputmask.bundle.min.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/jquery-ui/js/jquery.ui.datepicker-pt_BR.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/jquery-ui/js/jquery-ui.custom.min.js");
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/colorbox/jquery.colorbox-min.js");
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/bootstrap-editable/js/bootstrap-editable.min.js");
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/bootstrap-select/bootstrap-select.min.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/bootstrap-popover-extra-placements/popover-extra-placements.min.js");
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/angular/assistanceModule.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/agana/angular/ongApp.js");
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/angular/angular.js");
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/twitter-bootstrap/js/bootstrap.min.js");
+
+        $this->headScript()->prependFile($this->baseUrl() . $this->path_vendor . "/jquery/dist/jquery.min.js");
+
+//        if ($this->dojo()->isEnabled()) {
+//            $dojoMenu = $this->dojoMenu($menu);
+//            $dojoMenuElement = $dojoMenu->renderMenu($menu);
+//
+//            //$this->dojo()->setLocalPath($this->baseUrl() . '/themes/resouces/dojo/dojo/dojo.js')
+//            $this->dojo()->setDjConfigOption('usePlainJson', true)
+//                    ->setDjConfigOption('parseOnLoad', true)
+//                    ->setLocalPath('http://localhost/Desenvolvimento/Winponta/resources/dojo/1.7.1/dojo/dojo.js')
+//                    ->addStyleSheetModule('dijit.themes.claro')
+//            ;
+//            //->setUseDeclarative();
+//            echo $this->dojo();
+//        }
+
+        echo $this->headScript();
+        echo PHP_EOL;
+        ?>
+
+    <style type="text/css" media="print">
+        #content-container {
+            padding: 0;
+        }
+    </style>
+    
+    </head>
+    <body class="app">
+        <div class="navbar navbar-fixed-top navbar-inverse hidden-print">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a id="appBrand" class="brand span2">
+                                            ONGONLINE
+                                        </a>                 
+
+
+                    <div class="nav-collapse pull-right">
+                        <ul class="nav nav-pills">
+                            <li>
+                                <a href="#" class="print" 
+                                   title="<translate>Print</translate>"
+                                   rel="print-window" data-placement="bottom">
+                                    <i class="icon-print icon-large"> </i>                                        
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" id="app-fullscreen" class="fullscreen" 
+                                   title="<translate>Full screen</translate>"
+                                   rel="tooltip" data-placement="bottom">
+                                    <i class="icon-resize-full icon-large"> </i>                                        
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php
+                                echo $this->url(array(
+                                    'module' => 'aganacore',
+                                    'controller' => 'index',
+                                    'action' => 'about'), 'default', true);
+                                ?>" id="app-about" rel="colorbox" 
+                                   title="<translate>About</translate>"
+                                   rel="tooltip" data-placement="bottom">
+                                    <i class="icon-info-sign icon-large"> </i>                                        
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://winponta.com.br/userguides/ong-online/" 
+                                   id="app-documentation" target="_blank" 
+                                   title="<translate>Documentation</translate>"
+                                   rel="tooltip" data-placement="bottom">
+                                    <i class="icon-question-sign icon-large"> </i>                                        
+                                </a>
+                            </li>
+                            <li>                                        
+                                <a href="#" onclick="javascript:window.close()"
+                                   rel="tooltip" 
+                                   data-placement="bottom" 
+                                   title="Fechar">
+                                    <i class="icon-remove-sign icon-large"></i> 
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="main" class="container-fluid">
+
+            <div id="content-container" class="container-fluid" ng-app="ongApp">
+                <!--                <div class="container-fluid">                
+                <?php echo $this->flashMessages(); ?>
+                                </div>-->
+
+                <div id="content">
+                    <?php if (trim($this->escape($this->title)) != '') { ?>
+                        <!--                        <header>
+                                                    <h1><?php echo $this->escape($this->title); ?></h1>
+                                                </header>-->
+                    <?php } ?>
+
+                    <?php echo $this->layout()->content; ?>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

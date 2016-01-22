@@ -1,0 +1,21 @@
+=============================
+  eNBSP SDK license policy
+=============================
+
+eNBSP SDK is composed of BSP module and high-speed 1:N matching module 
+(eNSearch) for fingerprint application software development and has its 
+additional license policy.
+
+1. BSP
+   1) License management method
+      Accessible by entering BSP installation serial number.
+   2) License policy
+      Users are given a license number when purchasing SDK.
+
+2. eNSearch
+   1) License management method
+      Accessible by installing an additional license file.
+   2) License policy
+      Users are required to purchase license for individual PC. 
+      (Free for less than 5,000 fingers[Registered version]/1,000 fingers[Evaluation version]).
+

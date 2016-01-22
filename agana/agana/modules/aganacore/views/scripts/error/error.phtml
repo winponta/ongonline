@@ -1,0 +1,41 @@
+<?php
+if (strpos($this->ContentType, 'json') !== false) {
+    $type = ($this->code == Agana_Exception::EXCEPTION_APP_WARNING) ? 'warning' : 'error';
+    $msg = $this->translate($this->message);
+    $json = array(
+        'code' => $this->code,
+        'message' => $msg,
+        'type' => $type,
+    );
+    
+    echo json_encode($json);
+} else {
+    ?>
+<div class="window" style="padding: 1em;">
+    <h2 class="alert alert-danger"><translate>Sorry, but an error has ocurred !</translate></h2>
+    <h6><translate>error message</translate></h6>
+    <h5 class="alert alert-block"><?php echo $this->message ?></h5>
+
+    <?php if (isset($this->exception)): ?>
+        <h6><translate>Details</translate></h6>
+        <div class="alert alert-info">
+            <h3>Exception information:</h3>
+            <p>
+                <b>Message:</b> <translate><?php echo $this->exception->getMessage() ?></translate>
+            </p>
+
+            <?php
+            if (strtolower(APPLICATION_ENV) == 'development') {
+                ?>
+                <h3>Stack trace:</h3>
+                <pre><?php echo $this->exception->getTraceAsString() ?>
+                </pre>
+
+                <h3>Request Parameters:</h3>
+                <pre><?php echo var_export($this->request->getParams(), true) ?>
+                </pre>
+            <?php } ?>
+        </div>
+    <?php endif ?>
+</div> 
+<?php } ?>

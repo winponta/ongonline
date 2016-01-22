@@ -1,0 +1,60 @@
+<?php
+$title = $this->translate("Branch");
+$this->title = $title;
+$this->headTitle($this->translate("Branch"));
+?>
+
+<div class="window window-table">
+    <div class="window-header">
+        <h3 class="pull-left"><i class="icon-picture"></i> <translate>Branch</translate></h3>
+        <a class="btn pull-right" load-in="content-container" href="<?php
+echo $this->url(
+        array('module' => 'busunit', 'controller' => 'branch',
+    'action' => 'create'), null, true);
+?>">
+            <i class="icon-plus-sign"></i> <translate>Add new</translate></a>
+    </div>
+    <div class="window-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th><translate>Name</translate></th>
+                    <th><translate>Trade name</translate></th>
+                    <th><translate>City</translate></th>
+                    <th><translate>Phone</translate></th>
+                    <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->branches as $acc) {
+                    $edit = $this->url(
+                            array('module' => 'busunit', 'controller' => 'branch',
+                        'action' => 'update', 'id' => $acc->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'busunit', 'controller' => 'branch',
+                        'action' => 'delete', 'id' => $acc->id), null, true);
+
+                    ?>
+                    <tr>
+                        <td><?php echo $acc->id; ?></td>
+                        <td><?php echo $acc->name; ?></td>
+                        <td><?php echo $acc->tradename; ?></td>
+                        <td><?php echo $acc->getCity()->name; ?></td>
+                        <td><?php echo $acc->phone; ?></td>
+                <td class='align_center'>
+                    <a class="btn btn-mini btn-info" href="<?php echo $edit; ?>" load-in="content-container">
+                        <i class="icon-edit"></i> <translate>Edit</translate>
+                    </a>
+                    <a class="btn btn-mini btn-danger" href="<?php echo $delete; ?>" load-in="content-container">
+                        <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                    </a>                    
+                </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>

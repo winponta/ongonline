@@ -1,0 +1,54 @@
+<?php
+$title = $this->translate("Person - employee data");
+$this->title = $title;
+$this->headTitle($this->translate("Person - employee data"));
+
+$editUrl = $this->url(array(
+    'module' => 'staff',
+    'controller' => 'employee',
+    'action' => 'update',
+    'id' => $this->employee->person->id,
+        ));
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span"><i class="icon-group"></i> <?php echo $this->title; ?></h3>
+
+        <ul class="nav nav-pills offset6 hidden-print">
+            <li>
+                <a  href="<?= $editUrl; ?>" load-in="content-container"><i class="icon-edit"></i> <translate>Edit</translate></a>
+            </li>
+            <li class="divider-vertical"></li>
+        </ul>
+
+    </div>
+    <div class="window-content">
+        <div class="vcard span12 details-bordered">
+            <div class="row">
+                <h3 class="fn id alert alert-heading alert-info">
+                    <?= $this->employee->getPerson()->getName(); ?>
+                </h3>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Registration number</translate></h6>
+                <span class="span10">
+                    <?php echo $this->employee->registration_number; ?>
+                </span>                
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Business unit</translate></h6>
+                <span class="span10">
+                    <?php echo $this->employee->getBusunit()->name; ?>
+                </span>                
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Job function</translate></h6>
+                <span class="span10">
+                    <?php echo $this->employee->getJobfunction()->name; ?>
+                </span>                
+            </div>
+        </div>            
+    </div>
+</div>
+

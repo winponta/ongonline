@@ -1,0 +1,57 @@
+<?php
+$title = $this->translate("App Account");
+$this->title = $title;
+$this->headTitle($this->translate("App Accounts"));
+?>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <h1 class="span10"><i class="icon-list"></i> <translate>App Accounts</translate></h1>
+        <a class="btn span2" load-in="content-container" href="<?php
+echo $this->url(
+        array('module' => 'app', 'controller' => 'account',
+    'action' => 'create'), null, true);
+?>">
+            <i class="icon-plus-sign"></i> <translate>Add new</translate></a>
+    </div>
+    <hr/>
+
+    <div class="span12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th><translate>Name</translate></th>
+                    <th><translate>Email</translate></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->accounts as $acc) {
+                    $edit = $this->url(
+                            array('module' => 'app', 'controller' => 'account',
+                        'action' => 'update', 'id' => $acc->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'app', 'controller' => 'account',
+                        'action' => 'delete', 'id' => $acc->id), null, true);
+
+                    ?>
+                    <tr class="<?php echo $this->cycle(array("light", "dark"))->next(); ?>">
+                        <td><?php echo $acc->id; ?></td>
+                        <td><?php echo $acc->name; ?></td>
+                        <td><?php echo $acc->email; ?></td>
+                <td class='align_center'>
+                    <a class="btn btn-mini btn-info" href="<?php echo $edit; ?>" load-in="content-container">
+                        <i class="icon-edit"></i> <translate>Edit</translate>
+                    </a>
+                    <a class="btn btn-mini btn-danger" href="<?php echo $delete; ?>" load-in="content-container">
+                        <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                    </a>                    
+                </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>

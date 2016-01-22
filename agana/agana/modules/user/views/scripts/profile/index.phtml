@@ -1,0 +1,251 @@
+<?php
+$this->title = $this->user->getName();
+$this->headTitle($this->translate('Profile'));
+
+if ($this->user->status == -1) {
+    $classes = "icon-minus-sign alert-warning";
+} else if ($this->user->status == 0) {
+    $classes = "icon-ban-circle alert-error";
+} else if ($this->user->status == 1) {
+    $classes = "icon-ok-circle alert-success";
+}
+
+$personUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'get',
+    'id' => $this->user->getPerson()->id,
+        ));
+
+$editUrl = $this->url(array(
+    'module' => 'user',
+    'controller' => 'admin',
+    'action' => 'update',
+    'id' => $this->user->id,
+        ));
+
+$editPwdUrl = $this->url(array(
+    'module' => 'user',
+    'controller' => 'admin',
+    'action' => 'update-password',
+    'id' => $this->user->id,
+        ));
+?>
+<div class="window profile">
+    <div class="window-header">
+        <h3 class="span3 pull-left"><i class="icon-user"></i> <?php echo $this->user->name; ?> (<translate>User</translate>)</h3>
+        <a class="span2" href="<?php echo $editUrl; ?>" load-in="content-container"><i class="icon-edit"></i> <translate>Edit user</translate></a>
+        <a class="span2" href="<?php echo $editPwdUrl; ?>" load-in="content-container"><i class="icon-edit"></i> <translate>Change password</translate></a>
+        <!--<a class="span3" href="#uploadImageDialog" data-toggle="modal"><i class="icon-camera"></i> <translate>Alter picture</translate></a>-->
+        <?php echo $this->userguide()->getLink('user.profile'); ?>
+    </div>
+    <div class="window-content">
+        <div class="vcard span6 details-bordered">
+            <div class="row">
+                <h6 class="span2"><translate>Id</translate></h6>
+                <span class="fn id span1"><?php echo $this->user->id; ?></span>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>User name</translate></h6> 
+                <span class="fn id span4"><?php echo $this->user->name; ?></span>
+            </div>
+            <!---  PERSON -->
+            <div class="row">
+                <h6 class="span2"><translate>Person name</translate></h6>
+                <span class="span4">
+                    <a href="<?php echo $personUrl; ?>" load-in="content-container"><?php echo $this->user->getPerson()->name; ?></a>
+                    <i class="icon-question-sign pull-right" rel="tooltip" title="<translate>This is a link to person full data profile</translate>"></i> 
+                </span>
+            </div>            
+            <div class="row">
+                <h6 class="span2"><translate>User role</translate></h6>
+                <span class="span4">
+                    <i class="icon-group"></i>
+                    <?php echo $this->user->getRole()->getName(); ?>
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Status</translate></h6>
+                <span class="span2">
+                    <i class="<?php echo $classes; ?>"></i>
+                    <?php echo $this->translate($this->userStatus($this->user->status)); ?>
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Email</translate></h6> 
+                <span class="fn id span4">
+                    <i class="icon-envelope"></i> 
+                    <a href="mailto:<?php echo $this->user->email; ?>"><?php echo $this->user->email; ?></a>
+                </span>
+            </div>
+            <div class="row">
+                <h6 class="span2"><translate>Created on</translate></h6>
+                <span class="span4">
+                    <?php echo $this->date($this->user->created, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                    <?php echo $this->date($this->user->created, Zend_Date::TIME_SHORT); ?>
+                </span>
+            </div>    
+            <div class="row">
+                <h6 class="span2"><translate>Last login</translate></h6>
+                <span class="span4">
+                    <?php echo $this->date($this->user->lastlogin, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                    <?php echo $this->date($this->user->lastlogin, Zend_Date::TIME_MEDIUM); ?>
+                </span>
+            </div>            
+        </div>            
+
+        <!---  PICTURE -->
+        <div class="span5">
+            <div class="row">
+                <div class="span3 picture thumbnail">                        
+                    <?php
+                    if ($this->user->getPerson()->getMedia() == null) {
+                        $pic = $this->baseUrl() . $this->path_img . '/no-picture.jpg';
+                    } else {
+                        $pic = $this->url(array(
+                            'module' => 'media', 'controller' => 'image', 'action' => 'get',
+                            'file' => $this->user->getPerson()->getMedia()->getFile(),
+                            'size' => 'medium'
+                                ), null, true);
+                    }
+                    ?>
+                    <img src="<?php echo $pic; ?>" id="userImage"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="uploadImageDialog" class="modal hide fade">
+    <div class="modal-header">
+        <h3>
+            <translate>Alter image</translate>
+            <i class="icon-question-sign pull-right" rel="popover" data-placement="bottom" title="<translate>Alter image</translate>" data-content="- <translate>Allowed file extensions</translate>: jpg, jpeg, png <br/>- <translate>Allowed max file size</translate>: 100 Kb"></i>
+        </h3>
+    </div>
+    <div class="modal-body row" style="overflow: hidden;">    
+        <div class="span3">
+            <form class="span3" id="formUpload" method="post" 
+                  enctype="multipart/form-data action="<?php
+                    echo $this->url(array(
+                        'module' => 'persons', 'controller' => 'person', 'action' => 'update',
+                        'id' => $this->user->person_id,
+                        'image' => 'main',
+                    ));
+                    ?>">
+                <input class="btn span3" type="file" name="uploadFile" id="uploadFile">
+            </form>
+
+            <a class="btn btn-info span3" id="btnUploadFile">
+                <i class="icon-upload-alt"></i> <translate>Upload choosed file</translate>
+            </a>
+            <hr class="span3" />
+            <div class="span3 alert hide" id="uploadingFileMsg">
+                <i class="icon-upload-alt"></i> <translate>sending file</translate> ....
+            </div>
+            <div class="span3 alert alert-success hide" id="uploadedFileMsg">
+            </div>
+        </div>
+        <div class="span3 pull-right picture thumbnail">
+            <?php
+//            if ($this->user->getPerson()->getMedia() == null) {
+//                $pic = $this->baseUrl() . $this->path_img . '/no-picture.jpg';
+//            }
+            ?>
+            <img src="" id="uploadedImage"/>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" ><translate>Close</translate></a>
+<!--        <a href="#" class="btn btn-primary"><translate>Save</translate></a>-->
+    </div>
+</div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl() . $this->path_vendor . '/ajaxfileupload.js'; ?>"></script>
+<script type="text/javascript" >
+    var actionUrl = "<?php
+            echo $this->url(array(
+                'module' => 'persons', 'controller' => 'person', 'action' => 'update',
+                'id' => $this->user->person_id,
+                'image' => 'main',
+            ));
+            ?>";
+                
+                var mediaBaseUrl = "<?php
+            echo $this->url(array(
+                'module' => 'media', 'controller' => 'image', 'action' => 'get',
+            ));
+            ?>";
+
+
+                var fileElId = 'uploadFile';
+                var elReturnMsg = $('#uploadedFileMsg');
+                var elUpLoadImageDialog = $('#uploadImageDialog');
+                
+                $(elUpLoadImageDialog).on('show', function(){
+                    $(elReturnMsg).hide();
+                    $(elReturnMsg).html('');
+                    // only loads image on dialog box if needs
+                    $('#uploadedImage').attr('src', $('#userImage').attr('src'));
+                });
+            
+                $(elUpLoadImageDialog).on('hide', function(){
+                    // loads image on profile
+                    $('#userImage').attr('src', $('#uploadedImage').attr('src'));
+                });
+
+                $('#btnUploadFile').bind('click', function(ev){
+                    $(elReturnMsg).hide();
+                    $("#uploadingFileMsg").fadeIn();
+
+                    $.ajaxFileUpload ({
+                        url: actionUrl,
+                        secureuri:false,
+                        fileElementId: fileElId,
+                        dataType: 'json',
+                        data:{name:'logan', id:'id'},
+                        handleError: function(data) {
+                            console.info(data);
+                            $(elReturnMsg).addClass('alert-error');
+                            $("#uploadingFileMsg").fadeOut('fast',function(){
+                                $(elReturnMsg).html(data.responseText);
+                                $(elReturnMsg).fadeIn('show'); 
+                            });
+                        },
+                        success: function (data, status) {                       
+                            console.info(data);
+                            var returnMsg = '';
+                            if(typeof(data.error) == 'undefined') {
+                                returnMsg += data.file.type + '<br/>';
+                                //returnMsg += '<translate>File name</translate>:' + data.file.name + '<br/>';
+                                returnMsg += '<translate>File size</translate>:' + data.file.size;                            
+                                $('#uploadedImage').attr('src', mediaBaseUrl + '/file/' + data.file.name);
+                            } else {                            
+                                if(data.error != '') {
+                                    if (data.error instanceof Array) {
+                                        for (var i in data.error) {
+                                            returnMsg += data.error[i] + '<br/>';
+                                        }
+                                    } else {
+                                        returnMsg = data.error;
+                                    }
+                                } else {
+                                    returnMsg = data.msg;
+                                }
+                                $(elReturnMsg).addClass('alert-error');
+                            }
+                            
+                            $("#uploadingFileMsg").fadeOut('fast',function(){
+                                $(elReturnMsg).html(returnMsg);
+                                $(elReturnMsg).fadeIn('show'); 
+                            });
+                        },
+                        error: function (data, status, e) {
+                            alert(e);
+                        }
+                    });
+
+                    return false;
+                });
+</script>
+

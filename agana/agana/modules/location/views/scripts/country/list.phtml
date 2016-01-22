@@ -1,0 +1,53 @@
+<?php
+$title = $this->translate("Country");
+$this->title = $title;
+$this->headTitle($this->translate("Country"));
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span9"><i class="icon-globe"></i> <translate>Country</translate></h3>
+        <a class="btn span2" load-in="content-container" href="<?php
+echo $this->url(
+        array('module' => 'location', 'controller' => 'country',
+    'action' => 'create'), null, true);
+?>">
+            <i class="icon-plus-sign"></i> <translate>Add new</translate></a>
+    </div>
+    <div class="window-content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th><translate>Name</translate></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->countries as $acc) {
+                    $edit = $this->url(
+                            array('module' => 'location', 'controller' => 'country',
+                        'action' => 'update', 'id' => $acc->id), null, true);
+
+                    $delete = $this->url(
+                            array('module' => 'location', 'controller' => 'country',
+                        'action' => 'delete', 'id' => $acc->id), null, true);
+
+                    ?>
+                    <tr>
+                        <td><?php echo $acc->id; ?></td>
+                        <td><?php echo $acc->name; ?></td>
+                <td class='align_center'>
+                    <a class="btn btn-mini btn-info" href="<?php echo $edit; ?>" load-in="content-container">
+                        <i class="icon-edit"></i> <translate>Edit</translate>
+                    </a>
+                    <a class="btn btn-mini btn-danger" href="<?php echo $delete; ?>" load-in="content-container">
+                        <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                    </a>                    
+                </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>

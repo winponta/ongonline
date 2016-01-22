@@ -1,0 +1,15 @@
+<?php
+$title = $this->translate("Job function");
+$this->title = $title . ' - ' . $this->translate("Add new");
+$this->headTitle($this->translate("Job function"));
+$form = new Zend_Form();
+$form = $this->form;
+$form->setAction($this->url());
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3><i class="icon-wrench"></i> <?php echo $this->title; ?></h3>
+    </div>
+    <?php echo $this->form->render(); ?>
+</div>

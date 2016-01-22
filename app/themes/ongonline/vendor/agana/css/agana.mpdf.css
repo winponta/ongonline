@@ -1,0 +1,62 @@
+root { 
+    display: block;
+}
+
+table.mpdf {
+    width: 100%;
+}
+
+.pad-1em td {
+    padding: 1em;
+}
+
+.pad-left-1em td {
+    padding-left: 1em;
+} 
+
+.pad-right-1em td {
+    padding-right: 1em;
+} 
+
+.pad-bottom-05em td {
+    padding-bottom: 0.5em;
+}
+
+.pad-bottom-1em td {
+    padding-bottom: 1em;
+}
+
+table td.width70 {
+    width: 70%;
+}
+
+.caption-bottom-dotted {
+    border-bottom: 1px dotted #333;
+}
+
+.caption-bottom-dashed {
+    border-bottom: 1px #333 dashed;
+}
+
+.report-main-footer {
+    border-top: 1px solid #AAA;
+    font-family: sans-serif; 
+    font-size: 7pt;
+    vertical-align: bottom;
+    color: #666;
+}
+
+.report-main-header-row {
+    font-family: sans-serif; 
+    font-size: 7pt;
+    vertical-align: top;
+    color: #666;
+}
+
+.report-main-header-end-row {
+    border-bottom: 1px solid #AAA; 
+    font-family: sans-serif; 
+    font-size: 7pt;
+    vertical-align: top;
+    color: #666;
+}

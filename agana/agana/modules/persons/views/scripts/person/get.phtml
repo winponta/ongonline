@@ -1,0 +1,195 @@
+<?php
+$title = $this->translate("Person - personal data");
+$this->title = $title;
+$this->headTitle($this->translate("Person - personal data"));
+
+$editDetailsUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'update',
+    'id' => $this->person->id,
+        ));
+
+$alterImageUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'upload-image',
+    'id' => $this->person->id,
+        ));
+
+$createUserUrl = $this->url(array(
+    'module' => 'user',
+    'controller' => 'admin',
+    'action' => 'create-for-person',
+    'id' => $this->person->id
+        ), 'default', true);
+
+$editUserUrl = $this->url(array(
+    'module' => 'user',
+    'controller' => 'admin',
+    'action' => 'edit',
+    'id' => $this->person->getUser()->id
+        ), 'default', true);
+
+$pdfFullRecordUrl = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'pdf-full-record',
+    'id' => $this->person->id
+        ), 'default', true);
+?>
+
+<div class="window">
+    <div class="window-header">
+        <div class="row">
+            <h3 class="span4"><i class="icon-user-md"></i> <?= $this->title; ?></h3>
+
+            <ul class="nav nav-pills hidden-print">
+                <li>
+                    <a  href="<?= $editDetailsUrl; ?>" load-in="content-container"><i class="icon-edit"></i> <translate>Edit details</translate></a>
+                </li>
+                <li>
+                    <a  href="<?= $alterImageUrl; ?>" rel="colorbox">
+                        <i class="icon-camera"></i> <translate>Alter picture</translate>
+                    </a>
+                </li>
+                <?php
+                if ($this->person->existUser()) {
+                    ?>
+                    <li>
+                        <a  href="<?= $editUserUrl; ?>" load-in="content-container"><i class="icon-user"></i> <translate>Edit user</translate></a>
+                    </li>                    
+                <?php } else { ?>
+                    <li>                    
+                        <a  href="<?= $createUserUrl; ?>" load-in="content-container"><i class="icon-plus-sign"></i> <translate>Create new user</translate></a>
+                    </li>                    
+                <?php } ?>
+                <li>
+                    <a  href="#" rel="print-window">
+                        <i class="icon-print"></i> <translate>Print</translate>
+                    </a>
+                </li>
+                <li>
+                    <a  href="<?= $pdfFullRecordUrl ?>">
+                        <i class="icon-book"></i> <translate>Pdf</translate>
+                    </a>
+                </li>
+                <li>
+                    <?= $this->userguide()->getLink('persons.person.get'); ?>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="window-content">
+        <div class="vcard details-bordered">
+            <div class="row">
+                <h3 class="span12 fn id alert alert-heading alert-info">
+                    <?= $this->person->getName(); ?>
+                </h3>
+            </div>
+            <div class="span8">
+                <div class="row">
+                    <h6 class="span2"><translate>Birthdate</translate></h6>
+                    <span class="span2">
+                        <?= $this->date($this->person->birthdate, Zend_Date::DATE_MEDIUM); ?> 
+                    </span>
+                    <h6 class="span2"> </h6>
+                    <h6 class="span2"><translate><?= $this->gender($this->person->gender); ?></translate></h6>
+                    <h6 class="span2"><translate><?= $this->person->getMarital_status(); ?></translate></h6>
+                </div>
+                <div class="row">
+                    <h6 class="span2"><translate>Id</translate></h6>
+                    <span class="fn id span2"><?= $this->person->id; ?></span>
+                    <h6 class="span2"><translate>Created on</translate></h6>
+                    <span class="span2">
+                        <?= $this->date($this->person->created, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                        <?= $this->date($this->person->created, Zend_Date::TIME_SHORT); ?>
+                    </span>
+                </div>    
+
+                <div class="row">
+                    <!--<h6 class="span1"><translate>Details</translate></h6><hr/>-->
+                    <h6 class="span2"><translate>Phone</translate></h6>
+                    <span class="fn phone span2"><?= $this->person->phone; ?></span>
+                    <h6 class="span2"><translate>Mobile phone</translate></h6>
+                    <span class="fn phone span2"><?= $this->person->mobilephone; ?></span>
+                </div>
+
+                <div class="row">
+                    <h6 class="span2"><translate>Email</translate></h6>
+                    <span class="fn phone span6"><?= $this->person->email; ?></span>
+                </div>
+
+                <div class="row">
+                    <h6 class="span2"><translate>Address</translate></h6>
+                    <span class="fn span6"><?= $this->person->address; ?></span>
+                </div>
+
+                <div class="row">
+                    <h6 class="span2"><translate>Address number</translate></h6>
+                    <span class="fn span2"><?= $this->person->addressnumber; ?></span>
+                    <h6 class="span2"><translate>City region</translate></h6>
+                    <span class="fn span2"><?= $this->person->getCityRegion()->name; ?></span>
+                </div>
+
+                <div class="row">
+                    <h6 class="span2"><translate>Address details</translate></h6>
+                    <span class="fn span4"><?= $this->person->addressdetails; ?></span>
+                </div>
+
+                <div class="row">
+                    <h6 class="span2"><translate>City</translate></h6>
+                    <span class="fn span2"><?= $this->person->getCity()->name; ?></span>
+                    <h6 class="span2"><translate>Postal code</translate></h6>
+                    <span class="fn span2"><?= $this->person->postalcode; ?></span>
+                </div>
+
+                <div class="row">
+                    <h6 class="span2"><translate>Web site</translate></h6>
+                    <span class="fn span4"><?= $this->externalLink($this->person->website); ?></span>
+                </div>
+
+                <span class="hidden-print">
+                    <div class="row">
+                        <hr/>
+                        <h6 class="text-info"><translate>User data</translate></h5>
+                    </div>
+
+                    <?php if ($this->person->existUser()) { ?>
+                        <div class="row">
+                            <h6 class="span2"><translate>Name</translate></h6>
+                            <span class="span2">
+                                <a href="<?= $this->url(array('module' => 'user', 'controller' => 'profile', 'action' => 'index', 'id' => $this->person->getUser()->id)); ?>"
+                                   load-in="content-container">
+                                       <?= $this->person->getUser()->name; ?>
+                                </a>
+                                <i class="icon-question-sign pull-right" rel="tooltip" title="<translate>This is a link to user full data profile</translate>"></i>
+                            </span>
+                            <h6 class="span2"><translate>Last login</translate></h6>
+                            <span class="span2">
+                                <?= $this->date($this->person->getUser()->lastlogin, Zend_Date::DATE_SHORT); ?> <translate>at</translate> 
+                                <?= $this->date($this->person->getUser()->lastlogin, Zend_Date::TIME_SHORT); ?>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <h6 class="span2"><translate>Email</translate></h6>
+                            <span class="span5"><?= $this->person->getUser()->email; ?></span>
+                            <span class="span1"><?= $this->translate($this->userStatus($this->person->getUser()->status)); ?></span>
+                        </div>
+                    <?php } else { ?>
+                        <h6><translate>no user connected to this person</translate></h6>                    
+                    <?php } ?>
+                </span>
+            </div>            
+        </div>
+        <!---  PICTURE -->
+        <div class="span4">
+            <div class="row">
+                <div class=" picture thumbnail">                        
+                    <?= $this->personPicture()->getTag($this->person, 'medium', array('id' => 'userImage')); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
