@@ -162,7 +162,12 @@ class Agana_Form_Util {
                 ((isset($options['modelfield'])) ? $this->_model->$options['modelfield'] : $this->_model->date) : '';
 
         $default = isset($options['default']) ? $options['default'] : 'today';
-
+        /*
+        Acredito que o problema esteja no if acima e na função abaixo
+        Pelo que entendi ele está colocando o valor automaticamente como today
+        Com esse today, ele entra na linha 174
+        Entrando na linha 174 ele atribui a data do dia ao invés do aniversário
+        */
         if (empty($modelfieldValue)) {
             if ($default !== false) {
                 if (strtolower($default) == 'today') {
