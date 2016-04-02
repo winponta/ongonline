@@ -93,7 +93,7 @@ $form->setAction($this->url());
     $('input#name').on('blur', null, function(ev) {
         ev.preventDefault();
 
-        if ($.trim($(this).val()).length > 3) {
+        if ($.trim($(this).val()).length > 2) {
             if (fazendoPesquisa) {
                 return;
             } else {
