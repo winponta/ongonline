@@ -88,8 +88,13 @@ class Persons_Form_Person extends Twitter_Bootstrap_Form_Horizontal {
         $formutil->addElementCityRegionId($this, array(
             'showcity'=>true,
         ));
-        $formutil->addElementWebsite($this);
-        
+        $formutil->addElementWebsite($this, array(
+            'required'=>false,
+            ));
+        /*
+        Isso deve resolver o problema do campo website ser obrigatório
+        (Apesar de que pela função ele deveria já vir como opcional)
+        */
         $formutil->addElementButtonSave($this);
         $formutil->addElementButtonCancel($this);
 
