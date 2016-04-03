@@ -132,7 +132,7 @@ class Persons_Persist_Dao_Person extends Agana_Persist_Dao_Abstract implements P
 
         if (isset($params['filter-keyword'])) {
             $filter = new Agana_Filter_Normalize();
-            $sql->where('lower(unaccented(name)) LIKE ?', $filter->filter($params['filter-keyword']));
+            $sql->where('lower(unaccented(name)) LIKE ?', '%' . $filter->filter($params['filter-keyword']) . '%');
         }
 
         $db->setFetchMode(Zend_DB::FETCH_ASSOC);
