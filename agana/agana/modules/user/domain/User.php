@@ -1,10 +1,10 @@
 <?php
 
 class User_Domain_User {
+
     /**
      * To be used with getAll method
      */
-
     const LIST_ALL = null;
     const STATUS_BLOCKED = '-1';
     const STATUS_ACTIVE = '1';
@@ -175,10 +175,8 @@ class User_Domain_User {
             $user->setPwd($name);
 
             $user->setEmail(
-                    ($person->getEmail()) 
-                        ? $person->getEmail() 
-                        : $name.'@no.validemail.com'
-                    );
+                    ($person->getEmail()) ? $person->getEmail() : $name . '@no.validemail.com'
+            );
 
             $this->setUser($user);
 
@@ -221,7 +219,7 @@ class User_Domain_User {
         if ($this->_isAllowed()) {
             $user = $this->getUser();
 
-            try {                
+            try {
                 $u = new User_Persist_Dao_User();
                 return $u->save($this->_user);
             } catch (Exception $e) {
@@ -234,15 +232,15 @@ class User_Domain_User {
         if ($this->_isAllowed() || $fromReset) {
             $user = $this->getUser();
 
-            try {                
+            try {
                 $pwdAux = $this->_user->getPwd();
                 if (!empty($pwdAux)) {
                     $nameAux = $this->_user->getName();
-                    if (empty($nameAux)){
+                    if (empty($nameAux)) {
                         $userAux = $this->getById($this->_user->getId());
                         $this->_user->setName($userAux->getName());
                     }
-                    
+
                     $this->_user->setSalt(Agana_Util_Crypt::calcRndTimeSalt($this->_user->getPwd(), $this->_user->getName()));
                     $this->_user->setPwd(md5($this->_user->getPwd() . $this->_user->getSalt()));
                 }
@@ -304,9 +302,8 @@ class User_Domain_User {
         try {
             $u = new User_Persist_Dao_User();
             return $u->getByName(
-                $name,
-                null
-                //Zend_Auth::getInstance()->getIdentity()->appaccount_id
+                            $name, null
+                            //Zend_Auth::getInstance()->getIdentity()->appaccount_id
             );
         } catch (Exception $e) {
             throw $e;
@@ -317,9 +314,8 @@ class User_Domain_User {
         try {
             $u = new User_Persist_Dao_User();
             return $u->getByEmail(
-                $email, 
-                null
-                //Zend_Auth::getInstance()->getIdentity()->appaccount_id
+                            $email, null
+                            //Zend_Auth::getInstance()->getIdentity()->appaccount_id
             );
         } catch (Exception $e) {
             throw $e;
@@ -338,28 +334,28 @@ class User_Domain_User {
     public function sendResetPasswordEmail(User_Model_User $user) {
         if ($user) {
             $translate = Zend_Registry::get('Zend_Translate');
-            
+
             $boot = Agana_Util_Bootstrap::getBootstrap();
             $aganaOptions = $boot->getOption('agana');
-            
+
             $adminEmail = $aganaOptions['app']['admin']['email'];
             $appName = $aganaOptions['app']['name'];
-            
+
             $mail = new Zend_Mail('UTF-8');
             $mail->setFrom($adminEmail, $appName);
             $mail->setSubject(
-                '[' . $appName . '] ' .
-                $translate->_('Url requested to reset password')
+                    '[' . $appName . '] ' .
+                    $translate->_('Url requested to reset password')
             );
             $mail->addTo($user->email);
-                        
+
             $requestUrl = $_SERVER['HTTP_HOST'] . Zend_Controller_Front::getInstance()->getBaseUrl() . '/user/reset-password/create-new/id/' .
-                $user->id . '/key/' . $this->getResetPasswordKey($user);
-            
+                    $user->id . '/key/' . $this->getResetPasswordKey($user);
+
             $body = '<html>';
             $body .= '<body>';
             $body .= '<p>';
-            $body .= 'Esta mensagem foi enviada pela aplicação <em>' . $appName .'</em>';
+            $body .= 'Esta mensagem foi enviada pela aplicação <em>' . $appName . '</em>';
             $body .= '</p>';
             $body .= '<p><strong>' . $user->name . '</strong>, </p>';
             $body .= '<p>';
@@ -379,7 +375,7 @@ class User_Domain_User {
             $body .= '</p>';
             $body .= '</body>';
             $body .= '</html>';
-            
+
             $mail->setBodyHtml($body);
 
             $mail->send();
@@ -387,7 +383,7 @@ class User_Domain_User {
             throw new Exception('Wrong user parameter !');
         }
     }
-    
+
     private function _isAllowed() {
         return $this->isAllowed();
     }
@@ -418,6 +414,9 @@ class User_Domain_User {
         $auth = Zend_Auth::getInstance();
         $result = $auth->authenticate($adapter);
 
+        echo "SALT: " . $salt = Agana_Util_Crypt::calcRndTimeSalt("123456", "hebertomb");
+        echo "<br>SENHA: " . md5("123456" . $salt);
+
         if ($result->isValid()) {
             $user = $adapter->getResultRowObject();
 
@@ -432,7 +431,7 @@ class User_Domain_User {
             $auth->getStorage()->write($adapter->getResultRowObject());
 
             return $user;
-        } else {            
+        } else {
             $m = $result->getMessages();
             throw new Agana_Exception($m[0]);
         }
@@ -479,18 +478,18 @@ class User_Domain_User {
         $first = substr($key, 0, 32);
         $last = substr($key, 42);
         $timeScrambled = substr($key, 32, 10);
-        
+
         $firstOk = (md5($user->id . $user->getSalt() . $timeScrambled)) == $first;
         $lastOk = (md5($user->email . $user->getPwd() . $timeScrambled)) == $last;
 
         $time = Agana_Util_DateTime::scrambledCharsToTimestamp($timeScrambled);
 
-        $day = 24*60*60;
+        $day = 24 * 60 * 60;
         $linkAge = time() - floatval($time);
-        
+
         $ageOk = ($day - $linkAge) >= 0;
-               
+
         return $firstOk && $lastOk && $ageOk;
     }
-}
 
+}

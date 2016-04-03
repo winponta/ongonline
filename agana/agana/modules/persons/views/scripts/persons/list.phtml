@@ -144,6 +144,7 @@ $this->headTitle($this->translate("Persons"));
                     <th>id</th>
                     <th><translate>Name</translate></th>
             <th><translate>Email</translate></th>
+            <th><translate>Categoria</translate></th>
             <th><translate>Phone</translate></th>
             <th class="hidden-print"></th>
             </tr>
@@ -151,16 +152,31 @@ $this->headTitle($this->translate("Persons"));
             <tbody>
                 <?php
                 foreach ($this->persons as $rec) {
-                    $acc = is_object($rec) ? $rec : new Persons_Model_Person($rec);
 
+                    $acc = is_object($rec) ? $rec : new Persons_Model_Person($rec);
+                    $acc2 = is_object($rec) ? $rec : new Persons_Model_Employee($rec);
+                    $acc3 = is_object($rec) ? $rec : new Persons_Model_Volunteer($rec);
+                    $acc4 = is_object($rec) ? $rec : new Persons_Model_PersonHelped($rec);
                     $edit = $this->url(
                             array('module' => 'persons', 'controller' => 'person',
                         'action' => 'getgm', 'id' => $acc->id), null, true);
                     ?>
+
                     <tr>
                         <td><?php echo $acc->id; ?></td>
                         <td><?php echo $acc->name; ?></td>
                         <td><?php echo $acc->email; ?></td>
+                        <td><?php
+                            if ($acc2->job_function_id) {
+                                echo "Funcionário ";
+                            }
+                            if ($acc3->id) {
+                                echo "Voluntário";
+                            }
+                            if ($acc4->id) {
+                                echo "Assistido";
+                            }
+                            ?></td>
                         <td>
                             <?php
                             echo $acc->phone;

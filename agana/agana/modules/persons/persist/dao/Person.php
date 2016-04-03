@@ -126,10 +126,13 @@ class Persons_Persist_Dao_Person extends Agana_Persist_Dao_Abstract implements P
     public function getAll($appaccount_id = 0, $orderby = 'name', $returnPaginator = true, $params = array()) {
         $db = $this->getDefaultAdapter();
         $sql = $db->select()
-                ->from('person')
+                ->from(array('p' => 'person'))
                 ->where('appaccount_id = ?', $appaccount_id)
+                ->joinLeft(array('e' => 'employee'), 'p.id = e.id')
+                ->joinLeft(array('v' => 'volunteer'), 'p.id = v.id')
+                ->joinLeft(array('ph' => 'person_helped'), 'p.id = ph.id')
                 ->order($orderby);
-
+        
         if (isset($params['filter-keyword'])) {
             $filter = new Agana_Filter_Normalize();
             $sql->where('lower(unaccented(name)) LIKE ?', '%' . $filter->filter($params['filter-keyword']) . '%');
@@ -306,7 +309,6 @@ class Persons_Persist_Dao_Person extends Agana_Persist_Dao_Abstract implements P
                         //->where('unaccented(name) LIKE ?', '%' . $normalize->filter($partials[0]) . '%' . $normalize->filter($partials[$i]) . '%')
                         ->where($db->quoteInto('lower(unaccented(name)) LIKE ?', '%' . $normalize->filter(trim($partials[0])) . '%'));
                 //->order('name');
-
             } else {
                 for ($i = 1; $i < count($partials); $i++) {
                     $sql = $db->select()
