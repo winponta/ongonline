@@ -84,10 +84,10 @@ class Agana_Form_Util {
             'value' => ($this->_model) ?
                     ((isset($options['modelfield'])) ? $this->_model->$options['modelfield'] : $this->_model->description) : '',
             'rows' => isset($options['rows']) ? $options['rows'] : 5,
-            'class' => (isset($options['editor'])) ? 
+            'class' => (isset($options['editor'])) ?
                     ($options['editor']) ? 'editor' : '' : '',
         ));
-        
+
         // by default maxlength is 400 but if it is passed by param and is 0 (zero)
         // then should not be set, even to default value
         $setMaxlength = true;
@@ -98,7 +98,7 @@ class Agana_Form_Util {
             $el = $form->getElement($elementName);
             $el->addValidator(new Zend_Validate_StringLength(
                     array(0, isset($options['maxlength']) ? $options['maxlength'] : 400)
-                )
+                    )
             );
         }
     }
@@ -162,19 +162,21 @@ class Agana_Form_Util {
                 ((isset($options['modelfield'])) ? $this->_model->$options['modelfield'] : $this->_model->date) : '';
 
         $default = isset($options['default']) ? $options['default'] : 'today';
-        
-                /*
-                Aparentemente não vejo algo errado aí, mas pela descrição que tive do erro
-                Acredito que o problema esteja no if acima e na função abaixo         
-                Pelo que entendi ele está colocando o valor automaticamente como today         
-                Com esse today, ele entra na linha 174         
-                Entrando na linha 174 ele atribui a data do dia ao invés do aniversário
-                */
-        
+
+        /*
+          Aparentemente não vejo algo errado aí, mas pela descrição que tive do erro
+          Acredito que o problema esteja no if acima e na função abaixo
+          Pelo que entendi ele está colocando o valor automaticamente como today
+          Com esse today, ele entra na linha 174
+          Entrando na linha 174 ele atribui a data do dia ao invés do aniversário
+         * 
+         Hébertom: o problema é logo abaixo mesmo, para não alterar a lógica apenas modifiquei para $modelfieldValue = ""
+         */
+
         if (empty($modelfieldValue)) {
             if ($default !== false) {
                 if (strtolower($default) == 'today') {
-                    $modelfieldValue = Zend_Date::now();
+                    $modelfieldValue = ""; // Zend_Date::now();
                 } else {
                     $modelfieldValue = new Zend_Date($default);
                 }
@@ -187,7 +189,7 @@ class Agana_Form_Util {
         }
 
         $description = $form->getTranslator()->_(isset($options['description']) ? $options['description'] : '');
-        
+
         $addDescriptionFormat = isset($options['addDescriptionFormat']) ? $options['addDescriptionFormat'] : true;
         if ($addDescriptionFormat) {
             $description .= ' - Date format ' . $dateFormat->get(Zend_Date::DATE_MEDIUM);
@@ -213,9 +215,9 @@ class Agana_Form_Util {
                     array(
                         'pattern' => '/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/',
                         'messages' => array(
-                                Zend_Validate_Regex::NOT_MATCH => "Date does not match the format 'dd/mm/yyyy'"
-                            )
-                        )                    
+                            Zend_Validate_Regex::NOT_MATCH => "Date does not match the format 'dd/mm/yyyy'"
+                        )
+                    )
                 ),
             ),
             'value' => $modelfieldValue,
@@ -297,7 +299,7 @@ class Agana_Form_Util {
             ),
             'value' => $modelfieldValue,
             'class' => isset($options['class']) ? $options['class'] : '',
-            //'rel' => isset($options['rel']) ? $options['rel'] : 'datepicker',
+                //'rel' => isset($options['rel']) ? $options['rel'] : 'datepicker',
         ));
     }
 
@@ -468,9 +470,9 @@ class Agana_Form_Util {
      * @param Zend_Form $form The Zend_Form object where the element will be added
      * @param array $options The options to pass in the element
      */
-    public function addElementStateId($form, $options=array()) {
-        $elementName = isset($options['name']) ? $options['name'] :'state_id';
-        $modelField = isset($options['modelfield']) ? $options['modelfield'] : 'state_id'; 
+    public function addElementStateId($form, $options = array()) {
+        $elementName = isset($options['name']) ? $options['name'] : 'state_id';
+        $modelField = isset($options['modelfield']) ? $options['modelfield'] : 'state_id';
 
         $form->addElement('select', $elementName, array(
             'filters' => array('StringTrim'),
@@ -482,15 +484,15 @@ class Agana_Form_Util {
         ));
 
         $el = $form->getElement($elementName);
-        
+
         $cd = new Location_Domain_State();
-        $c = $cd->getAll(array('orderby'=>'name'));
-        
+        $c = $cd->getAll(array('orderby' => 'name'));
+
         $el->addMultiOption(null, null);
         foreach ($c as $city) {
             $el->addMultiOption($city->getId(), $city->getName());
         }
-        
+
         if (($this->_model) && ($this->_model->$modelField)) {
             $el->setValue($this->_model->$modelField);
         } else {
@@ -814,7 +816,7 @@ class Agana_Form_Util {
         ));
 
         $el = $form->getElement($elementName);
-        
+
         if (isset($options['first-options'])) {
             foreach ($options['first-options'] as $op) {
                 $el->addMultiOption($op['value'], $op['label']);
@@ -827,13 +829,13 @@ class Agana_Form_Util {
         $el->addMultiOption(Project_Model_Project::PROJECT_STATUS_CLOSED_ID, Project_Model_Project::PROJECT_STATUS_CLOSED_LABEL);
         $el->addMultiOption(Project_Model_Project::PROJECT_STATUS_PAUSED_ID, Project_Model_Project::PROJECT_STATUS_PAUSED_LABEL);
 
-        $optionClasses[] = '" data-content="<span class=\'label\'>'.$form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_DRAFT_LABEL).'</span>';
-        $optionClasses[] = '" data-content="<span class=\'label label-success\'>'.$form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_ACTIVE_LABEL).'</span>';
-        $optionClasses[] = '" data-content="<span class=\'label label-info\'>'.$form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_FINISHED_LABEL).'</span>';
-        $optionClasses[] = '" data-content="<span class=\'label label-inverse\'>'.$form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_CLOSED_LABEL).'</span>';
-        $optionClasses[] = '" data-content="<span class=\'label label-warning\'>'.$form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_PAUSED_LABEL).'</span>';
-        $el->setAttrib('optionClasses',$optionClasses);
-        
+        $optionClasses[] = '" data-content="<span class=\'label\'>' . $form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_DRAFT_LABEL) . '</span>';
+        $optionClasses[] = '" data-content="<span class=\'label label-success\'>' . $form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_ACTIVE_LABEL) . '</span>';
+        $optionClasses[] = '" data-content="<span class=\'label label-info\'>' . $form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_FINISHED_LABEL) . '</span>';
+        $optionClasses[] = '" data-content="<span class=\'label label-inverse\'>' . $form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_CLOSED_LABEL) . '</span>';
+        $optionClasses[] = '" data-content="<span class=\'label label-warning\'>' . $form->getTranslator()->_(Project_Model_Project::PROJECT_STATUS_PAUSED_LABEL) . '</span>';
+        $el->setAttrib('optionClasses', $optionClasses);
+
         if (($this->_model) && ($this->_model->$modelField)) {
             $el->setValue($this->_model->$modelField);
         } else {
@@ -911,7 +913,7 @@ class Agana_Form_Util {
             'value' => isset($options['value']) ? $options['value'] : 'print',
             'label' => isset($options['label']) ? $options['label'] : 'Print',
             'icon' => isset($options['icon']) ? $options['icon'] : 'print',
-            'class'=> 'open-report-colorbox',
+            'class' => 'open-report-colorbox',
             'type' => 'submit',
         ));
     }
