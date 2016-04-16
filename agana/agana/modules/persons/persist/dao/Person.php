@@ -128,11 +128,11 @@ class Persons_Persist_Dao_Person extends Agana_Persist_Dao_Abstract implements P
         $sql = $db->select()
                 ->from(array('p' => 'person'))
                 ->where('appaccount_id = ?', $appaccount_id)
-                ->joinLeft(array('e' => 'employee'), 'p.id = e.id')
-                ->joinLeft(array('v' => 'volunteer'), 'p.id = v.id')
-                ->joinLeft(array('ph' => 'person_helped'), 'p.id = ph.id')
+//                ->joinLeft(array('e' => 'employee'), 'p.id = e.id')
+//                ->joinLeft(array('v' => 'volunteer'), 'p.id = v.id')
+//                ->joinLeft(array('ph' => 'person_helped'), 'p.id = ph.id')
                 ->order($orderby);
-        
+
         if (isset($params['filter-keyword'])) {
             $filter = new Agana_Filter_Normalize();
             $sql->where('lower(unaccented(name)) LIKE ?', '%' . $filter->filter($params['filter-keyword']) . '%');

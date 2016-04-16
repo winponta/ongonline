@@ -22,7 +22,7 @@ class Persons_Model_Home {
     
     const TYPE_BRICK            = 'brick';
     const TYPE_WOOD             = 'wood';
-    const TYPE_ADOBE            = 'adobe';
+    //const TYPE_ADOBE            = 'adobe';
     
     static public function toArraySituation() {
         $c = new ReflectionClass((__CLASS__));

@@ -12,6 +12,7 @@ class Persons_Model_ProfessionalOccupation {
     const RETIRED       = 'retired';
     const RURAL_WORKER  = 'rural worker';
     const UNEMPLOYED    = 'unemployed';
+    const AUTONOMO    = 'autônomo';
     
     static public function toArray() {
         $c = new ReflectionClass((__CLASS__));

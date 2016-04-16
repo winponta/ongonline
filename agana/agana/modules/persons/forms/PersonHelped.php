@@ -101,7 +101,7 @@ class Persons_Form_PersonHelped extends Twitter_Bootstrap_Form_Horizontal {
             'value' => ($this->_model) ? $this->_model->getReligion() : '',
             'dimension' => 6,
             'placeholder' => $this->translate->_('Describe the religion name of this person'),
-            'required' => true,
+//            'required' => true,
             'validators' => array(
                 array('StringLength', false,
                     array(0, isset($options['maxlength']) ? $options['maxlength'] : 100)),
@@ -157,7 +157,7 @@ class Persons_Form_PersonHelped extends Twitter_Bootstrap_Form_Horizontal {
             'label' => 'Professional occupation',
             'value' => ($this->_model) ? $this->_model->getProfessional_occupation() : '',
             'dimension' => 6,
-            'required' => true,
+            'required' => false,
             'validators' => array(
                 array('StringLength', false,
                     array(0, isset($options['maxlength']) ? $options['maxlength'] : 100)),
@@ -254,6 +254,7 @@ class Persons_Form_PersonHelped extends Twitter_Bootstrap_Form_Horizontal {
         }
         sort($ops);
         foreach ($ops as $op) {
+            
             $el->addMultiOption($op, $op);
         }
         $el->addMultiOption('', 'another');
@@ -326,19 +327,19 @@ class Persons_Form_PersonHelped extends Twitter_Bootstrap_Form_Horizontal {
         $this->_addElementRentValue();
         $this->_addElementHomeArea();
         $this->_addElementHomeType();
-        $formutil->addElementDate($this, array(
-            'name' => 'home_since',
-            'modelfield' => 'home_since',
-            'label' => 'Living since',
-            'description' => 'Since that date lives in this house',
-            'required' => true,
-            'default' => 'false',
-        ));
+//        $formutil->addElementDate($this, array(
+//            'name' => 'home_since',
+//            'modelfield' => 'home_since',
+//            'label' => 'Living since',
+//            'description' => 'Since that date lives in this house',
+//            'required' => true,
+//            'default' => 'false',
+//        ));
         $this->addElement('text', 'home_pieces_number', array(
             'label' => 'Home pieces',
             'value' => ($this->_model) ? $this->_model->getHome_pieces_number() : '',
             'type' => 'number',
-            'required' => true,
+//            'required' => true,
             'class' => 'mask-input',
             'data-mask' => '{"mask": "9", "repeat": 2, "greedy":false}',
         ));
@@ -365,7 +366,8 @@ class Persons_Form_PersonHelped extends Twitter_Bootstrap_Form_Horizontal {
         ));
 
         $this->addDisplayGroup(array(
-            'live_with_family', 'home_since',
+//            'live_with_family', 'home_since',
+            'live_with_family',
             'home_situation_choice', 'home_situation', 'rent_value',
             'home_area_choice', 'home_area',
             'home_type_choice', 'home_type', 'home_pieces_number',
