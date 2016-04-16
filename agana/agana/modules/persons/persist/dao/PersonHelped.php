@@ -74,6 +74,8 @@ class Persons_Persist_Dao_PersonHelped extends Agana_Persist_Dao_Abstract implem
 
         $db = $this->getDefaultAdapter();
 
+//        var_dump($params['from']);
+//        die();
         $sql = $db->select()
                 ->from($params['from'])
                 ->where('appaccount_id = ?', $params['appaccount_id'])
@@ -81,7 +83,7 @@ class Persons_Persist_Dao_PersonHelped extends Agana_Persist_Dao_Abstract implem
 
         if (isset($params['filter-keyword'])) {
             $normalize = new Agana_Filter_Normalize();
-            $sql->where('lower(unaccented(name)) LIKE ?', $normalize->filter($params['filter-keyword']));
+            $sql->where('lower(unaccented(name)) LIKE ?', '%' .$normalize->filter($params['filter-keyword']) . '%');
         }
 
         $db->setFetchMode(Zend_DB::FETCH_ASSOC);

@@ -128,10 +128,14 @@ class Persons_Persist_Dao_Person extends Agana_Persist_Dao_Abstract implements P
         $sql = $db->select()
                 ->from(array('p' => 'person'))
                 ->where('appaccount_id = ?', $appaccount_id)
-//                ->joinLeft(array('e' => 'employee'), 'p.id = e.id')
-//                ->joinLeft(array('v' => 'volunteer'), 'p.id = v.id')
-//                ->joinLeft(array('ph' => 'person_helped'), 'p.id = ph.id')
+                ->joinLeft(array('e' => 'employee'), 'p.id = e.id', 'e.id AS id_employee')
+                ->joinLeft(array('v' => 'volunteer'), 'p.id = v.id', 'v.id AS id_volunteer')
+                ->joinLeft(array('ph' => 'person_helped'), 'p.id = ph.id', 'ph.id AS id_ph')
                 ->order($orderby);
+//$sql = $db->select("SELECT \"p\".id AS id, \"p\".*, \"e\".*, \"v\".*, \"ph\".* FROM \"person\" AS \"p\" LEFT JOIN \"employee\" AS \"e\" ON p.id = e.id LEFT JOIN \"volunteer\" AS \"v\" ON p.id = v.id LEFT JOIN \"person_helped\" AS \"ph\" ON p.id = ph.id WHERE (appaccount_id = 1) ORDER BY \"name\" ASC");
+//        echo $sql;
+////
+//        die();
 
         if (isset($params['filter-keyword'])) {
             $filter = new Agana_Filter_Normalize();
