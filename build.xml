@@ -15,11 +15,11 @@
             Wich type of release is this?
         </input>
         
+		<version releasetype="${app.releaseType}" file="version.txt" property="version.number"/>
+		<loadfile property="app.version" file="version.txt"/>
 		<if>
 			<equals arg1="${deploy.env}" arg2="Production" />
 			<then>
-				<version releasetype="${app.releaseType}" file="version.txt" property="version.number"/>
-				<loadfile property="app.version" file="version.txt"/>
 				<php expression="preg_replace('/(*ANYCRLF)\n/', '', '${app.version}')" returnProperty="app.version"/>
 			</then>
 		</if>
