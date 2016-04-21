@@ -7,40 +7,54 @@
         
         <property file="build.properties"/>        
 
+        <input propertyName="deploy.env" defaultValue="Test" validargs="Test,Production">
+            Type the environment to deploy
+        </input>
+
         <input propertyName="app.releaseType" defaultValue="Bugfix" validargs="Major,Minor,Bugfix">
             Wich type of release is this?
         </input>
         
-        <version releasetype="${app.releaseType}" file="version.txt" property="version.number"/>
-        <loadfile property="app.version" file="version.txt"/>
-        <php expression="preg_replace('/(*ANYCRLF)\n/', '', '${app.version}')" returnProperty="app.version"/>
+		<if>
+			<equals arg1="${deploy.env}" arg2="Production" />
+			<then>
+				<version releasetype="${app.releaseType}" file="version.txt" property="version.number"/>
+				<loadfile property="app.version" file="version.txt"/>
+				<php expression="preg_replace('/(*ANYCRLF)\n/', '', '${app.version}')" returnProperty="app.version"/>
+			</then>
+		</if>
+		
+		<tstamp />
+		<tstamp>
+			<format property="app.released.date" pattern="%G.%m.%d"/>
+			<format property="app.released.time" pattern="%H.%M"/>
+		</tstamp>            
 
-        <tstamp />
-        <tstamp>
-            <format property="app.released.date" pattern="%G.%m.%d"/>
-            <format property="app.released.time" pattern="%H.%M"/>
-        </tstamp>            
+		<echo>Defining last build date and time</echo>
+		<tstamp>
+			<format property="builddate" pattern="%Y/%m/%d"  />
+			<format property="buildtime" pattern="%H:%M:%S" />
+		</tstamp>
+		<property file="lastbuild.properties"/>
+		<echo>Will deploy files changed after ${lastbuild.date}</echo>
 
-        <echo>Defining last build date and time</echo>
-        <tstamp>
-            <format property="builddate" pattern="%Y/%m/%d"  />
-            <format property="buildtime" pattern="%H:%M:%S" />
-        </tstamp>
-        <property file="lastbuild.properties"/>
-        <echo>Will deploy files changed after ${lastbuild.date}</echo>
-
-        <echo msg="Seting version ${versioning.tag.base} ${app.version} on ${app.released.date} at ${app.released.time} in config file"/>
-        <reflexive>
-            <fileset dir="./configs">
-                <include pattern="*.ini" />
-            </fileset>
-            <filterchain>
-                <replaceregexp>
-                    <regexp pattern="agana.app.version = .*" replace="agana.app.version = &quot;${app.version}&quot;" />
-                    <regexp pattern="agana.app.deploydate = .*" replace="agana.app.deploydate = &quot;${app.released.date} ${app.released.time}&quot;"/>
-                </replaceregexp>
-            </filterchain>
-        </reflexive>
+		<if>
+			<equals arg1="${deploy.env}" arg2="Production" />
+			<then>
+				<echo msg="Seting version ${versioning.tag.base} ${app.version} on ${app.released.date} at ${app.released.time} in config file"/>
+				<reflexive>
+					<fileset dir="./configs">
+						<include pattern="*.ini" />
+					</fileset>
+					<filterchain>
+						<replaceregexp>
+							<regexp pattern="agana.app.version = .*" replace="agana.app.version = &quot;${app.version}&quot;" />
+							<regexp pattern="agana.app.deploydate = .*" replace="agana.app.deploydate = &quot;${app.released.date} ${app.released.time}&quot;"/>
+						</replaceregexp>
+					</filterchain>
+				</reflexive>
+			</then>
+		</if>        
     </target>
     
     <target name="define.tag">
@@ -157,11 +171,11 @@
             Wich deploy?
         </input>
 
-        <input propertyName="run.hg.push" defaultValue="y" validargs="y,n">
-            Run hg push?
+        <input propertyName="run.git.push" defaultValue="y" validargs="y,n">
+            Run GIT push?
         </input>
 
-        <input propertyName="run.hg.tag" defaultValue="y" validargs="y,n">
+        <input propertyName="run.git.tag" defaultValue="y" validargs="y,n">
             Tag this release?
         </input>
 
@@ -169,6 +183,15 @@
             Deploy files by?
         </input>
         
+        <if>
+            <equals arg1="${deploy.by}" arg2="ftp"/>
+            <then>
+				<input propertyName="ftp.password" defaultValue="">
+					FTP password
+				</input>
+            </then>
+        </if>
+
         <input propertyName="lastbuild.update" defaultValue="y" validargs="y,n">
             Update last build date?
         </input>
@@ -180,24 +203,37 @@
             </then>
         </if>
 
-        <exec command="hg commit -I lastbuild.properties -I version.txt -I configs/agana_ongonline.ini -m &quot;Last agana.app version ${app.version} and deploy date ${app.released.date} and time ${app.released.time} updated&quot;" 
-            passthru="true"/>
-
+		<echo>Commit GIT deploy changes</echo>
+		<exec 
+			command="git commit -am 'Last agana.app version ${app.version} and deploy date ${app.released.date} and time ${app.released.time} updated'" 
+			checkreturn="true" />
+		
         <if>
-            <equals arg1="${run.hg.tag}" arg2="y" />
+            <equals arg1="${run.git.tag}" arg2="y" />
             <then>
                 <echo>Tag ${versioning.tag}</echo>
-                <exec command="./hg-bitbucket-tag-full.sh &quot;${versioning.tag}&quot;" 
-                      passthru="true"/>
+				<exec 
+					command="git tag ${versioning.tag}" 
+					checkreturn="true" />
             </then>
         </if>
 
         <if>
-            <equals arg1="${run.hg.push}" arg2="y" />
+            <equals arg1="${run.git.push}" arg2="y" />
             <then>
-                <exec command="./hg-bitbucket-push-full.sh" 
-                      passthru="true"/>
-            </then>
+
+				<input propertyName="git.refspec" defaultValue="dev" validargs="dev,master">
+					Wich branch to git push?
+				</input>
+		
+				<exec 
+					command="git push origin ${git.refspec}" 
+					checkreturn="true" />
+
+				<exec 
+					command="git push origin --tags" 
+					checkreturn="true" />
+			</then>
         </if>
 
         <phingcall target="deploy.${deploy}"/>

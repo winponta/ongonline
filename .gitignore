@@ -7,6 +7,10 @@
 sintaxe_error.txt
 build-production
 *.sh~
+*/Thumbs.db
+app/themes/ongonline/img/Thumbs.db
+app/themes/ongonline/vendor/tinymce/js/tinymce/plugins/emoticons/img/Thumbs.db
+app/themes/ongonline/vendor/tinymce/js/tinymce/skins/lightgray/img/Thumbs.db
 agana/data
 /app/themes/ongonline/vendor/angular/
 /app/themes/ongonline/vendor/angular-sanitize/
