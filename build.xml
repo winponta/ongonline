@@ -226,10 +226,12 @@
 					Wich branch to git push?
 				</input>
 		
+				<echo>Pushing GIT commit to origin ${git.refspec}</echo>
 				<exec 
 					command="git push origin ${git.refspec}" 
 					checkreturn="true" />
 
+				<echo>Pushing GIT tags to origin ${git.refspec}</echo>
 				<exec 
 					command="git push origin --tags" 
 					checkreturn="true" />
