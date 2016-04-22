@@ -16,7 +16,7 @@ if (strtolower(getenv('APPLICATION_ENV')) == 'development') {
         || define('APPLICATION_DATA_PATH',  realpath(APPLICATION_PATH . '/../data'));
 
 } else if (strtolower(getenv('APPLICATION_ENV')) == 'testing') {
-    error_reporting(E_ALL|E_STRICT|E_RECOVERABLE_ERROR|E_DEPRECATED|E_USER_DEPRECATED);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
     ini_set('display_errors', 'on');
 
     // Define path to application directory
