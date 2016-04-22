@@ -63,6 +63,13 @@ echo $this->doctype() . PHP_EOL;
             <?php echo $this->flashMessages(); ?>
                             </div>-->
 
+            <?php
+                if (strtolower(APPLICATION_ENV) != 'production') {
+                    echo '<div class="alert alert-warning">AMBIENTE '.
+                            getenv('APPLICATION_ENV') . '</div>';
+                } else { echo 'COMEON';}
+            ?>
+            
             <div id="content">
                 <?php echo $this->layout()->content; ?>
             </div>

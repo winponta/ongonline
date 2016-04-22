@@ -122,6 +122,14 @@ echo $this->doctype() . PHP_EOL;
                     </div>
                     <div class="nav-collapse pull-right">
                         <ul class="nav nav-pills">
+                            <?php
+                                if (strtolower(APPLICATION_ENV) != 'production') {
+                                    echo '<li>'
+                                        . '<div class="label label-warning">'.
+                                            strtoupper(APPLICATION_ENV) . '</div>'
+                                        . '</li>';
+                                }
+                            ?>
                             <li class="dropdown">                                    
                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle"
                                    title="<translate>Settings</translate>"
@@ -219,7 +227,7 @@ echo $this->doctype() . PHP_EOL;
                 <?php echo $this->flashMessages(); ?>
                                 </div>-->
 
-                <div id="content">
+                <div id="content">                    
                     <?php if (trim($this->escape($this->title)) != '') { ?>
                         <!--                        <header>
                                                     <h1><?php echo $this->escape($this->title); ?></h1>
