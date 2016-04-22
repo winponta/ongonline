@@ -15,7 +15,23 @@ if (strtolower(getenv('APPLICATION_ENV')) == 'development') {
     defined('APPLICATION_DATA_PATH')
         || define('APPLICATION_DATA_PATH',  realpath(APPLICATION_PATH . '/../data'));
 
-} else {
+} else if (strtolower(getenv('APPLICATION_ENV')) == 'testing') {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+    ini_set('display_errors', 'on');
+
+    // Define path to application directory
+    defined('APPLICATION_PATH')
+        || define('APPLICATION_PATH', '/home/ong/ongonline_app_teste/agana');
+
+    // Define lib path
+    defined('LIB_PATH')
+        || define('LIB_PATH',  realpath(APPLICATION_PATH . '/../lib'));
+
+    // Define data path
+    defined('APPLICATION_DATA_PATH')
+        || define('APPLICATION_DATA_PATH',  '/home/ong/ongonline_app_teste/data');
+
+} else { 
     // Define path to application directory
     defined('APPLICATION_PATH')
         || define('APPLICATION_PATH', '/home/ong/ongonline_app/agana');
