@@ -1,21 +1,35 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var bump = require('gulp-bump');
 var args = require('yargs').argv;
 var gulpif = require('gulp-if');
 var ini = require('ini');
 var git = require('gulp-git');
+var fs = require('fs');
+var rsync = require('rsyncwrapper');
 
-var rsync = require('rsyncwrapper').rsync;
+// le o arquivo de propriedades
+var deployIniConfig = ini.parse(fs.readFileSync('build.properties', 'utf-8'));
+
+// define variaveis enviadas pelo console
+var env = args.e ? args.e : 'test'
+
+// define diretorios de destino pelo ambiente
+var dirDestApp = (env == 'production') ? deployIniConfig.ftp.dir.production.app : deployIniConfig.ftp.dir.test.app
+var dirDestPublic = (env == 'production') ? deployIniConfig.ftp.dir.production.public : deployIniConfig.ftp.dir.test.public
+ 
+// prepara ssh
 var gulpSSH = require('gulp-ssh')({
     ignoreErrors: false,
     sshConfig: {
-        host: '216.158.67.156',
-        port: 1891,
-        username: 'root',
-        password: '749wpserver'
+        host: deployIniConfig.ssh.host,
+        port: deployIniConfig.ssh.port,
+        username: deployIniConfig.ssh.username,
+        password: deployIniConfig.ssh.password
     }
 });
 
+// variaveis de definicao do tipo de deploy semver
 var isMajor = args.version === 'major';
 var isMinor = args.version === 'minor';
 var isPatch = args.version === 'patch' || args.version == null;
@@ -24,7 +38,7 @@ var tagMsg = args.tagMessage || 'Tag de versão de deploy automatizada com Gulp'
 
 var tagVersion = '';
 
-var fs = require('fs');
+// le o arquivo de configuracao da versao a ser publicada
 var getFileJson = function () {
     return JSON.parse(fs.readFileSync('./version.json', 'utf8'));
 };
@@ -51,56 +65,74 @@ function getDateTime() {
 
 }
 
+// grava a nova versao no arquivo
 gulp.task('bump', function () {
-    return gulp.src('./version.json')
+    gulpif(env=='production', function() {
+		return gulp.src('./version.json')
             .pipe(gulpif(isPatch, bump({type: 'patch'})))
             .pipe(gulpif(isMinor, bump({type: 'minor'})))
             .pipe(gulpif(isMajor, bump({type: 'major'})))
             .pipe(gulp.dest('./'));
+		});
 });
 
+// grava no arquivo de configuracao as informacoes que serao mostradas no app
 gulp.task('set-config-ini', ['bump'], function () {
-    var config = ini.parse(fs.readFileSync('./configs/agana_ongonline_version.ini', 'utf-8'));
-    config["agana.app.version"] = getFileJson().version;
-    config["agana.app.deploydate"] = getDateTime();
-    fs.writeFileSync('./configs/agana_ongonline_version.ini', ini.stringify(config));
-    tagVersion = getFileJson().version;
+	gulpif(env=='production', function() {
+		var config = ini.parse(fs.readFileSync('./configs/agana_ongonline_version.ini', 'utf-8'));
+		config["agana.app.version"] = getFileJson().version;
+		config["agana.app.deploydate"] = getDateTime();
+		fs.writeFileSync('./configs/agana_ongonline_version.ini', ini.stringify(config));
+		tagVersion = getFileJson().version;
+	});
 });
 
+// define a tag de versao no git
 gulp.task('git-tag-verson', ['set-config-ini'], function () {
-    return git.tag(tagVersion, tagMsg, function (err) {
-        if (err)
-            throw err;
-    });
+	gulpif(env=='production', function() {
+		return git.tag(tagVersion, tagMsg, function (err) {
+			if (err)
+				throw err;
+		});
+	});
 });
 
 // Run git commit with options 
 gulp.task('git-commit', ['git-tag-verson'], function () {
-    return gulp.src(['./version.json', './configs/agana_ongonline_version.ini'])
-            .pipe(git.add())
-            .pipe(git.commit('Deploy versão ' + tagVersion));
+	gulpif(env=='production', function() {
+		return gulp.src(['./version.json', './configs/agana_ongonline_version.ini'])
+				.pipe(git.add())
+				.pipe(git.commit('Deploy versão ' + tagVersion));
+	});
 });
 
 // Run git push with options 
 // branch is the remote branch to push to 
 gulp.task('git-push-master', ['git-commit'], function () {
-    return git.push('origin', 'master', function (err) {
-        if (err)
-            console.log('ERRO no git-push-master >> ' + err);
-    });
+	gulpif(env=='production', function() {
+		return git.push('origin', 'master', function (err) {
+			if (err)
+				console.log('ERRO no git-push-master >> ' + err);
+		});
+	});
 });
 
 gulp.task('git-push-tags', ['git-push-master'], function () {
-    return git.push('origin', '', {args: " --tags"}, function (err) {
-        if (err)
-            console.log('ERRO no git-push-tags >> ' + err);
-    });
+	gulpif(env=='production', function() {
+		return git.push('origin', '', {args: " --tags"}, function (err) {
+			if (err)
+				console.log('ERRO no git-push-tags >> ' + err);
+		});
+	});
 });
 
 gulp.task('copy', ['git-push-tags'], function () {
+	// se o ambiente nao for production entao fixa a versao em test
+	tagVersion = (env == 'production') ? tagVersion : 'test';
+	
     gulpSSH
             .shell([
-                'cd /home/ong/public_html/app/',
+                'cd /home/ong/public_html/' + dirDestPublic,
                 'rm -f index.php',
                 'cp index_maintenance.php index.php',
                 'chown ong.ong index.php',
@@ -109,24 +141,26 @@ gulp.task('copy', ['git-push-tags'], function () {
 
     return rsync({
         src: ['./agana/agana', './agana/lib', './configs', './app/themes'],
-        dest: 'root@216.158.67.156:/home/ong/ongonline_versions/release-' + tagVersion,
+        dest: deployIniConfig.ssh.username + '@' + deployIniConfig.ssh.host + ':/home/ong/ongonline_versions/release-' + tagVersion,
         ssh: true,
-        port: "1891",
+        port: deployIniConfig.ssh.port,
         recursive: true,
         args: ['--info=progress2'],
-        exclude: ['*.git', '.git', '.metadata',
+        exclude: ['*.git', '.git', '.metadata', 'jasper-report-templates',
             'Zend/Dojo', 'Zend/Gdata', 'Zend/InfoCard', 'Zend/Amf', 'Zend/Wildfire',
-            'Zend/Service', 'Zend/XmlRpc',
+            'Zend/Service', 'Zend/XmlRpc', 'Zend/Feed', 
             'mPDF/examples'],
         args: ['-z --verbose'],
                 onStdout: function (data) {
                     process.stdout.write('.');
                     //console.log(data.toString());
                 }
-    }, function (error, stdout, stderr, cmd) {
+    }, function (error, stdout, stderr, cmd) {		
         if (error) {
             console.log(error);
             console.log(stderr);
+			console.log('Comando do RSYNC');
+			console.log(cmd);
         }
         console.log('  ..  RSync end!');
 
@@ -134,14 +168,14 @@ gulp.task('copy', ['git-push-tags'], function () {
                 .shell([
                     'cd /home/ong/ongonline_versions/',
                     'chown -R ong.ong release-' + tagVersion,
-                    'cd /home/ong/ongonline_app/',
+                    'cd /home/ong/' + dirDestApp,
                     'rm -f agana',
                     'rm -f configs',
                     'rm -f lib',
                     'ln -s /home/ong/ongonline_versions/release-' + tagVersion + '/agana/ agana',
                     'ln -s /home/ong/ongonline_versions/release-' + tagVersion + '/configs/ configs',
                     'ln -s /home/ong/ongonline_versions/release-' + tagVersion + '/lib/ lib',
-                    'cd /home/ong/public_html/app/',
+                    'cd /home/ong/public_html/' + dirDestPublic,
                     'rm -f themes',
                     'ln -s /home/ong/ongonline_versions/release-' + tagVersion + '/themes/ themes',
                     'chown -R ong.ong themes',
