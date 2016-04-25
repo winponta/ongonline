@@ -9,15 +9,21 @@ var fs = require('fs');
 var rsync = require('rsyncwrapper');
 
 // le o arquivo de propriedades
+gutil.log(gutil.colors.green('Lendo build.properties'));
 var deployIniConfig = ini.parse(fs.readFileSync('build.properties', 'utf-8'));
 
-// define variaveis enviadas pelo console
-var env = args.e ? args.e : 'test'
+// define ambiente pelos argumentos enviados pelo console
+var env = args.e ? args.e : 'test';
+var isProduction = env == 'production';
 
 // define diretorios de destino pelo ambiente
 var dirDestApp = (env == 'production') ? deployIniConfig.ftp.dir.production.app : deployIniConfig.ftp.dir.test.app
 var dirDestPublic = (env == 'production') ? deployIniConfig.ftp.dir.production.public : deployIniConfig.ftp.dir.test.public
- 
+
+gutil.log(gutil.colors.green('Diretorios de destino no servidor'));
+gutil.log('app    = ' + dirDestApp);
+gutil.log('public = ' + dirDestPublic);
+
 // prepara ssh
 var gulpSSH = require('gulp-ssh')({
     ignoreErrors: false,
@@ -67,69 +73,87 @@ function getDateTime() {
 
 // grava a nova versao no arquivo
 gulp.task('bump', function () {
-    gulpif(env=='production', function() {
-		return gulp.src('./version.json')
-            .pipe(gulpif(isPatch, bump({type: 'patch'})))
-            .pipe(gulpif(isMinor, bump({type: 'minor'})))
-            .pipe(gulpif(isMajor, bump({type: 'major'})))
-            .pipe(gulp.dest('./'));
-		});
+    if (isProduction) {
+        gutil.log(gutil.colors.green('Definindo versão em ' + env));
+
+        gulp.src('./version.json')
+        .pipe(gulpif(isPatch, bump({type: 'patch'})))
+        .pipe(gulpif(isMinor, bump({type: 'minor'})))
+        .pipe(gulpif(isMajor, bump({type: 'major'})))
+        .pipe(gulp.dest('./'));
+
+        tagVersion = getFileJson().version;
+
+        gutil.log(gutil.colors.green('Nova versão ' + tagVersion ));
+    } else {
+        gutil.log(gutil.colors.green('Não define versão se não é deploy de produção'));
+    }
 });
 
 // grava no arquivo de configuracao as informacoes que serao mostradas no app
 gulp.task('set-config-ini', ['bump'], function () {
-	gulpif(env=='production', function() {
+    if (isProduction) {
+        gutil.log(gutil.colors.green('Gravando versão ' + tagVersion + ' e data de deploy no arquivo agana_ongonline_version.ini'));
+
 		var config = ini.parse(fs.readFileSync('./configs/agana_ongonline_version.ini', 'utf-8'));
-		config["agana.app.version"] = getFileJson().version;
+		config["agana.app.version"] = tagVersion;
 		config["agana.app.deploydate"] = getDateTime();
 		fs.writeFileSync('./configs/agana_ongonline_version.ini', ini.stringify(config));
-		tagVersion = getFileJson().version;
-	});
+	};
 });
 
 // define a tag de versao no git
 gulp.task('git-tag-verson', ['set-config-ini'], function () {
-	gulpif(env=='production', function() {
+    if (isProduction) {
+        gutil.log(gutil.colors.green('Gerango no GIT tag ' + tagVersion + ' e msg = ' + tagMsg));
+
 		return git.tag(tagVersion, tagMsg, function (err) {
 			if (err)
 				throw err;
 		});
-	});
+	};
 });
 
-// Run git commit with options 
+// Run git commit with options
 gulp.task('git-commit', ['git-tag-verson'], function () {
-	gulpif(env=='production', function() {
+    if (isProduction) {
+        gutil.log(gutil.colors.green('GIT commit msg = Deploy versão ' + tagVersion));
+
 		return gulp.src(['./version.json', './configs/agana_ongonline_version.ini'])
 				.pipe(git.add())
 				.pipe(git.commit('Deploy versão ' + tagVersion));
-	});
+	};
 });
 
-// Run git push with options 
-// branch is the remote branch to push to 
+// Run git push with options
+// branch is the remote branch to push to
 gulp.task('git-push-master', ['git-commit'], function () {
-	gulpif(env=='production', function() {
+    if (isProduction) {
+        gutil.log(gutil.colors.green('GIT Push em MASTER'));
+
 		return git.push('origin', 'master', function (err) {
 			if (err)
-				console.log('ERRO no git-push-master >> ' + err);
+				gutil.log(gutil.colors.red('ERRO no git-push-master >> ' + err));
 		});
-	});
+	};
 });
 
 gulp.task('git-push-tags', ['git-push-master'], function () {
-	gulpif(env=='production', function() {
-		return git.push('origin', '', {args: " --tags"}, function (err) {
+    if (isProduction) {
+        gutil.log(gutil.colors.green('GIT Pusg de TAGS'));
+
+		return git.push('origin', '', {args: "--tags"}, function (err) {
 			if (err)
-				console.log('ERRO no git-push-tags >> ' + err);
+				gutil.log(gutil.colors.red('ERRO no git-push-tags >> ' + err));
 		});
-	});
+	};
 });
 
 gulp.task('copy', ['git-push-tags'], function () {
 	// se o ambiente nao for production entao fixa a versao em test
-	tagVersion = (env == 'production') ? tagVersion : 'test';
-	
+	tagVersion = isProduction ? tagVersion : 'test';
+
+    gutil.log(gutil.colors.green('Index para manutenção'));
     gulpSSH
             .shell([
                 'cd /home/ong/public_html/' + dirDestPublic,
@@ -139,6 +163,7 @@ gulp.task('copy', ['git-push-tags'], function () {
             ], {filePath: 'shell.log'})
             .pipe(gulp.dest('logs'));
 
+    gutil.log(gutil.colors.green('Sincronizando arquivos'));
     return rsync({
         src: ['./agana/agana', './agana/lib', './configs', './app/themes'],
         dest: deployIniConfig.ssh.username + '@' + deployIniConfig.ssh.host + ':/home/ong/ongonline_versions/release-' + tagVersion,
@@ -148,21 +173,25 @@ gulp.task('copy', ['git-push-tags'], function () {
         args: ['--info=progress2'],
         exclude: ['*.git', '.git', '.metadata', 'jasper-report-templates',
             'Zend/Dojo', 'Zend/Gdata', 'Zend/InfoCard', 'Zend/Amf', 'Zend/Wildfire',
-            'Zend/Service', 'Zend/XmlRpc', 'Zend/Feed', 
+            'Zend/Service', 'Zend/XmlRpc', 'Zend/Feed',
             'mPDF/examples'],
         args: ['-z --verbose'],
                 onStdout: function (data) {
                     process.stdout.write('.');
                     //console.log(data.toString());
                 }
-    }, function (error, stdout, stderr, cmd) {		
+    }, function (error, stdout, stderr, cmd) {
         if (error) {
             console.log(error);
             console.log(stderr);
 			console.log('Comando do RSYNC');
 			console.log(cmd);
         }
-        console.log('  ..  RSync end!');
+
+        gutil.log(gutil.colors.green('RSYNC end'));
+        gutil.log(gutil.colors.green('Arquivos sincronizados !!'));
+
+        gutil.log(gutil.colors.green('Montando links simbólicos para versão publicada no servidor'));
 
         return gulpSSH
                 .shell([
