@@ -16,8 +16,6 @@ agana/data
 /app/themes/ongonline/vendor/angular-sanitize/
 /app/themes/ongonline/vendor/angular-resource/
 /app/themes/ongonline/vendor/angular-route/
-/app/themes/ongonline/vendor/jquery/
-/app/themes/ongonline/vendor/colorbox/
 /vendor/behat/
 /vendor/symfony/
 /vendor/autoload.php
