@@ -221,6 +221,25 @@ abstract class Agana_Persist_Dao_Abstract extends Zend_Db_Table_Abstract {
         return $this->_prepareReturnData($db->fetchAll($sql));
     }
 
+    public function getAllParentsTasks($params = null) {
+        $db = $this->getDefaultAdapter();
+        $sql = $db->select();
+
+        if (isset($params['from'])) {
+            $sql->from($params['from']);
+        } else {
+            $sql->from($this->_name);
+        }
+
+        $sql = $this->handleOrderByParam($params, $sql);
+
+        $sql->where('parent_id is null');
+
+        $db->setFetchMode(Zend_DB::FETCH_ASSOC);
+
+        return $this->_prepareReturnData($db->fetchAll($sql));
+    }
+
     public function getByName($name, $params = null) {
         $db = $this->getDefaultAdapter();
         $sql = $db->select()

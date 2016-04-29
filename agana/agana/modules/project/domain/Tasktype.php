@@ -29,6 +29,19 @@ class Project_Domain_Tasktype {
         }
     }
 
+    public function getAllParentTask($orderby = '') {
+        try {
+            $u = new Project_Persist_Dao_Tasktype();
+            $r = $u->getAllParentsTasks(array(
+                'orderby'=>$orderby
+            ));
+            $r = is_null($r) ? array() : $r;
+            return $r;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
     /**
      * @return Project_Model_Tasktype
      */
