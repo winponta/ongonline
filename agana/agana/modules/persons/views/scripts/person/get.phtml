@@ -153,6 +153,49 @@ $pdfFullRecordUrl = $this->url(array(
                 <span class="hidden-print">
                     <div class="row">
                         <hr/>
+                        <h6 class="text-info">Documentos</h5>
+                    </div>
+
+                    <div class="row">
+                        <h6 class="span2"><translate>identitycard</translate></h6>
+                        <span class="fn span2"><?= $this->person->getIdentitycard(); ?></span>
+                        <h6 class="span2"><translate>individualdoctaxnumber</translate></h6>
+                        <span class="fn span2"><?= $this->person->getIndividualdoctaxnumber(); ?></span>
+                    </div>
+
+                    <div class="row">
+                        <h6 class="span2"><translate>birthcertificate</translate></h6>
+                        <span class="fn span2"><?= $this->person->getBirthcertificate(); ?></span>
+
+                    </div>
+
+                    <div class="row">
+                        <h6 class="span2"><translate>professionalcard</translate></h6>
+                        <span class="fn span2"><?= $this->person->getProfessionalcard(); ?></span>
+                        <h6 class="span2"><translate>driverslicense</translate></h6>
+                        <span class="fn span2"><?= $this->person->getDriverslicense(); ?></span>
+                    </div>
+
+                    <div class="row">
+                        <h6 class="span2"><translate>voterregistration</translate></h6>
+                        <span class="fn span2"><?= $this->person->getVoterregistration(); ?></span>
+                        <h6 class="span2"><translate>militaryregistration</translate></h6>
+                        <span class="fn span2"><?= $this->person->getMilitaryregistration(); ?></span>
+                    </div>
+
+                    <div class="row">
+                        <h6 class="span2"><translate>healthsystemcard</translate></h6>
+                        <span class="fn span2"><?= $this->person->getHealthsystemcard(); ?></span>
+                        <h6 class="span2"><translate>Pis</translate></h6>
+                        <span class="fn span2"><?= $this->person->getPis(); ?></span>
+                    </div>
+
+                </span>
+
+
+                <span class="hidden-print">
+                    <div class="row">
+                        <hr/>
                         <h6 class="text-info"><translate>User data</translate></h5>
                     </div>
 

@@ -86,20 +86,20 @@ class Persons_Bootstrap extends Zend_Application_Module_Bootstrap {
         /**
          * Docs
          */
-        unset($dep);
-        $dep['domain']['class'] = 'Persons_Domain_PersonDocs';
-        $dep['menu']['label'] = 'Docs';
-        $dep['menu']['title'] = 'Docs';
-        $dep['menu']['icon'] = 'icon-credit-card';
-        $dep['menu']['module'] = 'persons';
-        $dep['menu']['controller'] = 'person-docs';
-        $dep['menu']['action'] = 'get';
-        //$dep['menu']['order'] = 1;
-
-        $dep['menu']['new']['title'] = 'Add new Docs';
-        $dep['menu']['new']['module'] = 'persons';
-        $dep['menu']['new']['controller'] = 'person-docs';
-        $dep['menu']['new']['action'] = 'create';
+//        unset($dep);
+//        $dep['domain']['class'] = 'Persons_Domain_PersonDocs';
+//        $dep['menu']['label'] = 'Docs';
+//        $dep['menu']['title'] = 'Docs';
+//        $dep['menu']['icon'] = 'icon-credit-card';
+//        $dep['menu']['module'] = 'persons';
+//        $dep['menu']['controller'] = 'person-docs';
+//        $dep['menu']['action'] = 'get';
+//        //$dep['menu']['order'] = 1;
+//
+//        $dep['menu']['new']['title'] = 'Add new Docs';
+//        $dep['menu']['new']['module'] = 'persons';
+//        $dep['menu']['new']['controller'] = 'person-docs';
+//        $dep['menu']['new']['action'] = 'create';
 
         // Pdf generation
         $dep['pdf']['module'] = 'persons';
