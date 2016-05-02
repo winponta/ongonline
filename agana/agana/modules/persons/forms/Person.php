@@ -144,7 +144,7 @@ class Persons_Form_Person extends Twitter_Bootstrap_Form_Horizontal {
 
     private function _addElementPis() {
         $this->addElement('text', 'pis', array(
-            'label' => 'pis',
+            'label' => 'PIS/NIS/NIT',
             'filters' => array('StringTrim'),
             'validators' => array(
                 array('StringLength', false,
