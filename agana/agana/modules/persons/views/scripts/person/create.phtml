@@ -78,7 +78,7 @@ $form->setAction($this->url());
                 <?= $form->getElement('city_region_id')->render() ?>
             </span>
         </div>
-        
+
         <legend>Documentos</legend>
 
         <div class="row">
@@ -86,9 +86,6 @@ $form->setAction($this->url());
                 <?= $form->getElement('identitycard')->render() ?>
             </span>
 
-        </div>
-
-        <div class="row">
             <span class="span5">
                 <?= $form->getElement('individualdoctaxnumber')->render() ?>
             </span>
@@ -119,6 +116,12 @@ $form->setAction($this->url());
             </span>
             <span class="span3">
                 <?= $form->getElement('healthsystemcard')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span5">
+                <?= $form->getElement('pis')->render() ?>
             </span>
         </div>
 
