@@ -78,8 +78,49 @@ $form->setAction($this->url());
                 <?= $form->getElement('city_region_id')->render() ?>
             </span>
         </div>
+        
+        <legend>Documentos</legend>
 
-        <?= $form->getElement('website')->render() ?>
+        <div class="row">
+            <span class="span5">
+                <?= $form->getElement('identitycard')->render() ?>
+            </span>
+
+        </div>
+
+        <div class="row">
+            <span class="span5">
+                <?= $form->getElement('individualdoctaxnumber')->render() ?>
+            </span>
+
+        </div>
+
+        <div class="row">
+            <span class="span5">
+                <?= $form->getElement('birthcertificate')->render() ?>
+            </span>
+            <span class="span3">
+                <?= $form->getElement('professionalcard')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span5">
+                <?= $form->getElement('driverslicense')->render() ?>
+            </span>
+            <span class="span3">
+                <?= $form->getElement('voterregistration')->render() ?>
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="span5">
+                <?= $form->getElement('militaryregistration')->render() ?>
+            </span>
+            <span class="span3">
+                <?= $form->getElement('healthsystemcard')->render() ?>
+            </span>
+        </div>
 
         <?= $form->getDisplayGroup('actions-end')->render() ?>
     </form>
@@ -90,7 +131,7 @@ $form->setAction($this->url());
     // variavel que controla a chamada da pesquisa, para que não 
     // realize mais de uma vez a chamada como estava ocorrendo
     var fazendoPesquisa = false;
-    $('input#name').on('blur', null, function(ev) {
+    $('input#name').on('blur', null, function (ev) {
         ev.preventDefault();
 
         if ($.trim($(this).val()).length > 2) {
@@ -99,10 +140,10 @@ $form->setAction($this->url());
             } else {
                 fazendoPesquisa = true;
             }
-            
-            var basePersonUrl = '<?php echo $this->url(array('module' => 'persons','controller'=> 'person','action' => 'get'));?>';
-            var baseMediaUrl = '<?php echo $this->url(array('module' => 'persons','controller'=> 'person','action' => 'get'));?>';
-            
+
+            var basePersonUrl = '<?php echo $this->url(array('module' => 'persons', 'controller' => 'person', 'action' => 'get')); ?>';
+            var baseMediaUrl = '<?php echo $this->url(array('module' => 'persons', 'controller' => 'person', 'action' => 'get')); ?>';
+
             var nameSearch = $('#name-search');
             $(nameSearch).html('<translate>verifing registers</translate> ...');
 
@@ -112,7 +153,7 @@ $form->setAction($this->url());
             var jx = $.ajax({
                 url: searchUrl,
                 dataType: 'json',
-            }).done(function(res) {
+            }).done(function (res) {
                 fazendoPesquisa = false;
                 if (res.found) {
                     var similarResult = $('#similar-result');
@@ -136,22 +177,22 @@ $form->setAction($this->url());
                         html += '</tr>';
                     }
                     html += '</table>';
-                    
+
                     $(similarResult).html(html);
                     $('.numRegistros').html(res.registers.length);
-                    
+
                     cBox = $.colorbox({
-                        html:$('#similar').html(),
-                        width:'90%', 
-                        maxWidth:1200,
+                        html: $('#similar').html(),
+                        width: '90%',
+                        maxWidth: 1200,
                         height: '90%'
                     });
-                    
-                    $('.close-cbox').on('click', null, function() {
+
+                    $('.close-cbox').on('click', null, function () {
                         $.colorbox.close();
                     });
                 }
-            }).always(function() {
+            }).always(function () {
                 $(nameSearch).html('');
             });
         }
@@ -175,7 +216,7 @@ $form->setAction($this->url());
         </p>
         <p id="similar-result"></p>
     </div>
-<!--    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true"><translate>Close</translate></button>
-    </div>-->
+    <!--    <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true"><translate>Close</translate></button>
+        </div>-->
 </div>

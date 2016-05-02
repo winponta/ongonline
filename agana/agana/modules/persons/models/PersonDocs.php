@@ -10,6 +10,7 @@ class Persons_Model_PersonDocs extends Agana_Data_Bean  {
     private $voterregistration;
     private $militaryregistration;
     private $healthsystemcard;
+    private $pis;
 
     private $person;
     
@@ -83,6 +84,14 @@ class Persons_Model_PersonDocs extends Agana_Data_Bean  {
 
     public function setHealthsystemcard($healthsystemcard) {
         $this->healthsystemcard = $healthsystemcard;
+    }
+    
+    public function getPis() {
+        return $this->healthsystemcard;
+    }
+
+    public function setPis($pis) {
+        $this->pis = $pis;
     }
 
     public function getPerson() {

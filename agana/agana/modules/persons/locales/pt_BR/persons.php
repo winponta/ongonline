@@ -28,6 +28,8 @@ return array(
                         'Primeiro atendimento em',
     'Health system card'
                     => 'Cartão do SUS',
+    'PIS'
+                    => 'PIS',
     'Home area'     => 'Situada em área',
     'Home data'     => 'Moradia',
     'Home pieces'   => 'Peças da casa',
