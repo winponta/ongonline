@@ -141,22 +141,10 @@ class Persons_Form_Person extends Twitter_Bootstrap_Form_Horizontal {
         ));
     }
 
-//    private function _addElementPis() {
-//        $this->addElement('text', 'pis', array(
-//            'label' => 'pis',
-//            'filters' => array('StringTrim'),
-//            'validators' => array(
-//                array('StringLength', false,
-//                    array(0, 14)),
-//            ),
-//            'value' => ($this->_model) ? $this->_model->pis : '',
-//            'dimension' => 3,
-//        ));
-//    }
 
     private function _addElementPis() {
         $this->addElement('text', 'pis', array(
-            'label' => 'PIS',
+            'label' => 'pis',
             'filters' => array('StringTrim'),
             'validators' => array(
                 array('StringLength', false,
@@ -268,7 +256,7 @@ class Persons_Form_Person extends Twitter_Bootstrap_Form_Horizontal {
             'postalcode', 'city_id', 'city_region_id', 'website', 'person_name', 'identitycard', 'individualdoctaxnumber',
             'birthcertificate', 'professionalcard', 'driverslicense',
             'voterregistration', 'militaryregistration',
-            'healthsystemcard'
+            'healthsystemcard', 'pis'
                 ), 'personform', array(
             'legend' => '',
         ));
