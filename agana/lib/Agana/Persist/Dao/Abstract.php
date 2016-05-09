@@ -233,7 +233,7 @@ abstract class Agana_Persist_Dao_Abstract extends Zend_Db_Table_Abstract {
 
         $sql = $this->handleOrderByParam($params, $sql);
 
-        $sql->where('parent_id is null');
+        $sql->where('parent_id is not null');
 
         $db->setFetchMode(Zend_DB::FETCH_ASSOC);
 
