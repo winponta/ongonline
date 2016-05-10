@@ -29,10 +29,10 @@ class Project_Domain_Tasktype {
         }
     }
 
-    public function getAllParentTask($orderby = '') {
+    public function getAllChildrenTask($orderby = '') {
         try {
             $u = new Project_Persist_Dao_Tasktype();
-            $r = $u->getAllParentsTasks(array(
+            $r = $u->getAllChildrenTasks(array(
                 'orderby'=>$orderby
             ));
             $r = is_null($r) ? array() : $r;

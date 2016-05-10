@@ -107,7 +107,7 @@ class Assistance_Form_Activity extends Twitter_Bootstrap_Form_Horizontal {
         $el = $this->getElement('task_type_id');
 
         $taskDomain = new Project_Domain_Tasktype();
-        $task = $taskDomain->getAllParentTask();
+        $task = $taskDomain->getAllChildrenTask();
         
         $el->addMultiOption(null, null);
         foreach ($task as $tsk) {

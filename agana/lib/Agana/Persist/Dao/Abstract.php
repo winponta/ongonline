@@ -221,7 +221,7 @@ abstract class Agana_Persist_Dao_Abstract extends Zend_Db_Table_Abstract {
         return $this->_prepareReturnData($db->fetchAll($sql));
     }
 
-    public function getAllParentsTasks($params = null) {
+    public function getAllChildrenTasks($params = null) {
         $db = $this->getDefaultAdapter();
         $sql = $db->select();
 
