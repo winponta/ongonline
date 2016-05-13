@@ -191,5 +191,29 @@ class Assistance_EventController extends Agana_Controller_Crud_Action {
             $this->_addExceptionMessage($e);
         }
     }
+    
+    public function listAction() {
+        if ($this->_isUserAllowed(null, null)) {
+            $domain = new Assistance_Domain_Event();
 
+            $page = ($this->_hasParam('page')) ? $this->_getParam('page') : 1;
+
+            $params = array('page' => $page);
+
+            $this->view->filter_keyword = '';
+            if (trim($this->_getParam('filter-keyword', '')) != '') {
+                $params['filter-keyword'] = $this->_getParam('filter-keyword');
+                $this->view->filter_keyword = $params['filter-keyword'];
+            }
+
+            $paginator = ($this->_hasParam('paginator')) ? filter_var($this->_getParam('paginator'), FILTER_VALIDATE_BOOLEAN) : true;
+
+            $event = $domain->getAll(Zend_Auth::getInstance()->getIdentity()->appaccount_id, 'project', $paginator, $params);
+
+            $this->view->assign('events', $event);
+        } else {
+            $this->_redirectLogin();
+        }
+    }
+    
 }
