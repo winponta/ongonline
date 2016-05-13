@@ -89,6 +89,12 @@ $urlNewEventActivity = $this->url(
                         -->
                     </td>
                 </tr>
+                <?php
+		if ($this->assistance instanceof Zend_Paginator) {
+			echo $this->paginationControl(
+                        $this->assistance, 'Sliding', array('/paginator/search.phtml', 'aganacore'), array('filter_keyword' => $this->filter_keyword));
+		}
+		?>
             <?php } ?>
             </tbody>
         </table>
