@@ -28,6 +28,8 @@ return array(
                         'Primeiro atendimento em',
     'Health system card'
                     => 'Cartão do SUS',
+    'pis'
+                    => 'PIS/NIS/NIT',
     'Home area'     => 'Situada em área',
     'Home data'     => 'Moradia',
     'Home pieces'   => 'Peças da casa',
@@ -95,4 +97,6 @@ return array(
                     => 'Quando o primeiro atendimento foi realizado para esta pessoa',
     'widow(er)'     => 'viúvo(a)',
     'wood'          => 'madeira',
-        );
+    'You can use any ponctuation to format your doc number. Example: 015.234.919-67' 
+                    => 'Você pode usar qualquer pontuação para formatar seu número de documento. Exemplo: 015.234.919-67'
+         );

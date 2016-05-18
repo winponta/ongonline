@@ -19,7 +19,7 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
      */
     protected $_model;
     protected $_action;
-    
+
     /**
      *
      * @var Zend_Translate_Adapter
@@ -29,26 +29,26 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
     public function __construct($action, $model = null, $options = null) {
         $this->_action = $action;
         $this->_model = $model;
-        parent::__construct($options);        
+        parent::__construct($options);
     }
 
     private function _addElementPerson() {
         $translate = Zend_Registry::get("Zend_Translate");
-                
+
         $url = new Zend_View_Helper_Url();
-        
+
         $urlSearch = $url->url(array(
-            'module'=>'persons',
-            'controller'=>'person',
-            'action'=>'search-form'
-            ), null, true);
-        
+            'module' => 'persons',
+            'controller' => 'person',
+            'action' => 'search-form'
+                ), null, true);
+
         $urlNew = $url->url(array(
-            'module'=>'persons',
-            'controller'=>'person',
-            'action'=>'create'
-            ), null, true);
-        
+            'module' => 'persons',
+            'controller' => 'person',
+            'action' => 'create'
+                ), null, true);
+
         $append = '';
 //        if ($this->_action == self::ACTION_ADD) {
 //            $append .= '<a id="btnPersonSearch" href="'.$urlSearch.'" '
@@ -56,7 +56,7 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
 //                            . '<i class="icon-search" rel="tooltip" data-original-title="'.$this->translate->_("Search person").'"></i>'
 //                        . '</a>';
 //        }
-        
+
         $this->addElement('text', 'person_name', array(
             'label' => 'Person',
             'value' => ($this->_model) ? $this->_model->getPerson()->getName() : '',
@@ -64,14 +64,14 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
             'disabled' => true,
             'placeholder' => $translate->_('Use the links aside to search a person or create a new one'),
             'append' => $append
-                        . ' | '
-                        . '<a class="hide" id="btnPersonDetails" href="#" rel="colorbox-details">' 
-                            . $this->translate->_("Details")
-                        . '</a>'
-                        . ' | '
-                        . '<a class="hide" id="btnPersonCreate" href="'.$urlNew.'" rel="colorbox">' 
-                            . '<i class="icon-plus-sign" rel="tooltip" data-original-title="'.$this->translate->_("Add new").' '.$this->translate->_("person").  '"></i>'
-                        . '</a>',
+            . ' | '
+            . '<a class="hide" id="btnPersonDetails" href="#" rel="colorbox-details">'
+            . $this->translate->_("Details")
+            . '</a>'
+            . ' | '
+            . '<a class="hide" id="btnPersonCreate" href="' . $urlNew . '" rel="colorbox">'
+            . '<i class="icon-plus-sign" rel="tooltip" data-original-title="' . $this->translate->_("Add new") . ' ' . $this->translate->_("person") . '"></i>'
+            . '</a>',
         ));
     }
 
@@ -80,7 +80,7 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
             'label' => 'Identity card',
             'filters' => array('StringTrim'),
             'validators' => array(
-                array('StringLength', false, 
+                array('StringLength', false,
                     array(0, 20)),
             ),
             'value' => ($this->_model) ? $this->_model->identitycard : '',
@@ -100,21 +100,20 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
             ),
         ));
         $el = $this->getElement('individualdoctaxnumber');
-        
+
         $or = new Agana_Validate_Or();
         $or->addValidator(new Agana_Validate_Cnpj());
         $or->addValidator(new Agana_Validate_Cpf());
-        
+
         $el->addValidator($or);
     }
-
 
     private function _addElementBirthCertificate() {
         $this->addElement('text', 'birthcertificate', array(
             'label' => 'Birth certificate',
             'filters' => array('StringTrim'),
             'validators' => array(
-                array('StringLength', false, 
+                array('StringLength', false,
                     array(0, 20)),
             ),
             'value' => ($this->_model) ? $this->_model->birthcertificate : '',
@@ -127,7 +126,7 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
             'label' => 'Professional card',
             'filters' => array('StringTrim'),
             'validators' => array(
-                array('StringLength', false, 
+                array('StringLength', false,
                     array(0, 20)),
             ),
             'value' => ($this->_model) ? $this->_model->professionalcard : '',
@@ -140,7 +139,7 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
             'label' => 'Drivers license',
             'filters' => array('StringTrim'),
             'validators' => array(
-                array('StringLength', false, 
+                array('StringLength', false,
                     array(0, 20)),
             ),
             'value' => ($this->_model) ? $this->_model->driverslicense : '',
@@ -153,7 +152,7 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
             'label' => 'Voter registration',
             'filters' => array('StringTrim'),
             'validators' => array(
-                array('StringLength', false, 
+                array('StringLength', false,
                     array(0, 20)),
             ),
             'value' => ($this->_model) ? $this->_model->voterregistration : '',
@@ -166,7 +165,7 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
             'label' => 'Military registration',
             'filters' => array('StringTrim'),
             'validators' => array(
-                array('StringLength', false, 
+                array('StringLength', false,
                     array(0, 30)),
             ),
             'value' => ($this->_model) ? $this->_model->militaryregistration : '',
@@ -179,10 +178,23 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
             'label' => 'Health system card',
             'filters' => array('StringTrim'),
             'validators' => array(
-                array('StringLength', false, 
+                array('StringLength', false,
                     array(0, 20)),
             ),
             'value' => ($this->_model) ? $this->_model->healthsystemcard : '',
+            'dimension' => 3,
+        ));
+    }
+
+    private function _addElementPis() {
+        $this->addElement('text', 'pis', array(
+            'label' => 'PIS',
+            'filters' => array('StringTrim'),
+            'validators' => array(
+                array('StringLength', false,
+                    array(0, 14)),
+            ),
+            'value' => ($this->_model) ? $this->_model->pis : '',
             'dimension' => 3,
         ));
     }
@@ -194,8 +206,8 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
         $params['required'] = true;
         if ($this->_model) {
             $params['valu'] = $this->_model->id;
-        } 
-        
+        }
+
         $element = $this->createElement('hidden', 'id', $params);
 
         return $element;
@@ -205,11 +217,11 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
         $this->translate = Zend_Registry::get("Zend_Translate");
 
         $formutil = new Agana_Form_Util($this->_action, $this->_model);
-        
+
         $this->setName("persondocs");
         $this->setMethod('post');
         $this->_addClassNames('well');
-        $this->addAttribs(array('load-in'=>'content-container'));
+        $this->addAttribs(array('load-in' => 'content-container'));
 
         $this->addElement($this->_getIdElement());
 
@@ -223,23 +235,23 @@ class Persons_Form_PersonDocs extends Twitter_Bootstrap_Form_Horizontal {
         $this->_addElementVoterRegistration();
         $this->_addElementMilitaryRegistration();
         $this->_addElementHealthSystemCard();
-        
+        $this->_addElementPis();
+
         $formutil->addElementButtonSave($this);
         $formutil->addElementButtonCancel($this);
 
         $this->addDisplayGroup(array(
-            'id', 'person_name', 'identitycard', 'individualdoctaxnumber', 
-            'birthcertificate', 'professionalcard', 'driverslicense', 
+            'id', 'person_name', 'identitycard', 'individualdoctaxnumber',
+            'birthcertificate', 'professionalcard', 'driverslicense',
             'voterregistration', 'militaryregistration',
             'healthsystemcard',
                 ), 'persondocform', array(
         ));
 
         $this->addDisplayGroup(
-                array('save', 'cancel'), 'actions-end', 
-                array(
-                    'disableLoadDefaultDecorators' => true,
-                    'decorators' => array('Actions')
+                array('save', 'cancel'), 'actions-end', array(
+            'disableLoadDefaultDecorators' => true,
+            'decorators' => array('Actions')
                 )
         );
     }

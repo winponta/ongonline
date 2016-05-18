@@ -24,23 +24,104 @@ class Persons_Model_Person extends Agana_Data_Bean implements JsonSerializable {
     private $city_region;
     private $marital_status;
     private $user;
+    
+    private $identitycard;
+    private $individualdoctaxnumber;
+    private $birthcertificate;
+    private $professionalcard;
+    private $driverslicense;
+    private $voterregistration;
+    private $militaryregistration;
+    private $healthsystemcard;
+    private $pis;
 
     /**
      * App account object
      * @var App_Model_Account
      */
     private $appaccount = null;
-    
+ 
+    function getIdentitycard() {
+        return $this->identitycard;
+    }
+
+    function getIndividualdoctaxnumber() {
+        return $this->individualdoctaxnumber;
+    }
+
+    function getBirthcertificate() {
+        return $this->birthcertificate;
+    }
+
+    function getProfessionalcard() {
+        return $this->professionalcard;
+    }
+
+    function getDriverslicense() {
+        return $this->driverslicense;
+    }
+
+    function getVoterregistration() {
+        return $this->voterregistration;
+    }
+
+    function getMilitaryregistration() {
+        return $this->militaryregistration;
+    }
+
+    function getHealthsystemcard() {
+        return $this->healthsystemcard;
+    }
+
+    function getPis() {
+        return $this->pis;
+    }
+
+    function setIdentitycard($identitycard) {
+        $this->identitycard = $identitycard;
+    }
+
+    function setIndividualdoctaxnumber($individualdoctaxnumber) {
+        $this->individualdoctaxnumber = $individualdoctaxnumber;
+    }
+
+    function setBirthcertificate($birthcertificate) {
+        $this->birthcertificate = $birthcertificate;
+    }
+
+    function setProfessionalcard($professionalcard) {
+        $this->professionalcard = $professionalcard;
+    }
+
+    function setDriverslicense($driverslicense) {
+        $this->driverslicense = $driverslicense;
+    }
+
+    function setVoterregistration($voterregistration) {
+        $this->voterregistration = $voterregistration;
+    }
+
+    function setMilitaryregistration($militaryregistration) {
+        $this->militaryregistration = $militaryregistration;
+    }
+
+    function setHealthsystemcard($healthsystemcard) {
+        $this->healthsystemcard = $healthsystemcard;
+    }
+
+    function setPis($pis) {
+        $this->pis = $pis;
+    }
     
     public function getAppaccount() {
         if ($this->appaccount == null) {
             $appDomain = new App_Domain_Account();
             $this->appaccount = $appDomain->getById($this->appaccount_id);
         }
-        
+
         return $this->appaccount;
     }
-    
+
     public function getMarital_status() {
         return $this->marital_status;
     }
@@ -279,4 +360,3 @@ class Persons_Model_Person extends Agana_Data_Bean implements JsonSerializable {
     }
 
 }
-

@@ -5,6 +5,15 @@
  */
 
 return array(
+    'identitycard'      => 'Carteira de identidade',
+    'individualdoctaxnumber'      => 'CPF',
+    'birthcertificate'  => 'Certidão de nascimento',
+    'professionalcard'  => 'Carteira profissional',
+    'driverslicense'    => 'Carteira de motorista',
+    'voterregistration' => 'Título de eleitor',
+    'militaryregistration'      => 'Carteira de reservista',
+    'healthsystemcard'  => 'Cartão do SUS',
+    'pis'               => 'PIS/NIS/NIT',
     'Address'           => 'Endereço',
     'Address number'    => 'Número do endereço',
     'Address details'   => 'Complemento',

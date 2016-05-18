@@ -66,6 +66,15 @@ class Persons_Persist_Dao_Person extends Agana_Persist_Dao_Abstract implements P
             'city_id' => $data->getCity_id(),
             'city_region_id' => is_numeric($data->getCity_region_id()) ? $data->getCity_region_id() : null,
             'marital_status' => $data->marital_status,
+            'identitycard' => $data->getIdentitycard(),
+            'individualdoctaxnumber' => $data->getIndividualdoctaxnumber(),
+            'birthcertificate' => $data->getBirthcertificate(),
+            'professionalcard' => $data->getProfessionalcard(),
+            'driverslicense' => $data->getDriverslicense(),
+            'voterregistration' => $data->getVoterregistration(),
+            'militaryregistration' => $data->getMilitaryregistration(),
+            'healthsystemcard' => $data->getHealthsystemcard(),
+            'pis' => $data->getPis()
         );
 
         return $data;
