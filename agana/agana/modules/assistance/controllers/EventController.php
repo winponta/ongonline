@@ -69,6 +69,10 @@ class Assistance_EventController extends Agana_Controller_Crud_Action {
 
                 if ($request->isPost()) {
                     $data = $request->getPost();
+                    
+                    var_dump($request);
+                    die();
+                    
                     $form->populate($data);
                     if ($form->save->isChecked()) {
                         if ($form->isValid($data)) {

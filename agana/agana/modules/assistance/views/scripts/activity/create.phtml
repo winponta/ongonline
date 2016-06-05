@@ -3,6 +3,7 @@ $title = 'Atendimento de assistência';
 $this->title = $title . ' - ' . $this->translate("Add new");
 $this->headTitle($title);
 $this->form->setAction($this->url());
+
 $form = $this->form;
 
 $urlSearchForm = $this->url(array(
@@ -22,6 +23,8 @@ $urlPersonDetails = $this->url(array(
     <div class="window-header">
         <h3><i class="icon-food"></i> <?php echo $this->title; ?></h3>
     </div>
+
+
     <form id="person" 
           class=" form-horizontal well" 
           action="<?= $this->form->getAction() ?>" 
@@ -134,7 +137,7 @@ $urlPersonDetails = $this->url(array(
             <span class="span4">
                 <?= $form->getElement('assistance_date')->render() ?>
             </span>
-            <span class="span4 ">
+            <span class="span4">
                 <?= $form->getElement('assistance_time')->render() ?>
             </span>
         </div>
@@ -162,21 +165,20 @@ $urlPersonDetails = $this->url(array(
 </div>
 
 <script>
-    <?php
-        $urlImgPersonHelped = $this->url(array(
-                'module' => 'persons',
-                'controller' => 'person',
-                'action' => 'image-url'
-            ), null, true);
-
-    ?>
-    $('#windowCreateActivityAssistance').on('atualizarImagemAssistido', null, function(ev) {
+<?php
+$urlImgPersonHelped = $this->url(array(
+    'module' => 'persons',
+    'controller' => 'person',
+    'action' => 'image-url'
+        ), null, true);
+?>
+    $('#windowCreateActivityAssistance').on('atualizarImagemAssistido', null, function (ev) {
         console.log('Chamou atualizar imagem');
         var urlImgSrc = '<?= $urlImgPersonHelped ?>/id/' + $('#person_helped_id').val();
         console.log('img src = ' + urlImgSrc);
         $.ajax({
             url: urlImgSrc
-        }).done(function(imgUrl) {
+        }).done(function (imgUrl) {
             console.log(imgUrl);
             $('#imgPersonHelped').attr({src: imgUrl});
         });

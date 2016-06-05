@@ -26,7 +26,67 @@ class Assistance_ActivityController extends Agana_Controller_Crud_Action {
 
     public function createAction() {
 
-        parent::createAction();
+        //parent::createAction();
+
+
+        try {
+
+            if ($this->_isUserAllowed(null, null)) {
+
+                $f = $this->getFormCRUName();
+                $form = new $f($f::ACTION_ADD);
+
+                $request = $this->getRequest();
+
+                if ($request->isPost()) {
+
+                    $data = $request->getPost();
+
+                    $form->populate($data);
+                    if ($form->save->isChecked()) {
+                        if ($form->isValid($data)) {
+                            try {
+
+//                                var_dump($form->getValues());
+//                                die();
+                                foreach ($data['task_type_id'] as $tarefa) {
+                                    $dadosInsercao = array();
+                                    foreach ($form->getValues() as $key => $value) {
+                                        if ($key == 'task_type_id') {
+                                            $dadosInsercao[$key] = $tarefa;
+                                        } else {
+                                            $dadosInsercao[$key] = $value;
+                                        }
+                                    }
+
+                                    $id = $this->_createRecord($dadosInsercao);
+
+                                    $urlRedirect = $this->getUrlRedirectionCreateSuccess();
+
+                                    if ($this->_useIdCreatedOnUrl && $id) {
+                                        $urlRedirect['id'] = $id;
+                                    }
+                                }
+
+                                $this->_formSuccess($urlRedirect);
+                            } catch (Exception $e) {
+                                $this->_addSavingExceptionMessage($e);
+                            }
+                        } else {
+                            $this->_addFormValidationMessage();
+                        }
+                    } else {
+                        if ($form->cancel->isChecked()) {
+                            $urlRedirect = $this->getUrlRedirectionCreateCancel();
+                            $this->_formCancel($urlRedirect);
+                        }
+                    }
+                }
+                $this->view->form = $form;
+            }
+        } catch (Exception $e) {
+            $this->_addExceptionMessage($e);
+        }
 
         // preenche os campos com os dados da pessoa de usuário que 
         // está usando o sistema
@@ -40,6 +100,7 @@ class Assistance_ActivityController extends Agana_Controller_Crud_Action {
         $this->view->person_helped = new Persons_Model_Person();
 
         if ($this->getRequest()->isPost()) {
+
             $phId = $this->getRequest()->getParam('person_helped_id', 0);
             if ($phId > 0) {
                 $person = $personDomain->getById($phId);
@@ -90,21 +151,17 @@ class Assistance_ActivityController extends Agana_Controller_Crud_Action {
     }
 
     public function reportByProjectAction() {
-        $meta = new Agana_Print_Meta('Atendimentos por projeto', 'Sistema Comercial', 
-                    'ONG ONLINE', 'http://www.ongonline.com.br');
+        $meta = new Agana_Print_Meta('Atendimentos por projeto', 'Sistema Comercial', 'ONG ONLINE', 'http://www.ongonline.com.br');
 
-        $renderViews['form']        = 'report-by-project-form';
-        $renderViews['report']      = 'report-by-project-report';
-        $renderViews['summarized']  = 'report-by-project-report-summarized';
-        
+        $renderViews['form'] = 'report-by-project-form';
+        $renderViews['report'] = 'report-by-project-report';
+        $renderViews['summarized'] = 'report-by-project-report-summarized';
+
 //        Zend_Debug::dump($this->getRequest());
 //        die();
-        
+
         $report = new Agana_Print_Report();
-        return $report->handleRequest('Assistance_Domain_Activity', 'getActivitiesByProject', 
-                'Assistance_Form_ActivityReportByProject',
-                $renderViews, 
-                'activity', $meta, $this);
+        return $report->handleRequest('Assistance_Domain_Activity', 'getActivitiesByProject', 'Assistance_Form_ActivityReportByProject', $renderViews, 'activity', $meta, $this);
     }
 
 }

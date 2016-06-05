@@ -98,18 +98,20 @@ class Assistance_Form_Activity extends Twitter_Bootstrap_Form_Horizontal {
     }
 
     private function _addTaskId() {
-        $this->addElement('select', 'task_type_id', array(
+
+        $this->addElement('MultiCheckbox', 'task_type_id', array(
             'required' => true,
             'label' => 'Tipo de tarefa',
-            'dimension' => 6,
+            'dimension' => 6
         ));
 
         $el = $this->getElement('task_type_id');
 
         $taskDomain = new Project_Domain_Tasktype();
         $task = $taskDomain->getAllChildrenTask();
+      
         
-        $el->addMultiOption(null, null);
+//        $el->addMultiOption(null, null);
         foreach ($task as $tsk) {
             $tskName = '';
             if (trim($tsk->getParent_id()) != '') {
