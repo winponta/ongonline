@@ -153,7 +153,6 @@ $this->headTitle($this->translate("Persons"));
                 <?php
                 $i = 0;
                 foreach ($this->persons as $rec) {
-                    
                     $acc = is_object($rec) ? $rec : new Persons_Model_Person($rec);
                     
                     $edit = $this->url(

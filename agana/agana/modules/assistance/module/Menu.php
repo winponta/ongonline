@@ -103,7 +103,7 @@ class Assistance_Module_Menu extends Zend_Controller_Plugin_Abstract implements 
                 'parent' => $menuAssistance,
                 'load-in' => 'content-container',
                 'action' => 'list',
-                'controller' => 'activity',
+                'controller' => 'activities',
                 'module' => 'assistance',
                 //'route' => 'gmRoute',
                 'order' => 20,
