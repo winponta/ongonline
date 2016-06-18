@@ -44,7 +44,8 @@ class Assistance_ActivitiesController extends Zend_Controller_Action {
 
             $paginator = ($this->_hasParam('paginator')) ? filter_var($this->_getParam('paginator'), FILTER_VALIDATE_BOOLEAN) : true;
 
-            $activities = $domain->getAll(Zend_Auth::getInstance()->getIdentity()->appaccount_id, 'description', $paginator, $params);
+            $activities = $domain->getAll(Zend_Auth::getInstance()->getIdentity()->appaccount_id, 'description', 
+                $paginator, $params);
 
             $this->view->assign('activities', $activities);
         } else {

@@ -162,4 +162,43 @@ class Assistance_Persist_Dao_Activity extends Agana_Persist_Dao_Abstract impleme
         return $r;
     }
 
+    /**
+     * Returns all the Assistances ordered by description
+     * 
+     * @return Assistance_Model_Activity
+     */
+    public function getAll($appaccount_id = 0, $orderby = 'description', $returnPaginator = true, $params = array()) {
+        $db = $this->getDefaultAdapter();
+        $sql = $db->select()
+                ->from(array('at' => 'atividade_assistencia'))
+                ->join(array('ph' => 'person'), 'at.person_helped_id = ph.id')
+                ->where('ph.appaccount_id = ?', $appaccount_id)
+                ->order($orderby);
+
+        if (isset($params['filter-keyword'])) {
+            $filter = new Agana_Filter_Normalize();
+            $sql->where('lower(unaccented(description)) LIKE ?', '%' . $filter->filter($params['filter-keyword']) . '%');
+        }
+
+        $db->setFetchMode(Zend_DB::FETCH_ASSOC);
+
+        if ($returnPaginator) {
+            $adapter = new Zend_Paginator_Adapter_DbSelect($sql);
+            $paginator = new Zend_Paginator($adapter);
+
+            $page = (isset($params['page'])) ? $params['page'] : 1;
+            $paginator->setCurrentPageNumber($page);
+
+            $itemCountPerPage = (isset($params['itemCountPerPage'])) ? $params['itemCountPerPage'] : 20;
+            $paginator->setItemCountPerPage($itemCountPerPage);
+
+            $pageRange = (isset($params['pageRange'])) ? $params['pageRange'] : 7;
+            $paginator->setPageRange($pageRange);
+
+            return $paginator;
+        } else {
+            return $this->_prepareReturnData($db->fetchAll($sql));
+        }
+    }
+
 }

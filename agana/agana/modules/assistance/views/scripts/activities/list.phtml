@@ -15,7 +15,6 @@ $urlNewEventActivity = $this->url(
 <div class="window">
     <div class="window-header">
         <h3 class="span2"><i class="icon-food"></i> Atendimentos</h3>
-
         <form class="pull-right hidden-print" action="<?= $this->url(); ?>" load-in="content-container">
             <div class="input-append">
                 <input type="text" 
@@ -163,6 +162,7 @@ $urlNewEventActivity = $this->url(
             <tbody>
             <?php
             foreach ($this->activities as $act) {
+                $act = is_object($act) ? $act : new Assistance_Model_Activity($act);
                 $edit = $this->url(
                     array('module' => 'assistance', 'controller' => 'activity',
                         'action' => 'update', 'id' => $act->id), null, true);

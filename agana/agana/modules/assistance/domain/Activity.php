@@ -15,27 +15,10 @@ class Assistance_Domain_Activity {
         $this->setActivity($actModel);
     }
 
-    public function getAll($orderby = 'assistance_date, assistance_time') {
+    public function getAll($id, $appaccount_id = 0, $orderby = 'description', $paginator = true, $params = array()) {
         try {
             $u = new Assistance_Persist_Dao_Activity();
-            $r = $u->getAll(array(
-                'appaccount_id' => Zend_Auth::getInstance()->getIdentity()->appaccount_id,
-                'orderby'       => $orderby
-            ));
-            return is_null($r) ? array() : $r;
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
-    public function getAllByPersonHelped($id, $orderby = array('assistance_date', 'assistance_time')) {
-        try {
-            $u = new Assistance_Persist_Dao_Activity();
-            $r = $u->getAllByPersonHelped(
-                $id,
-                Zend_Auth::getInstance()->getIdentity()->appaccount_id,
-                $orderby
-              );
+            $r = $u->getAll($id,Zend_Auth::getInstance()->getIdentity()->appaccount_id, $orderby, $paginator, $params);
             return is_null($r) ? array() : $r;
         } catch (Exception $e) {
             throw $e;
