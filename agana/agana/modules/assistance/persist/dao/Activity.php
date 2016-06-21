@@ -39,8 +39,9 @@ class Assistance_Persist_Dao_Activity extends Agana_Persist_Dao_Abstract impleme
     protected function _prepareInsertData($data) {
         $dataPrepared = $this->_prepareUpdateData($data);
 
+
         $dataPrepared['appaccount_id'] = $data->getAppaccount_id();
-        
+
         return $dataPrepared;
     }
 
@@ -51,6 +52,7 @@ class Assistance_Persist_Dao_Activity extends Agana_Persist_Dao_Abstract impleme
      * @return Array 
      */
     protected function _prepareUpdateData($data) {
+
         $data = array(
             'assistance_time' => $data->getAssistance_time(),
             'assistance_date' => Agana_Util_DateTime::dateToYYMMDD($data->getAssistance_date()),
@@ -64,9 +66,9 @@ class Assistance_Persist_Dao_Activity extends Agana_Persist_Dao_Abstract impleme
             'id_by_finger_key' => $data->getId_by_finger_key(),
                 //'birthdate' => ($data->getBirthdate()) ? Agana_Util_DateTime::dateToYYMMDD($data->getBirthdate()) : null,
         );
-        
+
         unset($data['appaccount_id']);
-        
+
         return $data;
     }
 
@@ -86,16 +88,14 @@ class Assistance_Persist_Dao_Activity extends Agana_Persist_Dao_Abstract impleme
     public function getAllByPersonHelped($id, $appaccount_id, $orderby) {
         $db = $this->getDefaultAdapter();
 
-        $sql = $db->select()                
+        $sql = $db->select()
                 ->from(array('at' => 'atividade_assistencia'))
-                
-                ->join(array('ph'=>'person'),
-                        'at.person_helped_id = ph.id')
+                ->join(array('ph' => 'person'), 'at.person_helped_id = ph.id')
                 ->order($orderby);
 
         $sql->where('person_helped_id = ?', $id);
         $sql->where('ph.appaccount_id = ?', $appaccount_id);
-        
+
         $db->setFetchMode(Zend_DB::FETCH_ASSOC);
 
         $r = $db->fetchAll($sql);
@@ -115,13 +115,13 @@ class Assistance_Persist_Dao_Activity extends Agana_Persist_Dao_Abstract impleme
         $db = $this->getDefaultAdapter();
 
         $sql = $db->select()
-                ->from(array('proj' => 'project'), array('project_id' => 'id','project_name' => 'name',                    
+                ->from(array('proj' => 'project'), array('project_id' => 'id', 'project_name' => 'name',
                     'project_status' => 'status'))
                 ->join(array('act' => 'atividade_assistencia'), 'act.project_id = proj.id', array('assistance_id' => 'id', 'assistance_date', 'assistance_time', 'id_by_finger_key'))
                 ->join(array('task' => 'task_type'), 'act.task_type_id = task.id', array('task_id' => 'id', 'task_name' => 'name'))
                 ->join(array('p' => 'person'), 'act.person_helped_id = p.id', array('person_id' => 'id', 'person_name' => 'name'))
                 ->joinLeft(array('task_parent' => 'task_type'), 'task.parent_id = task_parent.id', array('task_parent_id' => 'id', 'task_parent_name' => 'name'))
-                ->order(array('proj.name', 'task_parent.name', 'task.name', 'act.assistance_date','p.name'));
+                ->order(array('proj.name', 'task_parent.name', 'task.name', 'act.assistance_date', 'p.name'));
 
         $sql->where('proj.appaccount_id = ?', $appaccount_id);
 
@@ -162,4 +162,43 @@ class Assistance_Persist_Dao_Activity extends Agana_Persist_Dao_Abstract impleme
         return $r;
     }
 
-   }
+    /**
+     * Returns all the Assistances ordered by description
+     * 
+     * @return Assistance_Model_Activity
+     */
+    public function getAll($appaccount_id = 0, $orderby = 'description', $returnPaginator = true, $params = array()) {
+        $db = $this->getDefaultAdapter();
+        $sql = $db->select()
+                ->from(array('at' => 'atividade_assistencia'))
+                ->join(array('ph' => 'person'), 'at.person_helped_id = ph.id')
+                ->where('ph.appaccount_id = ?', $appaccount_id)
+                ->order($orderby);
+
+        if (isset($params['filter-keyword'])) {
+            $filter = new Agana_Filter_Normalize();
+            $sql->where('lower(unaccented(description)) LIKE ?', '%' . $filter->filter($params['filter-keyword']) . '%');
+        }
+
+        $db->setFetchMode(Zend_DB::FETCH_ASSOC);
+
+        if ($returnPaginator) {
+            $adapter = new Zend_Paginator_Adapter_DbSelect($sql);
+            $paginator = new Zend_Paginator($adapter);
+
+            $page = (isset($params['page'])) ? $params['page'] : 1;
+            $paginator->setCurrentPageNumber($page);
+
+            $itemCountPerPage = (isset($params['itemCountPerPage'])) ? $params['itemCountPerPage'] : 20;
+            $paginator->setItemCountPerPage($itemCountPerPage);
+
+            $pageRange = (isset($params['pageRange'])) ? $params['pageRange'] : 7;
+            $paginator->setPageRange($pageRange);
+
+            return $paginator;
+        } else {
+            return $this->_prepareReturnData($db->fetchAll($sql));
+        }
+    }
+
+}

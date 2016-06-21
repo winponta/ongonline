@@ -1,0 +1,260 @@
+<?php
+$title = $this->translate("Activities");
+$this->title = $title;
+$this->headTitle($this->translate("Activities"));
+
+$urlNewActivity = $this->url(
+    array('module' => 'assistance', 'controller' => 'activity',
+        'action' => 'create'), null, true);
+
+$urlNewEventActivity = $this->url(
+    array('module' => 'assistance', 'controller' => 'event-activity',
+        'action' => 'create'), null, true);
+?>
+
+<div class="window">
+    <div class="window-header">
+        <h3 class="span2"><i class="icon-food"></i> Atendimentos</h3>
+        <form class="pull-right hidden-print" action="<?= $this->url(); ?>" load-in="content-container">
+            <div class="input-append">
+                <input type="text" 
+                       value="<?= $this->filter_keyword; ?>" 
+                       placeholder="<translate>Filter by</translate>" 
+                       class="input-medium" name="filter-keyword"/>
+                <button type="submit" class="btn"><i class="icon-refresh"></i></button>
+                <a href="#searchHelp" class="btn add-on" data-toggle="modal"><i class="icon-question-sign"></i></a>
+            </div>
+        </form>
+
+        <!-- Search help -->
+        <div id="searchHelp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Ajuda para pesquisa / filtro</h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Ao preencher campos de pesquisa ou filtro de listagens é possível 
+                    utilizar caracteres chamados "coringas", que auxiliam na abrangência de
+                    resultados.
+                </p>
+                <p>
+                    O caracter <strong>%</strong> (percentual) pode ser utilizado 
+                    para substituir conjuntos de letras em posições determinadas.
+                </p>
+                <p>
+                    Exemplos de uso:
+                </p>
+                <dl>
+                    <dt>Pesquisa exata</dt>
+                    <dd>
+                        <p>
+                            Não utilizar nenhum coringa força uma busca pelo conjunto
+                            exato de dados passados no campo de filtro. Exemplos:
+                        </p>
+                        <ol>
+                            <li class="alert alert-info">
+                                Filtro: <strong>Carlos</strong> <br/>
+                                Retorno: apenas os registros que tenham exatamente o valor <strong>Carlos</strong>
+                            </li>
+                            <li class="alert alert-info">
+                                Filtro: <strong>Carlos Pereira</strong> <br/>
+                                Retorno: apenas os registros que tenham exatamente o valor <strong>Carlos Pereira</strong>
+                            </li>
+                            <li class="alert alert-info">
+                                Filtro: <strong>Carlos &nbsp;&nbsp; Pereira</strong> (com mais de um espaço entre os nomes)<br/>
+                                Retorno: apenas os registros que tenham exatamente o valor com dois espaços ou nenhum valor
+                            </li>
+                        </ol>
+                    </dd>
+                    <dt>Pesquisa por frases que iniciam com ...</dt>
+                    <dd>
+                        <p>
+                            Utilizar um coringa (%) no final do campo de filtro. 
+                            A busca retorna todos os registros que iniciam com os
+                            dados digitados <em>antes</em> do coringa. 
+                            Exemplos:
+                        </p>
+                        <ol>
+                            <li class="alert alert-info">
+                                Filtro: <strong>Carlos%</strong> <br/>
+                                Retorno: os registros que iniciam com o valor <strong>Carlos</strong>: 
+                                Carlos Antonio, Carlos Pereira, Carlos da Silva Amadeu
+                            </li>
+                        </ol>
+                    </dd>
+                    <dt>Pesquisa por frases que terminam com ...</dt>
+                    <dd>
+                        <p>
+                            Utilizar um coringa (%) no início do campo de filtro. 
+                            A busca retorna todos os registros que terminam com os
+                            dados digitados <em>após</em> do coringa. 
+                            Exemplos:
+                        </p>
+                        <ol>
+                            <li class="alert alert-info">
+                                Filtro: <strong>%Silva</strong> <br/>
+                                Retorno: os registros que terminam com o valor <strong>Silva</strong>: 
+                                José Silva, Maria Antonieta da Silva, Marcos Andressilva
+                            </li>
+                        </ol>
+                    </dd>
+                    <dt>Pesquisa por frases que contenham ...</dt>
+                    <dd>
+                        <p>
+                            Utilizar um coringa (%) no início e no final 
+                            do campo de filtro. 
+                            A busca retorna todos os registros que contenham os
+                            dados digitados <em>entre</em> os coringas. Não importando
+                            o local da informação correspondente na frase.
+                            Exemplos:
+                        </p>
+                        <ol>
+                            <li class="alert alert-info">
+                                Filtro: <strong>%Silva%</strong> <br/>
+                                Retorno: os registros que contenham o valor <strong>Silva</strong>: 
+                                Antonio Silva Andrade, José Silva, 
+                                Maria Antonieta da Silva, Marcos Andressilva, 
+                                Paulo da Silva Pedroso
+                            </li>
+                        </ol>
+                    </dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+            </div>
+        </div>
+
+        <ul class="nav nav-pills hidden-print pull-right">
+            <li>
+                <a load-in="content-container" 
+                   href="<?=
+                   $this->url(array('module' => 'assistance', 'controller' => 'activity',
+                       'action' => 'create'), null, true);
+                   ?>">
+                    <i class="icon-plus-sign"></i> <translate>Add new</translate>
+                </a>
+            </li>
+            <li>
+                <a title="<translate>Print this page</translate>" rel="print-window" href="#">
+                    <i class="icon-print"></i> 
+                    <translate>Print</translate>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="window-content window-table">
+        <table class="table table-striped table-hover" rel="click-row" data-click-row-selector=".btn-details">
+            <thead>
+                <tr>
+                    <th></th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Assistido</th>
+                <th>Tipo de Tarefa</th>
+                <th>Projeto</th>
+                <th>Evento</th>
+                <th></th>
+            <th class="hidden-print"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($this->activities as $act) {
+                $act = is_object($act) ? $act : new Assistance_Model_Activity($act);
+                $edit = $this->url(
+                    array('module' => 'assistance', 'controller' => 'activity',
+                        'action' => 'update', 'id' => $act->id), null, true);
+
+                $delete = $this->url(
+                    array('module' => 'assistance', 'controller' => 'activity',
+                        'action' => 'delete', 'id' => $act->id), null, true);
+
+                $urlGetPersonHelped = $this->url(
+                    array('module' => 'persons', 'controller' => 'person',
+                        'action' => 'getgm', 'id' => $act->person_helped_id), null, true);
+
+                $urlGetEvent = $this->url(
+                    array('module' => 'assistance', 'controller' => 'event',
+                        'action' => 'list-activities', 'id' => $act->event_id), null, true);
+                ?>
+                <tr>
+                    <td>
+                        <?php
+                        $iconInfoColor = '';
+                        $maisInfo = 'ID: ' . $act->id;
+                        if ($act->getDescription()) {
+                            $maisInfo .= '<br/>'
+                                . 'Descrição: '
+                                . nl2br($act->getDescription());
+                            $iconInfoColor .= 'success';
+                        }
+                        ?>
+                        <span class="cursor-default text-<?= $iconInfoColor ?>"
+                              rel="popover"
+                              data-content="<?= $maisInfo ?>"
+                              data-placement="right"
+                              data-trigger="hover"
+                              data-html="true">
+                                <i class="icon-info-sign"></i>                            
+                            </span>
+                    </td>
+                    <td>
+                        <?= $this->date($act->assistance_date, Zend_Date::DATE_SHORT); ?>
+                    </td>
+                    <td><?= substr($act->assistance_time, 0, 5); ?></td>
+                    <td>
+                        <a href="<?= $urlGetPersonHelped ?>" load-in="content-container">
+                            <?= $act->getPerson_helped()->getName(); ?>
+                        </a>
+                    </td>
+                    <td>
+                        <?php
+                        $taskName = '';
+                        if (intval($act->getTask_type()->getParent_id()) > 0) {
+                            $parentName = $act->getTask_type()->getParent()->getName();
+                            $taskName .= $parentName . ' :: ';
+                        }
+                        $taskName .= $act->getTask_type()->getName();
+                        echo $taskName;
+                        ?>
+                    </td>
+                    <td><?= $act->getProject()->getName(); ?></td>
+                    <td class='align_center hidden-print'>
+                        <a href="<?= $urlGetEvent ?>" load-in="content-container">
+                            <?= $act->event_id ?>
+                        </a>
+
+                        <!--
+                            <a class="btn btn-mini btn-info" href="<?php echo ''//$edit;    ?>" load-in="content-container">
+                                <i class="icon-edit"></i> <translate>Edit</translate>
+                            </a>
+
+                            <a class="btn btn-mini btn-danger" href="<?php echo ''; //$delete;    ?>" load-in="content-container">
+                                <i class="icon-remove-sign"></i> <translate>Delete</translate>
+                            </a>
+                            -->
+                    </td>
+                    <td>
+                        <?= $this->identifiedByWidget($act->getId_by_finger_key()) ?>
+                    </td>
+                </tr>
+                <?php
+
+            }
+            ?>
+            </tbody>
+
+        </table>
+
+        <?php
+        if ($this->activities instanceof Zend_Paginator) {
+            echo $this->paginationControl(
+                    $this->activities, 'Sliding', array('/paginator/search.phtml', 'aganacore'), array('filter_keyword' => $this->filter_keyword)
+            );
+        }
+        ?>
+    </div>
+</div>
+

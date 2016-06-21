@@ -63,6 +63,10 @@ class Assistance_Domain_Event {
     }
 
     public function create() {
+
+        Zend_Debug::dump("É assahdiu?");
+        die();
+
         if ($this->_isAllowed()) {
             try {
                 $u = new Assistance_Persist_Dao_Event();

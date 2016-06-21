@@ -45,6 +45,7 @@ class Persons_PersonsController extends Zend_Controller_Action {
             $paginator = ($this->_hasParam('paginator')) ? filter_var($this->_getParam('paginator'), FILTER_VALIDATE_BOOLEAN) : true;
             
             $persons = $domain->getAll(Zend_Auth::getInstance()->getIdentity()->appaccount_id, 'name', $paginator, $params);
+            var_dump($persons);
 
             $this->view->assign('persons', $persons);
         } else {

@@ -34,7 +34,7 @@ abstract class Agana_Controller_Crud_Action extends Agana_Controller_Action {
      * @var String
      */
     protected $_viewVarListName = 'list';
-    
+
     /**
      * The name of action to be redirected after create action is performed
      * @var String Default = list
@@ -58,7 +58,7 @@ abstract class Agana_Controller_Crud_Action extends Agana_Controller_Action {
      * @var String Default = list
      */
     protected $_redirectActionAfterUpdateCancel = 'list';
-    
+
     /**
      * If this is seted true then in create action the id returned
      * from inser is used on url
@@ -172,18 +172,18 @@ abstract class Agana_Controller_Crud_Action extends Agana_Controller_Action {
     public function setRedirectActionAfterCreateCancel($_redirectActionAfterCreateCancel) {
         $this->_redirectActionAfterCreateCancel = $_redirectActionAfterCreateCancel;
     }
-    
+
     protected function getUrlRedirectionCreateSuccess() {
         if (is_array($this->_redirectActionAfterCreateSuccess)) {
             $urlRedirect['action'] = $this->_redirectActionAfterCreateSuccess['action'];
             unset($this->_redirectActionAfterCreateSuccess['action']);
 
-            $urlRedirect['controller'] = (isset($this->_redirectActionAfterCreateSuccess['controller'])) ? 
-                $this->_redirectActionAfterCreateSuccess['controller'] : $request->getControllerName();
+            $urlRedirect['controller'] = (isset($this->_redirectActionAfterCreateSuccess['controller'])) ?
+                    $this->_redirectActionAfterCreateSuccess['controller'] : $request->getControllerName();
             unset($this->_redirectActionAfterCreateSuccess['controller']);
 
-            $urlRedirect['module'] = (isset($this->_redirectActionAfterCreateSuccess['module'])) ? 
-                $this->_redirectActionAfterCreateSuccess['module'] : $request->getModuleName();                                    
+            $urlRedirect['module'] = (isset($this->_redirectActionAfterCreateSuccess['module'])) ?
+                    $this->_redirectActionAfterCreateSuccess['module'] : $request->getModuleName();
             unset($this->_redirectActionAfterCreateSuccess['module']);
 
             foreach ($this->_redirectActionAfterCreateSuccess as $key => $value) {
@@ -191,52 +191,51 @@ abstract class Agana_Controller_Crud_Action extends Agana_Controller_Action {
             }
         } else {
             $urlRedirect['action'] = (isset($this->_redirectActionAfterCreateSuccess)) ?
-                $this->_redirectActionAfterCreateSuccess : 'index';
+                    $this->_redirectActionAfterCreateSuccess : 'index';
             $urlRedirect['controller'] = $this->getRequest()->getControllerName();
             $urlRedirect['module'] = $this->getRequest()->getModuleName();
         }
-        
+
         return $urlRedirect;
     }
-    
+
     public function getUrlRedirectionCreateCancel() {
         if (is_array($this->_redirectActionAfterCreateCancel)) {
             $urlRedirect['action'] = $this->_redirectActionAfterCreateCancel['action'];
             unset($this->_redirectActionAfterCreateCancel['action']);
 
-            $urlRedirect['controller'] = (isset($this->_redirectActionAfterCreateCancel['controller'])) ? 
-                $this->_redirectActionAfterCreateCancel['controller'] : $request->getControllerName();
+            $urlRedirect['controller'] = (isset($this->_redirectActionAfterCreateCancel['controller'])) ?
+                    $this->_redirectActionAfterCreateCancel['controller'] : $request->getControllerName();
             unset($this->_redirectActionAfterCreateCancel['controller']);
 
-            $urlRedirect['module'] = (isset($this->_redirectActionAfterCreateCancel['module'])) ? 
-                $this->_redirectActionAfterCreateCancel['module'] : $request->getModuleName();                                    
+            $urlRedirect['module'] = (isset($this->_redirectActionAfterCreateCancel['module'])) ?
+                    $this->_redirectActionAfterCreateCancel['module'] : $request->getModuleName();
             unset($this->_redirectActionAfterCreateCancel['module']);
 
             foreach ($this->_redirectActionAfterCreateCancel as $key => $value) {
                 $urlRedirect[$key] = $value;
             }
-
         } else {
             $urlRedirect['action'] = (isset($this->_redirectActionAfterCreateCancel)) ?
-                $this->_redirectActionAfterCreateCancel : 'index';
+                    $this->_redirectActionAfterCreateCancel : 'index';
             $urlRedirect['controller'] = $this->getRequest()->getControllerName();
             $urlRedirect['module'] = $this->getRequest()->getModuleName();
         }
-        
+
         return $urlRedirect;
     }
-    
+
     protected function getUrlRedirectionUpdateSuccess() {
         if (is_array($this->_redirectActionAfterUpdateSuccess)) {
             $urlRedirect['action'] = $this->_redirectActionAfterUpdateSuccess['action'];
             unset($this->_redirectActionAfterUpdateSuccess['action']);
 
-            $urlRedirect['controller'] = (isset($this->_redirectActionAfterUpdateSuccess['controller'])) ? 
-                $this->_redirectActionAfterUpdateSuccess['controller'] : $request->getControllerName();
+            $urlRedirect['controller'] = (isset($this->_redirectActionAfterUpdateSuccess['controller'])) ?
+                    $this->_redirectActionAfterUpdateSuccess['controller'] : $request->getControllerName();
             unset($this->_redirectActionAfterUpdateSuccess['controller']);
 
-            $urlRedirect['module'] = (isset($this->_redirectActionAfterUpdateSuccess['module'])) ? 
-                $this->_redirectActionAfterUpdateSuccess['module'] : $request->getModuleName();                                    
+            $urlRedirect['module'] = (isset($this->_redirectActionAfterUpdateSuccess['module'])) ?
+                    $this->_redirectActionAfterUpdateSuccess['module'] : $request->getModuleName();
             unset($this->_redirectActionAfterUpdateSuccess['module']);
 
             foreach ($this->_redirectActionAfterUpdateSuccess as $key => $value) {
@@ -244,41 +243,40 @@ abstract class Agana_Controller_Crud_Action extends Agana_Controller_Action {
             }
         } else {
             $urlRedirect['action'] = (isset($this->_redirectActionAfterUpdateSuccess)) ?
-                $this->_redirectActionAfterUpdateSuccess : 'index';
+                    $this->_redirectActionAfterUpdateSuccess : 'index';
             $urlRedirect['controller'] = $this->getRequest()->getControllerName();
             $urlRedirect['module'] = $this->getRequest()->getModuleName();
         }
-        
+
         return $urlRedirect;
     }
-    
+
     public function getUrlRedirectionUpdateCancel() {
         if (is_array($this->_redirectActionAfterUpdateCancel)) {
             $urlRedirect['action'] = $this->_redirectActionAfterUpdateCancel['action'];
             unset($this->_redirectActionAfterUpdateCancel['action']);
 
-            $urlRedirect['controller'] = (isset($this->_redirectActionAfterUpdateCancel['controller'])) ? 
-                $this->_redirectActionAfterUpdateCancel['controller'] : $request->getControllerName();
+            $urlRedirect['controller'] = (isset($this->_redirectActionAfterUpdateCancel['controller'])) ?
+                    $this->_redirectActionAfterUpdateCancel['controller'] : $request->getControllerName();
             unset($this->_redirectActionAfterUpdateCancel['controller']);
 
-            $urlRedirect['module'] = (isset($this->_redirectActionAfterUpdateCancel['module'])) ? 
-                $this->_redirectActionAfterUpdateCancel['module'] : $request->getModuleName();                                    
+            $urlRedirect['module'] = (isset($this->_redirectActionAfterUpdateCancel['module'])) ?
+                    $this->_redirectActionAfterUpdateCancel['module'] : $request->getModuleName();
             unset($this->_redirectActionAfterUpdateCancel['module']);
 
             foreach ($this->_redirectActionAfterUpdateCancel as $key => $value) {
                 $urlRedirect[$key] = $value;
             }
-
         } else {
             $urlRedirect['action'] = (isset($this->_redirectActionAfterUpdateCancel)) ?
-                $this->_redirectActionAfterUpdateCancel : 'index';
+                    $this->_redirectActionAfterUpdateCancel : 'index';
             $urlRedirect['controller'] = $this->getRequest()->getControllerName();
             $urlRedirect['module'] = $this->getRequest()->getModuleName();
         }
-        
+
         return $urlRedirect;
     }
-    
+
     public function indexAction() {
         $this->_forward('list');
     }
@@ -309,6 +307,8 @@ abstract class Agana_Controller_Crud_Action extends Agana_Controller_Action {
 
     public function createAction() {
         try {
+//            Zend_Debug::dump($this->getRequest());
+//            die();
             if ($this->_isUserAllowed(null, null)) {
 
                 $f = $this->getFormCRUName();
@@ -317,19 +317,26 @@ abstract class Agana_Controller_Crud_Action extends Agana_Controller_Action {
                 $request = $this->getRequest();
 
                 if ($request->isPost()) {
+                    
+                    var_dump("tentou salvar na action");
+                    die();
+
+
                     $data = $request->getPost();
+
                     $form->populate($data);
                     if ($form->save->isChecked()) {
                         if ($form->isValid($data)) {
                             try {
+                                
                                 $id = $this->_createRecord($form->getValues());
-                                
+
                                 $urlRedirect = $this->getUrlRedirectionCreateSuccess();
-                                
+
                                 if ($this->_useIdCreatedOnUrl && $id) {
                                     $urlRedirect['id'] = $id;
                                 }
-                                
+
                                 $this->_formSuccess($urlRedirect);
                             } catch (Exception $e) {
                                 $this->_addSavingExceptionMessage($e);
@@ -400,8 +407,8 @@ abstract class Agana_Controller_Crud_Action extends Agana_Controller_Action {
                 $this->_helper->flashMessenger->addMessage(
                         array('error' => 'Param id missing'));
                 $this->_helper->redirector(array(
-                    'action' => $this->_redirectActionAfterUpdateCancel, 
-                    'controller' => $request->getControllerName(), 
+                    'action' => $this->_redirectActionAfterUpdateCancel,
+                    'controller' => $request->getControllerName(),
                     'module' => $request->getModuleName()
                 ));
                 return;

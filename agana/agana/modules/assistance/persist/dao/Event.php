@@ -51,6 +51,7 @@ class Assistance_Persist_Dao_Event extends Agana_Persist_Dao_Abstract implements
      * @return Array 
      */
     protected function _prepareUpdateData($data) {
+        
         $data = array(
             'event_date' => Agana_Util_DateTime::dateToYYMMDD($data->getEvent_date()),
             'task_type_id' => $data->getTask_type_id(),
