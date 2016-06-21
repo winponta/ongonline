@@ -691,7 +691,16 @@ CREATE TABLE person (
     gender character(1) NOT NULL,
     birthdate date,
     city_region_id bigint,
-    marital_status character varying(12)
+    marital_status character varying(12),
+    identitycard character varying(20),
+    individualdoctaxnumber character varying(20),
+    birthcertificate character varying(30),
+    professionalcard character varying(20),
+    driverslicense character varying(20),
+    voterregistration character varying(20),
+    militaryregistration character varying(30),
+    healthsystemcard character varying(20),
+    pis character varying(14)
 );
 
 
@@ -710,6 +719,69 @@ It''s tight related to user table';
 --
 
 COMMENT ON COLUMN person.marital_status IS 'single, married, widow(er), separeted, stable union';
+
+
+--
+-- Name: COLUMN person.identitycard; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.identitycard IS 'RG - Brasil';
+
+
+--
+-- Name: COLUMN person.individualdoctaxnumber; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.individualdoctaxnumber IS 'CPF - Brasil';
+
+
+--
+-- Name: COLUMN person.birthcertificate; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.birthcertificate IS 'Certificado de Nascimento - Brasil';
+
+
+--
+-- Name: COLUMN person.professionalcard; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.professionalcard IS 'Carteira Profissional - Brasil';
+
+
+--
+-- Name: COLUMN person.driverslicense; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.driverslicense IS 'Carteira de Motorista - Brasil';
+
+
+--
+-- Name: COLUMN person.voterregistration; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.voterregistration IS 'Título de Eleitor - Brasil';
+
+
+--
+-- Name: COLUMN person.militaryregistration; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.militaryregistration IS 'Carteira de Reservista - Brasil';
+
+
+--
+-- Name: COLUMN person.healthsystemcard; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.healthsystemcard IS 'o do SUS - Brasil';
+
+
+--
+-- Name: COLUMN person.pis; Type: COMMENT; Schema: public; Owner: ong
+--
+
+COMMENT ON COLUMN person.pis IS 'PIS';
 
 
 --
@@ -794,16 +866,16 @@ COMMENT ON COLUMN person_docs.healthsystemcard IS 'Cartão do SUS - Brasil';
 CREATE TABLE person_helped (
     id bigint NOT NULL,
     religion character varying(100),
-    professional_occupation character varying(100) NOT NULL,
+    professional_occupation character varying(100),
     professional_experience character varying(400) NOT NULL,
     live_with_family boolean NOT NULL,
-    home_situation character varying(50) NOT NULL,
-    home_since date NOT NULL,
+    home_situation character varying(50),
+    home_since date,
     born_city_id integer NOT NULL,
     born_state_id integer NOT NULL,
-    home_area character varying(50) NOT NULL,
-    home_type character varying(50) NOT NULL,
-    home_pieces_number smallint NOT NULL,
+    home_area character varying(50),
+    home_type character varying(50),
+    home_pieces_number smallint,
     rent_value numeric(10,2),
     first_help_date date
 );
