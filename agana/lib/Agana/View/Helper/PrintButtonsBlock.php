@@ -19,7 +19,7 @@ class Agana_View_Helper_PrintButtonsBlock extends Zend_View_Helper_Abstract {
         return '        
         <div class="row-fluid text-center">
             <p><small class="text-warning"><translate>Generate report at</translate></small></p>
-            <a href="#" report-format="html" class="btn btn-primary open-report-colorbox">
+            <a href="javascript:void(0)" report-format="html" class="btn btn-primary open-report-colorbox">
                 <i class="icon-desktop"></i> <translate>Screen</translate>
             </a>
             <a href="#" report-format="pdf" class="btn btn-danger open-report-colorbox">

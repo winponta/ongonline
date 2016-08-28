@@ -401,11 +401,11 @@ Agana.App = function() {
             arrowKey: false
         });
 
-        $('.pdf-iframe').one('load', null, function() {
+        $('.pdf-iframe').on('load', null, function() {
             app.stopLoadingMsg();
         });
 
-        $('.open-report-colorbox').one('click', null, function(event) {
+        $('.open-report-colorbox').on('click', null, function(event) {
             event.preventDefault();
             // To provent run click on acumulated clicks of reports before this one
             event.stopImmediatePropagation();
