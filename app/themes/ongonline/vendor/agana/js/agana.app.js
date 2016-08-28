@@ -465,7 +465,7 @@ Agana.App = function() {
 //                });
             }
 
-            return false;
+            return false; 
         });
 
         $('a[rel=colorbox-search]').colorbox({
