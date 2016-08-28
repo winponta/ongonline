@@ -27,6 +27,16 @@ class Assistance_Domain_Event {
             throw $e;
         }
     }
+    
+    public function getAllWithPagination($id, $appaccount_id = 0, $orderby = 'event_date desc', $paginator = true, $params = array()){
+        try {
+            $u = new Assistance_Persist_Dao_Event();
+            $r = $u->getAll($id,Zend_Auth::getInstance()->getIdentity()->appaccount_id, $orderby, $paginator, $params);
+            return is_null($r) ? array() : $r;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 
     /**
      * @return Assistance_Model_Event
